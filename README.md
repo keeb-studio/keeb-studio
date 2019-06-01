@@ -33,12 +33,12 @@ This project is implemented using Vue.js and Typescript. It was bootstrapped usi
 
 ## Contributing
 How to:
-  - run the project
-  - report an issue
-  - request a feature
-  - fix a bug
-  - add a new component
-  - get your PR merged
+  ### Run the project
+  ### Report an issue
+  ### Request a feature
+  ### Fix a bug
+  ### Add a new component
+  ### Get your PR merged
 
 ## Testing
 
