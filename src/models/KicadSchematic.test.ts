@@ -27,7 +27,7 @@ describe("KicadSchematic", () => {
     });
   });
 
-  describe.only("Component", () => {
+  describe("Component", () => {
     const component = new KicadComponent(schematic.sections()[1].lines);
     it("parses the uid", () => {
       expect(component.uid).toEqual("5D5FEB52");
@@ -35,6 +35,27 @@ describe("KicadSchematic", () => {
 
     it("parses the position", () => {
       expect(component.position).toEqual({ x: "1275", y: "1050" });
+    });
+
+    describe("lines", () => {
+      it("find and tokenizes position", () => {
+        //
+        expect(component.lines[3]).toEqual({
+          hasPosition: true,
+          original: "P 1275 1050",
+          x: 1275,
+          y: 1050,
+          template: "P templateX templateY"
+        });
+      });
+
+      it("can update lines", () => {
+        //when changing x and y
+        component.lines[3].x = 123;
+        component.lines[3].y = 456;
+        // can update the line
+        expect(component.lines[3].updatedLine()).toEqual("P 123 456");
+      });
     });
   });
 });

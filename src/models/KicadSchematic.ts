@@ -1,12 +1,67 @@
 import { readFileSync } from "fs";
 
+export class KicadPeice {
+  public original: string = "";
+  public x: number = 0;
+  public y: number = 0;
+  public template: string = "";
+  public hasPosition: boolean = false;
+  constructor(original: string) {
+    this.original = original;
+    const digitsRegex = /\ \d+/g;
+    const digits = original.match(digitsRegex);
+
+    const partType = original.charAt(0);
+    if (digits) {
+      //convert digitis to ints
+      const intDigits = digits.map((x: string) => Number.parseInt(x));
+
+      // find out if we need to ignore it because
+      // it doesn't actually have x & y in it
+      let ignore = true;
+      if (["P", "F", "D"].includes(partType)) {
+        ignore = false;
+      }
+      if (
+        !["P", "F", "D", "U"].includes(partType) &&
+        intDigits[0] !== 0 &&
+        intDigits[1] !== 0
+      ) {
+        ignore = false;
+      }
+
+      // determine which numbers are x and y
+      let xIndex = 0;
+      if (partType === "F") {
+        xIndex = 1;
+      }
+
+      if (!ignore) {
+        this.hasPosition = true;
+        this.x = intDigits[xIndex];
+        this.y = intDigits[xIndex + 1];
+        this.template = original
+          .replace(`${this.x}`, "templateX")
+          .replace(`${this.y}`, "templateY");
+      }
+    }
+  }
+
+  public updatedLine() {
+    return this.template
+      .replace("templateX", this.x.toString())
+      .replace("templateY", this.y.toString());
+  }
+}
 export class KicadComponent {
   lines: any = [];
   public uid: string = "";
   public position: any = { x: 0, y: 0 };
   constructor(lines: any) {
-    console.log(lines);
-    this.lines = lines;
+    // console.log(lines);
+    this.lines = lines.map((line: string) => {
+      return new KicadPeice(line);
+    });
 
     const uidLine = lines.find((x: string) => x.match(/U 1 1/));
     this.uid = uidLine.replace(/U 1 1 /, "");
