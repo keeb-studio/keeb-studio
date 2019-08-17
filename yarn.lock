@@ -639,6 +639,13 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
+"@ijprest/kle-serial@^0.15.1":
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/@ijprest/kle-serial/-/kle-serial-0.15.1.tgz#41744e4797a84017dde7dae0dcd6fe3a48095015"
+  integrity sha512-pV4Kn7cU1gw+Pk6OVgvz/K45fKrGhZYlh5M4nfp668VfSJ6O4OHtO0spXirFx5YDs03d2o1KxxufATIbPgKcFQ==
+  dependencies:
+    json5 "^2.1.0"
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"
