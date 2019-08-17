@@ -23,7 +23,7 @@ F 1 "MX-NoLED" H 1308 1199 20  0000 C CNN
 F 2 "" H 650 1025 60  0001 C CNN
 F 3 "" H 650 1025 60  0001 C CNN
 	1    1275 1050
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX2
@@ -34,6 +34,6 @@ F 1 "MX-NoLED" H 1783 1699 20  0000 C CNN
 F 2 "" H 1125 1525 60  0001 C CNN
 F 3 "" H 1125 1525 60  0001 C CNN
 	1    1750 1550
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $EndSCHEMATC

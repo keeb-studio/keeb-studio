@@ -150,4 +150,19 @@ export default class KicadSchematic {
     });
     return sections;
   }
+
+  render() {
+    // have to add back the EndSCHEMATC and newline
+    return [
+      ...[...flatMap(this.sections(), (x: any) => x.lines), ["$EndSCHEMATC"]],
+      ""
+    ].join("\n");
+  }
+}
+
+export function flatMap<T, U>(
+  array: T[],
+  callbackfn: (value: T, index: number, array: T[]) => U[]
+): U[] {
+  return Array.prototype.concat(...array.map(callbackfn));
 }

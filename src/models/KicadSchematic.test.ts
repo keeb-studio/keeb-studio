@@ -1,6 +1,9 @@
+import { readFileSync } from "fs";
 import KicadSchematic, { KicadComponent, KicadPeice } from "./KicadSchematic";
+
 describe("KicadSchematic", () => {
-  const schematic = new KicadSchematic("tests/unit/fixtures/kicad.sch");
+  const fixture = "tests/unit/fixtures/kicad.sch";
+  const schematic = new KicadSchematic(fixture);
   describe("initialization", () => {
     it("can accept a file path", () => {
       expect(schematic.usedPath()).toEqual("tests/unit/fixtures/kicad.sch");
@@ -27,6 +30,14 @@ describe("KicadSchematic", () => {
     });
   });
 
+  describe("render", () => {
+    describe("when nothing changes", () => {
+      it("will render without modifications to original", () => {
+        const original = readFileSync(fixture, "utf8");
+        expect(schematic.render()).toEqual(original);
+      });
+    });
+  });
   describe("KicadComponent", () => {
     const component = new KicadComponent(schematic.sections()[1].lines);
     it("parses the uid", () => {
