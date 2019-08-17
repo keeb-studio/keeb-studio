@@ -5,6 +5,7 @@ describe("KicadSchematic", () => {
   const fixture = "tests/unit/fixtures/kicad.sch";
   const schematic = new KicadSchematic(fixture);
   const firstMXid = "5D5FEB52";
+  const firstDiodeid = "5D5F5496";
   describe("initialization", () => {
     it("can accept a file path", () => {
       expect(schematic.usedPath()).toEqual("tests/unit/fixtures/kicad.sch");
@@ -32,6 +33,10 @@ describe("KicadSchematic", () => {
 
     it("finds the first mx switch component as switchTemplate", () => {
       expect(schematic.switchTemplate.uid).toEqual(firstMXid);
+    });
+
+    it("finds the first diode component as diodeTemplate", () => {
+      expect(schematic.diodeTemplate.uid).toEqual(firstDiodeid);
     });
   });
 

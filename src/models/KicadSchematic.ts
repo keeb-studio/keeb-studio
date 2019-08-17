@@ -99,6 +99,8 @@ export default class KicadSchematic {
   rawFile: string;
   public sections: Array<any> = [];
   public switchTemplate: KicadComponent;
+
+  public diodeTemplate: KicadComponent;
   constructor(path: string = "") {
     this.path = path;
     this.rawFile = readFileSync(this.path, "utf8");
@@ -111,6 +113,7 @@ export default class KicadSchematic {
     let firstComponent = false;
     let firstComponentFound = false;
     let switchTemplate = new KicadComponent();
+    let diodeTemplate = new KicadComponent();
     lines.forEach(line => {
       closeSection = false;
       if (line.match(/\$Descr/)) {
@@ -147,11 +150,19 @@ export default class KicadSchematic {
         ) {
           switchTemplate = new KicadComponent(currentSection);
         }
+        if (
+          switchTemplate.uid === "" &&
+          section === "comp" &&
+          label.indexOf("D_Small") > 0
+        ) {
+          diodeTemplate = new KicadComponent(currentSection);
+        }
         currentSection = [];
       }
     });
 
     this.switchTemplate = switchTemplate;
+    this.diodeTemplate = diodeTemplate;
     this.sections = sections;
   }
 
