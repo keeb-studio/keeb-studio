@@ -1,4 +1,4 @@
-import KicadSchematic from "./KicadSchematic";
+import KicadSchematic, { KicadComponent } from "./KicadSchematic";
 describe("KicadSchematic", () => {
   const schematic = new KicadSchematic("tests/unit/fixtures/kicad.sch");
   describe("initialization", () => {
@@ -24,6 +24,17 @@ describe("KicadSchematic", () => {
       expect(schematic.sections()[0].firstComponent).toEqual(false);
       expect(schematic.sections()[1].firstComponent).toEqual(true);
       expect(schematic.sections()[2].firstComponent).toEqual(false);
+    });
+  });
+
+  describe.only("Component", () => {
+    const component = new KicadComponent(schematic.sections()[1].lines);
+    it("parses the uid", () => {
+      expect(component.uid).toEqual("5D5FEB52");
+    });
+
+    it("parses the position", () => {
+      expect(component.position).toEqual({ x: "1275", y: "1050" });
     });
   });
 });

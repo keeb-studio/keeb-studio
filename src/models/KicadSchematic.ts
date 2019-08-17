@@ -1,4 +1,24 @@
 import { readFileSync } from "fs";
+
+export class KicadComponent {
+  lines: any = [];
+  public uid: string = "";
+  public position: any = { x: 0, y: 0 };
+  constructor(lines: any) {
+    console.log(lines);
+    this.lines = lines;
+
+    const uidLine = lines.find((x: string) => x.match(/U 1 1/));
+    this.uid = uidLine.replace(/U 1 1 /, "");
+
+    const positionLine = lines.find((x: string) => x.match(/P /));
+    const rawPostitions = positionLine.replace(/P /, "");
+    const positions = rawPostitions.split(/ /);
+    this.position.x = positions[0];
+    this.position.y = positions[1];
+  }
+}
+
 export default class KicadSchematic {
   private path: string;
   rawFile: string;
@@ -18,7 +38,6 @@ export default class KicadSchematic {
 
   sections() {
     const lines = this.rawFile.split(/\r?\n/);
-    // console.log(lines);
     const sections: any = [];
     let currentSection: any = [];
     let section: any;
@@ -46,7 +65,13 @@ export default class KicadSchematic {
 
       currentSection.push(line);
       if (closeSection) {
-        sections.push({ lines: currentSection, type: section, firstComponent });
+        sections.push({
+          lines: currentSection,
+          type: section,
+          firstComponent,
+          component:
+            section === "comp" ? new KicadComponent(currentSection) : null
+        });
         currentSection = [];
       }
     });
