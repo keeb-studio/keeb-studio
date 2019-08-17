@@ -20,9 +20,15 @@ describe("KicadSchematic", () => {
 
   describe("parsing", () => {
     it("can parse the sections", () => {
-      expect(schematic.sections.length).toEqual(4);
+      // one for each component
+      // + 1 for the meta info
+      // + 1 for the wires
+      expect(schematic.sections.length).toEqual(5);
       expect(schematic.sections[0].type).toEqual("descr");
       expect(schematic.sections[1].type).toEqual("comp");
+      expect(schematic.sections[2].type).toEqual("comp");
+      expect(schematic.sections[3].type).toEqual("comp");
+      expect(schematic.sections[4].type).toEqual("wires");
     });
 
     it("marks the first component", () => {
@@ -37,6 +43,10 @@ describe("KicadSchematic", () => {
 
     it("finds the first diode component as diodeTemplate", () => {
       expect(schematic.diodeTemplate.uid).toEqual(firstDiodeid);
+    });
+
+    it.skip("finds the wires", () => {
+      expect(schematic.wires.length).toEqual(1);
     });
   });
 

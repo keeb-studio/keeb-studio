@@ -79,13 +79,17 @@ export class KicadComponent {
     this.rawLines = rawlines;
     if (this.rawLines) {
       const uidLine = rawlines.find((x: string) => x.match(/U 1 1/));
-      this.uid = uidLine.replace(/U 1 1 /, "");
+      if (uidLine) {
+        this.uid = uidLine.replace(/U 1 1 /, "");
+      }
 
       const positionLine = rawlines.find((x: string) => x.match(/P /));
-      const rawPostitions = positionLine.replace(/P /, "");
-      const positions = rawPostitions.split(/ /);
-      this.position.x = Number.parseInt(positions[0]);
-      this.position.y = Number.parseInt(positions[1]);
+      if (positionLine) {
+        const rawPostitions = positionLine.replace(/P /, "");
+        const positions = rawPostitions.split(/ /);
+        this.position.x = Number.parseInt(positions[0]);
+        this.position.y = Number.parseInt(positions[1]);
+      }
 
       this.lines = rawlines.map((line: string) => {
         return new KicadPeice(line, this.position);
@@ -99,8 +103,8 @@ export default class KicadSchematic {
   rawFile: string;
   public sections: Array<any> = [];
   public switchTemplate: KicadComponent;
-
   public diodeTemplate: KicadComponent;
+  public wires: Array<any> = [];
   constructor(path: string = "") {
     this.path = path;
     this.rawFile = readFileSync(this.path, "utf8");
@@ -131,8 +135,10 @@ export default class KicadSchematic {
         closeSection = true;
       } else if (line.match(/\$EndComp/)) {
         closeSection = true;
+      } else if (line.match(/\$EndSCHEMATC/)) {
+        section = "wires";
+        closeSection = true;
       }
-
       currentSection.push(line);
       if (closeSection) {
         sections.push({
@@ -175,11 +181,8 @@ export default class KicadSchematic {
   }
 
   render() {
-    // have to add back the EndSCHEMATC and newline
-    return [
-      ...[...flatMap(this.sections, (x: any) => x.lines), ["$EndSCHEMATC"]],
-      ""
-    ].join("\n");
+    // have to add back a newline
+    return [...flatMap(this.sections, (x: any) => x.lines), ""].join("\n");
   }
 
   findComponentById(id: string) {
