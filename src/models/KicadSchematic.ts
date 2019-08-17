@@ -95,21 +95,11 @@ export class KicadComponent {
 export default class KicadSchematic {
   private path: string;
   rawFile: string;
-
+  public sections: Array<any> = [];
   constructor(path: string = "") {
     this.path = path;
     this.rawFile = readFileSync(this.path, "utf8");
-  }
 
-  usedPath() {
-    return this.path;
-  }
-
-  fileText() {
-    return this.rawFile;
-  }
-
-  sections() {
     const lines = this.rawFile.split(/\r?\n/);
     const sections: any = [];
     let currentSection: any = [];
@@ -148,13 +138,21 @@ export default class KicadSchematic {
         currentSection = [];
       }
     });
-    return sections;
+    this.sections = sections;
+  }
+
+  usedPath() {
+    return this.path;
+  }
+
+  fileText() {
+    return this.rawFile;
   }
 
   render() {
     // have to add back the EndSCHEMATC and newline
     return [
-      ...[...flatMap(this.sections(), (x: any) => x.lines), ["$EndSCHEMATC"]],
+      ...[...flatMap(this.sections, (x: any) => x.lines), ["$EndSCHEMATC"]],
       ""
     ].join("\n");
   }
