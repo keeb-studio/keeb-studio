@@ -18,15 +18,25 @@ export default class KicadSchematic {
 
   sections() {
     const lines = this.rawFile.split(/\r?\n/);
+    // console.log(lines);
     const sections: any = [];
     let currentSection: any = [];
     let section: any;
     let closeSection = false;
+    let firstComponent = false;
+    let firstComponentFound = false;
     lines.forEach(line => {
       closeSection = false;
       if (line.match(/\$Descr/)) {
         section = "descr";
+        firstComponent = false;
       } else if (line.match(/\$Comp/)) {
+        if (firstComponentFound === false) {
+          firstComponent = true;
+          firstComponentFound = true;
+        } else {
+          firstComponent = false;
+        }
         section = "comp";
       } else if (line.match(/\$EndDescr/)) {
         closeSection = true;
@@ -36,7 +46,7 @@ export default class KicadSchematic {
 
       currentSection.push(line);
       if (closeSection) {
-        sections.push({ lines: currentSection, type: section });
+        sections.push({ lines: currentSection, type: section, firstComponent });
         currentSection = [];
       }
     });

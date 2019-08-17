@@ -17,6 +17,13 @@ describe("KicadSchematic", () => {
     it("can parse the sections", () => {
       expect(schematic.sections().length).toEqual(3);
       expect(schematic.sections()[0].type).toEqual("descr");
+      expect(schematic.sections()[1].type).toEqual("comp");
+    });
+
+    it("marks the first component", () => {
+      expect(schematic.sections()[0].firstComponent).toEqual(false);
+      expect(schematic.sections()[1].firstComponent).toEqual(true);
+      expect(schematic.sections()[2].firstComponent).toEqual(false);
     });
   });
 });
