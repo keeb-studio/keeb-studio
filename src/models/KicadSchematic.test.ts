@@ -22,13 +22,15 @@ describe("KicadSchematic", () => {
     it("can parse the sections", () => {
       // one for each component
       // + 1 for the meta info
-      // + 1 for the wires
-      expect(schematic.sections.length).toEqual(5);
+      // + 1 for the wire
+      // + 1 for the closing
       expect(schematic.sections[0].type).toEqual("descr");
       expect(schematic.sections[1].type).toEqual("comp");
       expect(schematic.sections[2].type).toEqual("comp");
       expect(schematic.sections[3].type).toEqual("comp");
-      expect(schematic.sections[4].type).toEqual("wires");
+      expect(schematic.sections[4].type).toEqual("wire");
+      expect(schematic.sections[5].type).toEqual("closing");
+      expect(schematic.sections.length).toEqual(6);
     });
 
     it("marks the first component", () => {
@@ -88,6 +90,7 @@ describe("KicadSchematic", () => {
 
         expect(component.lines[4]).toEqual({
           hasPosition: true,
+          hasDigits: true,
           original: `F 0 "MX1" H 1308 1273 60  0000 C CNN`,
           x: 1308,
           y: 1273,
@@ -102,6 +105,7 @@ describe("KicadSchematic", () => {
 
         expect(component.lines[3]).toEqual({
           hasPosition: true,
+          hasDigits: true,
           original: "P 1275 1050",
           x: 1275,
           y: 1050,

@@ -13,6 +13,7 @@ export class KicadPeice {
   public yOffset: number = 0;
   public template: string = "";
   public hasPosition: boolean = false;
+  hasDigits: boolean = false;
   constructor(original: string, originPosition: iPoint) {
     this.original = original;
     this.originPosition = originPosition;
@@ -45,6 +46,7 @@ export class KicadPeice {
       }
 
       if (!ignore) {
+        this.hasDigits = true;
         this.hasPosition = true;
         this.x = intDigits[xIndex];
         this.y = intDigits[xIndex + 1];
@@ -59,15 +61,32 @@ export class KicadPeice {
           .replace(`${this.x}`, "templateX")
           .replace(`${this.y}`, "templateY");
       }
+    } else {
+      this.hasDigits = false;
     }
   }
 
   public updatedLine() {
     const newX = Number(this.originPosition.x) + this.xOffset;
     const newY = Number(this.originPosition.y) + this.yOffset;
-    return this.template
-      .replace("templateX", newX.toString())
-      .replace("templateY", newY.toString());
+    return this.hasDigits
+      ? this.template
+          .replace("templateX", newX.toString())
+          .replace("templateY", newY.toString())
+      : this.original;
+  }
+}
+
+export class KicadWire {
+  lines: any = [];
+  public uid: string = "";
+  public rawLines: any;
+  constructor(rawlines: any = null, adjustment: iPoint = { x: 0, y: 0 }) {
+    this.rawLines = rawlines;
+
+    this.lines = rawlines.map((line: string) => {
+      return new KicadPeice(line, adjustment);
+    });
   }
 }
 export class KicadComponent {
@@ -118,11 +137,18 @@ export default class KicadSchematic {
     let firstComponentFound = false;
     let switchTemplate = new KicadComponent();
     let diodeTemplate = new KicadComponent();
+    let lastWasWire = false;
     lines.forEach(line => {
       closeSection = false;
-      if (line.match(/\$Descr/)) {
+
+      if (lastWasWire) {
+        closeSection = true;
+        section = "wire";
+        lastWasWire = false;
+      } else if (line.match(/\$Descr/)) {
         section = "descr";
         firstComponent = false;
+        lastWasWire = false;
       } else if (line.match(/\$Comp/)) {
         if (firstComponentFound === false) {
           firstComponent = true;
@@ -130,23 +156,38 @@ export default class KicadSchematic {
         } else {
           firstComponent = false;
         }
+        lastWasWire = false;
         section = "comp";
       } else if (line.match(/\$EndDescr/)) {
+        lastWasWire = false;
         closeSection = true;
       } else if (line.match(/\$EndComp/)) {
+        lastWasWire = false;
         closeSection = true;
+      } else if (line.match(/Wire Wire Line/)) {
+        section = "wire";
+        lastWasWire = true;
       } else if (line.match(/\$EndSCHEMATC/)) {
-        section = "wires";
+        lastWasWire = false;
+        section = "closing";
         closeSection = true;
       }
+
       currentSection.push(line);
       if (closeSection) {
+        let component = null;
+
+        if (section === "comp") {
+          component = new KicadComponent(currentSection);
+        } else if (section === "wire") {
+          component = new KicadWire(currentSection);
+        }
+
         sections.push({
           lines: currentSection,
           type: section,
           firstComponent,
-          component:
-            section === "comp" ? new KicadComponent(currentSection) : null
+          component
         });
         const label = currentSection[1];
         if (
@@ -182,7 +223,16 @@ export default class KicadSchematic {
 
   render() {
     // have to add back a newline
-    return [...flatMap(this.sections, (x: any) => x.lines), ""].join("\n");
+    return [
+      ...flatMap(this.sections, (x: any) => {
+        return x.component === null
+          ? x.lines
+          : x.component.lines.map((x: any) => {
+              return x.updatedLine();
+            });
+      }),
+      ""
+    ].join("\n");
   }
 
   findComponentById(id: string) {
