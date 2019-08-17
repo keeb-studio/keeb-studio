@@ -44,8 +44,15 @@ describe("KicadSchematic", () => {
     });
   });
 
-  describe.skip("KicadComponent", () => {
-    const component = new KicadComponent(schematic.sections[1].lines);
+  describe("findById", () => {
+    it("will find a component by id", () => {
+      expect(schematic.findComponentById(firstMXid).uid).toEqual(firstMXid);
+    });
+  });
+  describe("KicadComponent", () => {
+    const component = new KicadComponent(
+      schematic.findComponentById(firstMXid).rawLines
+    );
     it("parses the uid", () => {
       expect(component.uid).toEqual(firstMXid);
     });

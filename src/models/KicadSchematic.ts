@@ -170,6 +170,16 @@ export default class KicadSchematic {
       ""
     ].join("\n");
   }
+
+  findComponentById(id: string) {
+    const found = this.sections.find((x: any) => {
+      return x.component !== null && x.component.uid === id;
+    });
+    if (found) {
+      return found.component;
+    }
+    throw new Error(`component with id:${id} not found`);
+  }
 }
 
 export function flatMap<T, U>(
