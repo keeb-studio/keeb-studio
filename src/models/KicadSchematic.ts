@@ -1,13 +1,21 @@
 import { readFileSync } from "fs";
 
+interface iPoint {
+  x: Number;
+  y: Number;
+}
 export class KicadPeice {
   public original: string = "";
+  public originPosition: iPoint = { x: 0, y: 0 };
   public x: number = 0;
   public y: number = 0;
+  public xOffset: number = 0;
+  public yOffset: number = 0;
   public template: string = "";
   public hasPosition: boolean = false;
-  constructor(original: string) {
+  constructor(original: string, originPosition: iPoint) {
     this.original = original;
+    this.originPosition = originPosition;
     const digitsRegex = /\ \d+/g;
     const digits = original.match(digitsRegex);
 
@@ -40,6 +48,13 @@ export class KicadPeice {
         this.hasPosition = true;
         this.x = intDigits[xIndex];
         this.y = intDigits[xIndex + 1];
+
+        //TODO wtf type script why do I need to use contructor?
+        // interface already says this is a number?
+        // is it because it could be assigned something else?
+        this.xOffset = this.x - Number(originPosition.x);
+        this.yOffset = this.y - Number(originPosition.y);
+
         this.template = original
           .replace(`${this.x}`, "templateX")
           .replace(`${this.y}`, "templateY");
@@ -48,29 +63,32 @@ export class KicadPeice {
   }
 
   public updatedLine() {
+    const newX = Number(this.originPosition.x) + this.xOffset;
+    const newY = Number(this.originPosition.y) + this.yOffset;
     return this.template
-      .replace("templateX", this.x.toString())
-      .replace("templateY", this.y.toString());
+      .replace("templateX", newX.toString())
+      .replace("templateY", newY.toString());
   }
 }
 export class KicadComponent {
   lines: any = [];
   public uid: string = "";
   public position: any = { x: 0, y: 0 };
-  constructor(lines: any) {
-    // console.log(lines);
-    this.lines = lines.map((line: string) => {
-      return new KicadPeice(line);
-    });
-
-    const uidLine = lines.find((x: string) => x.match(/U 1 1/));
+  public rawLines: any;
+  constructor(rawlines: any) {
+    this.rawLines = rawlines;
+    const uidLine = rawlines.find((x: string) => x.match(/U 1 1/));
     this.uid = uidLine.replace(/U 1 1 /, "");
 
-    const positionLine = lines.find((x: string) => x.match(/P /));
+    const positionLine = rawlines.find((x: string) => x.match(/P /));
     const rawPostitions = positionLine.replace(/P /, "");
     const positions = rawPostitions.split(/ /);
-    this.position.x = positions[0];
-    this.position.y = positions[1];
+    this.position.x = Number.parseInt(positions[0]);
+    this.position.y = Number.parseInt(positions[1]);
+
+    this.lines = rawlines.map((line: string) => {
+      return new KicadPeice(line, this.position);
+    });
   }
 }
 
