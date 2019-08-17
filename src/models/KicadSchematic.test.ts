@@ -28,6 +28,10 @@ describe("KicadSchematic", () => {
       expect(schematic.sections[1].firstComponent).toEqual(true);
       expect(schematic.sections[2].firstComponent).toEqual(false);
     });
+
+    it("finds the first mx switch component as switchTemplate", () => {
+      expect(schematic.switchTemplate.uid).toEqual("5D5FEB52");
+    });
   });
 
   describe("render", () => {

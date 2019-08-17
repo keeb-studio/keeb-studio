@@ -75,20 +75,22 @@ export class KicadComponent {
   public uid: string = "";
   public position: any = { x: 0, y: 0 };
   public rawLines: any;
-  constructor(rawlines: any) {
+  constructor(rawlines: any = null) {
     this.rawLines = rawlines;
-    const uidLine = rawlines.find((x: string) => x.match(/U 1 1/));
-    this.uid = uidLine.replace(/U 1 1 /, "");
+    if (this.rawLines) {
+      const uidLine = rawlines.find((x: string) => x.match(/U 1 1/));
+      this.uid = uidLine.replace(/U 1 1 /, "");
 
-    const positionLine = rawlines.find((x: string) => x.match(/P /));
-    const rawPostitions = positionLine.replace(/P /, "");
-    const positions = rawPostitions.split(/ /);
-    this.position.x = Number.parseInt(positions[0]);
-    this.position.y = Number.parseInt(positions[1]);
+      const positionLine = rawlines.find((x: string) => x.match(/P /));
+      const rawPostitions = positionLine.replace(/P /, "");
+      const positions = rawPostitions.split(/ /);
+      this.position.x = Number.parseInt(positions[0]);
+      this.position.y = Number.parseInt(positions[1]);
 
-    this.lines = rawlines.map((line: string) => {
-      return new KicadPeice(line, this.position);
-    });
+      this.lines = rawlines.map((line: string) => {
+        return new KicadPeice(line, this.position);
+      });
+    }
   }
 }
 
@@ -96,6 +98,7 @@ export default class KicadSchematic {
   private path: string;
   rawFile: string;
   public sections: Array<any> = [];
+  public switchTemplate: KicadComponent;
   constructor(path: string = "") {
     this.path = path;
     this.rawFile = readFileSync(this.path, "utf8");
@@ -107,6 +110,7 @@ export default class KicadSchematic {
     let closeSection = false;
     let firstComponent = false;
     let firstComponentFound = false;
+    let switchTemplate = new KicadComponent();
     lines.forEach(line => {
       closeSection = false;
       if (line.match(/\$Descr/)) {
@@ -135,9 +139,14 @@ export default class KicadSchematic {
           component:
             section === "comp" ? new KicadComponent(currentSection) : null
         });
+        if (firstComponent && section === "comp") {
+          switchTemplate = new KicadComponent(currentSection);
+        }
         currentSection = [];
       }
     });
+
+    this.switchTemplate = switchTemplate;
     this.sections = sections;
   }
 
