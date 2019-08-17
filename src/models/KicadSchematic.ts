@@ -139,7 +139,12 @@ export default class KicadSchematic {
           component:
             section === "comp" ? new KicadComponent(currentSection) : null
         });
-        if (firstComponent && section === "comp") {
+        const label = currentSection[1];
+        if (
+          switchTemplate.uid === "" &&
+          section === "comp" &&
+          label.indexOf("MX") > 0
+        ) {
           switchTemplate = new KicadComponent(currentSection);
         }
         currentSection = [];

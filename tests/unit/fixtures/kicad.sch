@@ -15,6 +15,17 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
+L Device:D_Small D?
+U 1 1 5D5F5496
+P 950 1050
+F 0 "D?" V 1125 1000 50  0000 L CNN
+F 1 "D_Small" H 775 1200 50  0000 L CNN
+F 2 "" V 950 1050 50  0001 C CNN
+F 3 "~" V 950 1050 50  0001 C CNN
+	1    950  1050
+	0    -1   -1   0
+$EndComp
+$Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
 P 1275 1050

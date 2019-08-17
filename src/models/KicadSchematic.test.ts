@@ -4,6 +4,7 @@ import KicadSchematic, { KicadComponent, KicadPeice } from "./KicadSchematic";
 describe("KicadSchematic", () => {
   const fixture = "tests/unit/fixtures/kicad.sch";
   const schematic = new KicadSchematic(fixture);
+  const firstMXid = "5D5FEB52";
   describe("initialization", () => {
     it("can accept a file path", () => {
       expect(schematic.usedPath()).toEqual("tests/unit/fixtures/kicad.sch");
@@ -18,7 +19,7 @@ describe("KicadSchematic", () => {
 
   describe("parsing", () => {
     it("can parse the sections", () => {
-      expect(schematic.sections.length).toEqual(3);
+      expect(schematic.sections.length).toEqual(4);
       expect(schematic.sections[0].type).toEqual("descr");
       expect(schematic.sections[1].type).toEqual("comp");
     });
@@ -30,7 +31,7 @@ describe("KicadSchematic", () => {
     });
 
     it("finds the first mx switch component as switchTemplate", () => {
-      expect(schematic.switchTemplate.uid).toEqual("5D5FEB52");
+      expect(schematic.switchTemplate.uid).toEqual(firstMXid);
     });
   });
 
@@ -42,10 +43,11 @@ describe("KicadSchematic", () => {
       });
     });
   });
-  describe("KicadComponent", () => {
+
+  describe.skip("KicadComponent", () => {
     const component = new KicadComponent(schematic.sections[1].lines);
     it("parses the uid", () => {
-      expect(component.uid).toEqual("5D5FEB52");
+      expect(component.uid).toEqual(firstMXid);
     });
 
     it("parses the position", () => {
