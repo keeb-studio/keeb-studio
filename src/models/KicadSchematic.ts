@@ -3,16 +3,50 @@ import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
 
 export default class KicadSchematic {
-  private path: string;
-  rawFile: string;
+  public path: string;
+  public rawFile: string;
   public sections: Array<any> = [];
   public switchTemplate: KicadComponent;
   public diodeTemplate: KicadComponent;
   public wires: Array<any> = [];
   constructor(path: string = "") {
     this.path = path;
-    this.rawFile = readFileSync(this.path, "utf8");
+    this.rawFile = readFileSync(path, "utf8");
+    this.switchTemplate = new KicadComponent();
+    this.diodeTemplate = new KicadComponent();
+    this.parseLines();
+  }
 
+  render() {
+    // have to add back a newline
+    return [
+      ...flatMap(this.sections, (x: any) => {
+        return x.component === null
+          ? x.lines
+          : x.component.lines.map((x: any) => {
+              return x.updatedLine();
+            });
+      }),
+      ""
+    ].join("\n");
+  }
+
+  findComponentById(id: string): KicadComponent {
+    const found = this.sections.find((x: any) => {
+      return x.component !== null && x.component.uid === id;
+    });
+    if (found) {
+      return found.component;
+    }
+    throw new Error(`component with id:${id} not found`);
+  }
+
+  getConnectingWire(mx: KicadComponent, diode: KicadComponent): KicadWire {
+    return new KicadWire();
+  }
+
+  /// private
+  private parseLines() {
     const lines = this.rawFile.split(/\r?\n/);
     const sections: any = [];
     let currentSection: any = [];
@@ -20,9 +54,9 @@ export default class KicadSchematic {
     let closeSection = false;
     let firstComponent = false;
     let firstComponentFound = false;
+    let lastWasWire = false;
     let switchTemplate = new KicadComponent();
     let diodeTemplate = new KicadComponent();
-    let lastWasWire = false;
     lines.forEach(line => {
       closeSection = false;
 
@@ -96,42 +130,6 @@ export default class KicadSchematic {
     this.switchTemplate = switchTemplate;
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
-  }
-
-  usedPath() {
-    return this.path;
-  }
-
-  fileText() {
-    return this.rawFile;
-  }
-
-  render() {
-    // have to add back a newline
-    return [
-      ...flatMap(this.sections, (x: any) => {
-        return x.component === null
-          ? x.lines
-          : x.component.lines.map((x: any) => {
-              return x.updatedLine();
-            });
-      }),
-      ""
-    ].join("\n");
-  }
-
-  findComponentById(id: string): KicadComponent {
-    const found = this.sections.find((x: any) => {
-      return x.component !== null && x.component.uid === id;
-    });
-    if (found) {
-      return found.component;
-    }
-    throw new Error(`component with id:${id} not found`);
-  }
-
-  getConnectingWire(mx: KicadComponent, diode: KicadComponent): KicadWire {
-    return new KicadWire();
   }
 }
 

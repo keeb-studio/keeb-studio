@@ -10,11 +10,11 @@ describe("KicadSchematic", () => {
   const firstDiodeid = "5D5F5496";
   describe("initialization", () => {
     it("can accept a file path", () => {
-      expect(schematic.usedPath()).toEqual("tests/unit/fixtures/kicad.sch");
+      expect(schematic.path).toEqual("tests/unit/fixtures/kicad.sch");
     });
 
     it("can read the file", () => {
-      expect(schematic.fileText()).toEqual(
+      expect(schematic.rawFile).toEqual(
         expect.stringContaining("EESchema Schematic File")
       );
     });
@@ -76,6 +76,7 @@ describe("KicadSchematic", () => {
     // const testDiodekComponent = new KicadComponent(diode.rawLines);
     describe("given a mx component and diode ", () => {
       it("return a wire that will connect the two", () => {
+        console.log(mx.position, diode.position);
         const wire = schematic.getConnectingWire(mx, diode);
       });
     });
