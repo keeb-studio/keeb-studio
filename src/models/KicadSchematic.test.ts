@@ -66,6 +66,18 @@ describe("KicadSchematic", () => {
       expect(schematic.findComponentById(firstMXid).uid).toEqual(firstMXid);
     });
   });
+
+  describe.only("place wire", () => {
+    const mx = schematic.findComponentById(firstMXid);
+    const diode = schematic.findComponentById(firstDiodeid);
+    // const testMxComponent = new KicadComponent(mx.rawLines);
+    // const testDiodekComponent = new KicadComponent(diode.rawLines);
+    describe("given a mx component and diode ", () => {
+      it("return a wire that will connect the two", () => {
+        const wire = schematic.getConnectingWire(mx, diode);
+      });
+    });
+  });
   describe("KicadComponent", () => {
     const component = new KicadComponent(
       schematic.findComponentById(firstMXid).rawLines

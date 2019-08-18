@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-interface iPoint {
+export interface iPoint {
   x: Number;
   y: Number;
 }
@@ -106,20 +106,22 @@ export class KicadWire {
   constructor(rawlines: any = null, adjustment: iPoint = { x: 0, y: 0 }) {
     this.rawLines = rawlines;
 
-    const positionLine = rawlines[1];
-    if (positionLine) {
-      const rawPostitions = positionLine.replace("\t", "");
-      const positions = rawPostitions.split(/ /).filter((x: any) => x != "");
+    if (rawlines !== null) {
+      const positionLine = rawlines[1];
+      if (positionLine) {
+        const rawPostitions = positionLine.replace("\t", "");
+        const positions = rawPostitions.split(/ /).filter((x: any) => x != "");
 
-      this.position.x = Number.parseInt(positions[0]);
-      this.position.y = Number.parseInt(positions[1]);
-      this.position2.x = Number.parseInt(positions[2]);
-      this.position2.y = Number.parseInt(positions[3]);
+        this.position.x = Number.parseInt(positions[0]);
+        this.position.y = Number.parseInt(positions[1]);
+        this.position2.x = Number.parseInt(positions[2]);
+        this.position2.y = Number.parseInt(positions[3]);
+      }
+
+      this.lines = rawlines.map((line: string) => {
+        return new WirePiece(line, this.position, this.position2);
+      });
     }
-
-    this.lines = rawlines.map((line: string) => {
-      return new WirePiece(line, this.position, this.position2);
-    });
   }
 }
 export class KicadComponent {
@@ -268,7 +270,7 @@ export default class KicadSchematic {
     ].join("\n");
   }
 
-  findComponentById(id: string) {
+  findComponentById(id: string): KicadComponent {
     const found = this.sections.find((x: any) => {
       return x.component !== null && x.component.uid === id;
     });
@@ -276,6 +278,10 @@ export default class KicadSchematic {
       return found.component;
     }
     throw new Error(`component with id:${id} not found`);
+  }
+
+  getConnectingWire(mx: KicadComponent, diode: KicadComponent): KicadWire {
+    return new KicadWire();
   }
 }
 
