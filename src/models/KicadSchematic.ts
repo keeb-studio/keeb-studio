@@ -76,16 +76,49 @@ export class KicadPeice {
       : this.original;
   }
 }
+export class WirePiece {
+  public original: string = "";
+  public originPosition: iPoint = { x: 0, y: 0 };
+  position1: iPoint;
+  position2: iPoint;
+  constructor(original: string, position1: iPoint, position2: iPoint) {
+    this.original = original;
+    this.position1 = position1;
+    this.position2 = position2;
+  }
 
+  public updatedLine() {
+    const isLabel = this.original.indexOf("Wire") > -1;
+
+    const wire = `\t${this.position1.x}  ${this.position1.y}  ${
+      this.position2.x
+    } ${this.position2.y}`;
+
+    return isLabel ? this.original : wire;
+  }
+}
 export class KicadWire {
   lines: any = [];
   public uid: string = "";
+  public position: any = { x: 0, y: 0 };
+  public position2: any = { x: 0, y: 0 };
   public rawLines: any;
   constructor(rawlines: any = null, adjustment: iPoint = { x: 0, y: 0 }) {
     this.rawLines = rawlines;
 
+    const positionLine = rawlines[1];
+    if (positionLine) {
+      const rawPostitions = positionLine.replace("\t", "");
+      const positions = rawPostitions.split(/ /).filter((x: any) => x != "");
+
+      this.position.x = Number.parseInt(positions[0]);
+      this.position.y = Number.parseInt(positions[1]);
+      this.position2.x = Number.parseInt(positions[2]);
+      this.position2.y = Number.parseInt(positions[3]);
+    }
+
     this.lines = rawlines.map((line: string) => {
-      return new KicadPeice(line, adjustment);
+      return new WirePiece(line, this.position, this.position2);
     });
   }
 }
@@ -193,14 +226,14 @@ export default class KicadSchematic {
         if (
           switchTemplate.uid === "" &&
           section === "comp" &&
-          label.indexOf("MX") > 0
+          label.indexOf("MX") > -1
         ) {
           switchTemplate = new KicadComponent(currentSection);
         }
         if (
           switchTemplate.uid === "" &&
           section === "comp" &&
-          label.indexOf("D_Small") > 0
+          label.indexOf("D_Small") > -1
         ) {
           diodeTemplate = new KicadComponent(currentSection);
         }
