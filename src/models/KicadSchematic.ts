@@ -7,6 +7,7 @@ export default class KicadSchematic {
   public rawFile: string;
   public sections: Array<any> = [];
   public switchTemplate: KicadComponent;
+  public switchTemplate2: KicadComponent;
   public diodeTemplate: KicadComponent;
   public wireTemplate: KicadWire;
   public wires: Array<any> = [];
@@ -14,6 +15,7 @@ export default class KicadSchematic {
     this.path = path;
     this.rawFile = readFileSync(path, "utf8");
     this.switchTemplate = new KicadComponent();
+    this.switchTemplate2 = new KicadComponent();
     this.diodeTemplate = new KicadComponent();
     this.wireTemplate = new KicadWire();
     this.parseLines();
@@ -66,6 +68,32 @@ export default class KicadSchematic {
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
+  getGridDimensions() {
+    return {
+      width: this.switchTemplate2.position.x - this.switchTemplate.position.x,
+      height: this.switchTemplate2.position.y - this.switchTemplate.position.y
+    };
+  }
+
+  private removeCompAndWires() {
+    this.sections = this.sections.filter(
+      (x: any) => x.type !== "comp" && x.type !== "wire"
+    );
+  }
+
+  getEmpty() {
+    this.removeCompAndWires();
+    return [
+      ...flatMap(this.sections, (x: any) => {
+        return x.component === null
+          ? x.lines
+          : x.component.lines.map((x: any) => {
+              return x.updatedLine();
+            });
+      }),
+      ""
+    ].join("\n");
+  }
   /// private
   private parseLines() {
     const lines = this.rawFile.split(/\r?\n/);
@@ -77,6 +105,7 @@ export default class KicadSchematic {
     let firstComponentFound = false;
     let lastWasWire = false;
     let switchTemplate = new KicadComponent();
+    let switchTemplate2 = new KicadComponent();
     let diodeTemplate = new KicadComponent();
     lines.forEach(line => {
       closeSection = false;
@@ -136,6 +165,12 @@ export default class KicadSchematic {
           label.indexOf("MX") > -1
         ) {
           switchTemplate = new KicadComponent(currentSection);
+        } else if (
+          switchTemplate2.uid === "" &&
+          section === "comp" &&
+          label.indexOf("MX") > -1
+        ) {
+          switchTemplate2 = new KicadComponent(currentSection);
         }
         if (
           switchTemplate.uid === "" &&
@@ -149,6 +184,7 @@ export default class KicadSchematic {
     });
 
     this.switchTemplate = switchTemplate;
+    this.switchTemplate2 = switchTemplate2;
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
     this.wireTemplate = this.findComponentById("wire");

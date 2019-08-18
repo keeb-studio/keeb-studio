@@ -7,6 +7,7 @@ describe("KicadSchematic", () => {
   const fixture = "tests/unit/fixtures/kicad.sch";
   const schematic = new KicadSchematic(fixture);
   const firstMXid = "5D5FEB52";
+  const firstMXid2 = "5D57639E";
   const firstDiodeid = "5D5F5496";
   describe("initialization", () => {
     it("can accept a file path", () => {
@@ -45,6 +46,9 @@ describe("KicadSchematic", () => {
       expect(schematic.switchTemplate.uid).toEqual(firstMXid);
     });
 
+    it("finds the 2nd mx switch component as switchTemplate", () => {
+      expect(schematic.switchTemplate2.uid).toEqual(firstMXid2);
+    });
     it("finds the first diode component as diodeTemplate", () => {
       expect(schematic.diodeTemplate.uid).toEqual(firstDiodeid);
     });
@@ -80,6 +84,23 @@ describe("KicadSchematic", () => {
         expect(testWire.position2.x).toEqual(wire.position2.x);
         expect(testWire.position2.y).toEqual(wire.position2.y);
       });
+    });
+  });
+
+  describe("getGridDimensions", () => {
+    it("returns proper size", () => {
+      expect(schematic.getGridDimensions()).toEqual({
+        height: 500,
+        width: 475
+      });
+    });
+  });
+
+  describe("getEmpty", () => {
+    it("returns an empty schematic", () => {
+      const fixture = "tests/unit/fixtures/kicad.empty.sch";
+      const emptySchematic = readFileSync(fixture, "utf8");
+      expect(schematic.getEmpty()).toEqual(emptySchematic);
     });
   });
   describe("KicadComponent", () => {
