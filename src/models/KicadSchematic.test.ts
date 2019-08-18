@@ -1,5 +1,7 @@
 import { readFileSync } from "fs";
-import KicadSchematic, { KicadComponent, KicadPeice } from "./KicadSchematic";
+import { KicadComponent } from "./KicadComponent";
+import { KicadPeice } from "./KicadPeice";
+import KicadSchematic from "./KicadSchematic";
 
 describe("KicadSchematic", () => {
   const fixture = "tests/unit/fixtures/kicad.sch";
@@ -67,7 +69,7 @@ describe("KicadSchematic", () => {
     });
   });
 
-  describe.only("place wire", () => {
+  describe("place wire", () => {
     const mx = schematic.findComponentById(firstMXid);
     const diode = schematic.findComponentById(firstDiodeid);
     // const testMxComponent = new KicadComponent(mx.rawLines);
