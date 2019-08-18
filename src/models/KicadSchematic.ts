@@ -1,5 +1,5 @@
 import { Key } from "@ijprest/kle-serial";
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { iDimension } from "./iDimension";
 import { iPoint } from "./iPoint";
 import { KicadComponent } from "./KicadComponent";
@@ -114,6 +114,11 @@ export default class KicadSchematic {
 
     this.sections.push(closing);
     return this.render();
+  }
+
+  writeFile(kle: string, path: string) {
+    const content = this.getWithKLE(kle);
+    writeFileSync(path, content);
   }
 
   getEmpty() {

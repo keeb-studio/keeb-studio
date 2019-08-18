@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync, unlinkSync } from "fs";
 import KicadSchematic from "./KicadSchematic";
 
 describe("KicadSchematic", () => {
@@ -157,6 +157,14 @@ describe("KicadSchematic", () => {
       expect(schematic.switchTemplate.uid).toEqual(firstMXid);
       expect(schematic.switchTemplate2.uid).toEqual(firstMXid2);
       expect(schematic.diodeTemplate.uid).toEqual(firstDiodeid);
+    });
+  });
+
+  describe("writeFile", () => {
+    it("doesn't raise exception", () => {
+      const kle = `[["a","b"],["c","d"]]`;
+      schematic.writeFile(kle, "temp.sch");
+      unlinkSync("temp.sch");
     });
   });
 });
