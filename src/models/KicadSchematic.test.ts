@@ -48,10 +48,6 @@ describe("KicadSchematic", () => {
     it("finds the first diode component as diodeTemplate", () => {
       expect(schematic.diodeTemplate.uid).toEqual(firstDiodeid);
     });
-
-    it.skip("finds the wires", () => {
-      expect(schematic.wires.length).toEqual(1);
-    });
   });
 
   describe("render", () => {
@@ -72,12 +68,17 @@ describe("KicadSchematic", () => {
   describe("place wire", () => {
     const mx = schematic.findComponentById(firstMXid);
     const diode = schematic.findComponentById(firstDiodeid);
+    const wire = schematic.findComponentById("wire");
     // const testMxComponent = new KicadComponent(mx.rawLines);
     // const testDiodekComponent = new KicadComponent(diode.rawLines);
     describe("given a mx component and diode ", () => {
       it("return a wire that will connect the two", () => {
-        console.log(mx.position, diode.position);
-        const wire = schematic.getConnectingWire(mx, diode);
+        // it should match what is in the template
+        const testWire = schematic.getConnectingWire(mx, diode);
+        expect(testWire.position.x).toEqual(wire.position.x);
+        expect(testWire.position.y).toEqual(wire.position.y);
+        expect(testWire.position2.x).toEqual(wire.position2.x);
+        expect(testWire.position2.y).toEqual(wire.position2.y);
       });
     });
   });

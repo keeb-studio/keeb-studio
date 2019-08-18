@@ -13,7 +13,7 @@ export class WirePiece {
     const isLabel = this.original.indexOf("Wire") > -1;
     const wire = `\t${this.position1.x}  ${this.position1.y}  ${
       this.position2.x
-    } ${this.position2.y}`;
+    }  ${this.position2.y}`;
     return isLabel ? this.original : wire;
   }
 }

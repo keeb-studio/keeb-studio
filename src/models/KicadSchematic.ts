@@ -8,12 +8,14 @@ export default class KicadSchematic {
   public sections: Array<any> = [];
   public switchTemplate: KicadComponent;
   public diodeTemplate: KicadComponent;
+  public wireTemplate: KicadWire;
   public wires: Array<any> = [];
   constructor(path: string = "") {
     this.path = path;
     this.rawFile = readFileSync(path, "utf8");
     this.switchTemplate = new KicadComponent();
     this.diodeTemplate = new KicadComponent();
+    this.wireTemplate = new KicadWire();
     this.parseLines();
   }
 
@@ -31,7 +33,7 @@ export default class KicadSchematic {
     ].join("\n");
   }
 
-  findComponentById(id: string): KicadComponent {
+  findComponentById(id: string) {
     const found = this.sections.find((x: any) => {
       return x.component !== null && x.component.uid === id;
     });
@@ -42,7 +44,26 @@ export default class KicadSchematic {
   }
 
   getConnectingWire(mx: KicadComponent, diode: KicadComponent): KicadWire {
-    return new KicadWire();
+    // find position to conenct wire to mx based on template
+    const mxPos = this.switchTemplate.position;
+    const wireMxPos = this.wireTemplate.position;
+    const mxXOffset = mxPos.x - wireMxPos.x;
+    const mxYOffset = mxPos.y - wireMxPos.y;
+    const mxWirePos = {
+      x: mx.position.x - mxXOffset,
+      y: mx.position.y - mxYOffset
+    };
+
+    // find position to conenct wire to diode based on template
+    const diodePos = this.diodeTemplate.position;
+    const wirediodePos = this.wireTemplate.position2;
+    const diodeXOffset = diodePos.x - wirediodePos.x;
+    const diodeYOffset = diodePos.y - wirediodePos.y;
+    const diodeWirePos = {
+      x: diode.position.x - diodeXOffset,
+      y: diode.position.y - diodeYOffset
+    };
+    return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
   /// private
@@ -130,6 +151,7 @@ export default class KicadSchematic {
     this.switchTemplate = switchTemplate;
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
+    this.wireTemplate = this.findComponentById("wire");
   }
 }
 
