@@ -73,7 +73,11 @@ export default class KicadSchematic {
   }
 
   getSwitch(location: iPoint) {
-    return new KicadComponent(this.switchTemplate.rawLines);
+    return new KicadComponent(
+      this.switchTemplate.rawLines,
+      location,
+      this.getGridDimensions()
+    );
   }
 
   getGridDimensions(): iDimension {

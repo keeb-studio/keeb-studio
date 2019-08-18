@@ -94,6 +94,20 @@ describe("KicadSchematic", () => {
     });
   });
 
+  describe("getSwitch", () => {
+    it("returns the correct switch for 0,0", () => {
+      expect(schematic.getSwitch({ x: 0, y: 0 }).position).toEqual(
+        schematic.switchTemplate.position
+      );
+    });
+
+    it("returns the correct switch for 1,1", () => {
+      expect(schematic.getSwitch({ x: 1, y: 1 }).position).toEqual(
+        schematic.switchTemplate2.position
+      );
+    });
+  });
+
   describe("getEmpty", () => {
     const fixture = "tests/unit/fixtures/kicad.empty.sch";
     const emptySchematic = readFileSync(fixture, "utf8");
