@@ -1,6 +1,10 @@
+import { Key } from "@ijprest/kle-serial";
 import { readFileSync } from "fs";
+import { iDimension } from "./iDimension";
+import { iPoint } from "./iPoint";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
+import KLEParser from "./KLEParser";
 
 export default class KicadSchematic {
   public path: string;
@@ -49,36 +53,45 @@ export default class KicadSchematic {
     // find position to conenct wire to mx based on template
     const mxPos = this.switchTemplate.position;
     const wireMxPos = this.wireTemplate.position;
-    const mxXOffset = mxPos.x - wireMxPos.x;
-    const mxYOffset = mxPos.y - wireMxPos.y;
+    const mxXOffset = Number(mxPos.x) - wireMxPos.x;
+    const mxYOffset = Number(mxPos.y) - wireMxPos.y;
     const mxWirePos = {
-      x: mx.position.x - mxXOffset,
-      y: mx.position.y - mxYOffset
+      x: Number(mx.position.x) - mxXOffset,
+      y: Number(mx.position.y) - mxYOffset
     };
 
     // find position to conenct wire to diode based on template
     const diodePos = this.diodeTemplate.position;
     const wirediodePos = this.wireTemplate.position2;
-    const diodeXOffset = diodePos.x - wirediodePos.x;
-    const diodeYOffset = diodePos.y - wirediodePos.y;
+    const diodeXOffset = Number(diodePos.x) - wirediodePos.x;
+    const diodeYOffset = Number(diodePos.y) - wirediodePos.y;
     const diodeWirePos = {
-      x: diode.position.x - diodeXOffset,
-      y: diode.position.y - diodeYOffset
+      x: Number(diode.position.x) - diodeXOffset,
+      y: Number(diode.position.y) - diodeYOffset
     };
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
-  getGridDimensions() {
+  getSwitch(location: iPoint) {
+    return new KicadComponent(this.switchTemplate.rawLines);
+  }
+
+  getGridDimensions(): iDimension {
     return {
-      width: this.switchTemplate2.position.x - this.switchTemplate.position.x,
-      height: this.switchTemplate2.position.y - this.switchTemplate.position.y
+      width:
+        Number(this.switchTemplate2.position.x) -
+        Number(this.switchTemplate.position.x),
+      height:
+        Number(this.switchTemplate2.position.y) -
+        Number(this.switchTemplate.position.y)
     };
   }
 
-  private removeCompAndWires() {
-    this.sections = this.sections.filter(
-      (x: any) => x.type !== "comp" && x.type !== "wire"
-    );
+  getWithKLE(kle: string) {
+    this.removeCompAndWires();
+    const k = new KLEParser(kle);
+    const keys = k.parse().keys;
+    keys.forEach((element: Key) => {});
   }
 
   getEmpty() {
@@ -188,6 +201,12 @@ export default class KicadSchematic {
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
     this.wireTemplate = this.findComponentById("wire");
+  }
+
+  private removeCompAndWires() {
+    this.sections = this.sections.filter(
+      (x: any) => x.type !== "comp" && x.type !== "wire"
+    );
   }
 }
 

@@ -23,6 +23,15 @@ describe("KicadComponent", () => {
     expect(testComponent.position).toEqual({ x: 0, y: 1050 });
   });
 
+  it("can be constructed with a different position", () => {
+    const testComponent = new KicadComponent(
+      component.rawLines,
+      { x: 1, y: 1 },
+      { width: 100, height: 100 }
+    );
+
+    expect(testComponent.position).toEqual({ x: 1375, y: 1150 });
+  });
   describe("lines", () => {
     it("find and tokenizes position", () => {
       //
