@@ -1,4 +1,4 @@
 export interface iDimension {
-  width: Number;
-  height: Number;
+  width: number;
+  height: number;
 }

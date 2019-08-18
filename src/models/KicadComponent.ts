@@ -36,9 +36,7 @@ export class KicadComponent {
   }
 
   private setPosition(position: iPoint, gridSize: iDimension) {
-    this.position.x =
-      Number(this.position.x) + Number(position.x) * Number(gridSize.width);
-    this.position.y =
-      Number(this.position.y) + Number(position.y) * Number(gridSize.height);
+    this.position.x = this.position.x + position.x * gridSize.width;
+    this.position.y = this.position.y + position.y * gridSize.height;
   }
 }

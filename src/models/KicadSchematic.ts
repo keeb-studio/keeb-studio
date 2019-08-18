@@ -53,21 +53,21 @@ export default class KicadSchematic {
     // find position to conenct wire to mx based on template
     const mxPos = this.switchTemplate.position;
     const wireMxPos = this.wireTemplate.position;
-    const mxXOffset = Number(mxPos.x) - wireMxPos.x;
-    const mxYOffset = Number(mxPos.y) - wireMxPos.y;
+    const mxXOffset = mxPos.x - wireMxPos.x;
+    const mxYOffset = mxPos.y - wireMxPos.y;
     const mxWirePos = {
-      x: Number(mx.position.x) - mxXOffset,
-      y: Number(mx.position.y) - mxYOffset
+      x: mx.position.x - mxXOffset,
+      y: mx.position.y - mxYOffset
     };
 
     // find position to conenct wire to diode based on template
     const diodePos = this.diodeTemplate.position;
     const wirediodePos = this.wireTemplate.position2;
-    const diodeXOffset = Number(diodePos.x) - wirediodePos.x;
-    const diodeYOffset = Number(diodePos.y) - wirediodePos.y;
+    const diodeXOffset = diodePos.x - wirediodePos.x;
+    const diodeYOffset = diodePos.y - wirediodePos.y;
     const diodeWirePos = {
-      x: Number(diode.position.x) - diodeXOffset,
-      y: Number(diode.position.y) - diodeYOffset
+      x: diode.position.x - diodeXOffset,
+      y: diode.position.y - diodeYOffset
     };
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
@@ -82,12 +82,8 @@ export default class KicadSchematic {
 
   getGridDimensions(): iDimension {
     return {
-      width:
-        Number(this.switchTemplate2.position.x) -
-        Number(this.switchTemplate.position.x),
-      height:
-        Number(this.switchTemplate2.position.y) -
-        Number(this.switchTemplate.position.y)
+      width: this.switchTemplate2.position.x - this.switchTemplate.position.x,
+      height: this.switchTemplate2.position.y - this.switchTemplate.position.y
     };
   }
 

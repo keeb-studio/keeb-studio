@@ -41,11 +41,8 @@ export class KicadPeice {
         this.hasPosition = true;
         this.x = intDigits[xIndex];
         this.y = intDigits[xIndex + 1];
-        //TODO wtf type script why do I need to use contructor?
-        // interface already says this is a number?
-        // is it because it could be assigned something else?
-        this.xOffset = this.x - Number(originPosition.x);
-        this.yOffset = this.y - Number(originPosition.y);
+        this.xOffset = this.x - originPosition.x;
+        this.yOffset = this.y - originPosition.y;
         this.template = original
           .replace(`${this.x}`, "templateX")
           .replace(`${this.y}`, "templateY");
@@ -55,8 +52,8 @@ export class KicadPeice {
     }
   }
   public updatedLine() {
-    const newX = Number(this.originPosition.x) + this.xOffset;
-    const newY = Number(this.originPosition.y) + this.yOffset;
+    const newX = this.originPosition.x + this.xOffset;
+    const newY = this.originPosition.y + this.yOffset;
     return this.hasDigits
       ? this.template
           .replace("templateX", newX.toString())
