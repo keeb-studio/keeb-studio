@@ -99,7 +99,21 @@ export default class KicadSchematic {
     this.removeCompAndWires();
     const k = new KLEParser(kle);
     const keys = k.parse().keys;
-    keys.forEach((element: Key) => {});
+
+    const closing = this.sections.pop();
+    keys.forEach((element: Key) => {
+      const mxSwitch = this.getSwitch({ x: element.x, y: element.y });
+      this.sections.push({ type: "comp", component: mxSwitch });
+
+      const diode = this.getDiode({ x: element.x, y: element.y });
+      this.sections.push({ type: "comp", component: diode });
+
+      const wire = this.getConnectingWire(mxSwitch, diode);
+      this.sections.push({ type: "wire", component: wire });
+    });
+
+    this.sections.push(closing);
+    return this.render();
   }
 
   getEmpty() {

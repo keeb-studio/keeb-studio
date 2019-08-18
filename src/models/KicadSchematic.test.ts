@@ -7,6 +7,7 @@ describe("KicadSchematic", () => {
   const firstMXid = "5D5FEB52";
   const firstMXid2 = "5D57639E";
   const firstDiodeid = "5D5F5496";
+  const original = readFileSync(fixture, "utf8");
   describe("initialization", () => {
     it("can accept a file path", () => {
       expect(schematic.path).toEqual("tests/unit/fixtures/kicad.sch");
@@ -55,7 +56,6 @@ describe("KicadSchematic", () => {
   describe("render", () => {
     describe("when nothing changes", () => {
       it("will render without modifications to original", () => {
-        const original = readFileSync(fixture, "utf8");
         expect(schematic.render()).toEqual(original);
       });
     });
@@ -138,6 +138,13 @@ describe("KicadSchematic", () => {
         ).position2
       ).toEqual({ x: 1425, y: 950 });
       //
+    });
+  });
+
+  describe("getWithKLE", () => {
+    it("returns a 1 unit component", () => {
+      const oneU = readFileSync("tests/unit/fixtures/kicad.1U.sch", "utf8");
+      expect(schematic.getWithKLE(`[[""]]`)).toEqual(oneU);
     });
   });
   describe("getEmpty", () => {
