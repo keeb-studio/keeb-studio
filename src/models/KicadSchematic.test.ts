@@ -108,6 +108,38 @@ describe("KicadSchematic", () => {
     });
   });
 
+  describe("getDiode", () => {
+    it("returns the correct diode for 0,0", () => {
+      expect(schematic.getDiode({ x: 0, y: 0 }).position).toEqual(
+        schematic.diodeTemplate.position
+      );
+    });
+
+    it("returns the correct diode for 1,1", () => {
+      const grid = schematic.getGridDimensions();
+      expect(schematic.getDiode({ x: 1, y: 1 }).position).toEqual({
+        x: schematic.diodeTemplate.position.x + grid.width,
+        y: schematic.diodeTemplate.position.y + grid.height
+      });
+    });
+
+    it("works with wires", () => {
+      expect(
+        schematic.getConnectingWire(
+          schematic.getSwitch({ x: 0, y: 1 }),
+          schematic.getDiode({ x: 0, y: 1 })
+        ).position
+      ).toEqual({ x: 1325, y: 1450 });
+
+      expect(
+        schematic.getConnectingWire(
+          schematic.getSwitch({ x: 1, y: 0 }),
+          schematic.getDiode({ x: 1, y: 0 })
+        ).position2
+      ).toEqual({ x: 1425, y: 950 });
+      //
+    });
+  });
   describe("getEmpty", () => {
     const fixture = "tests/unit/fixtures/kicad.empty.sch";
     const emptySchematic = readFileSync(fixture, "utf8");

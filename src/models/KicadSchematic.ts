@@ -80,6 +80,14 @@ export default class KicadSchematic {
     );
   }
 
+  getDiode(location: iPoint) {
+    return new KicadComponent(
+      this.diodeTemplate.rawLines,
+      location,
+      this.getGridDimensions()
+    );
+  }
+
   getGridDimensions(): iDimension {
     return {
       width: this.switchTemplate2.position.x - this.switchTemplate.position.x,
