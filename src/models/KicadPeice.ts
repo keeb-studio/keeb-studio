@@ -59,13 +59,10 @@ export class KicadPeice {
     let newX = this.templateOriginPosition.x + this.xOffset;
     let newY = this.templateOriginPosition.y + this.yOffset;
 
-    // if (newX !== this.x) {
-    newX = this.x + this.xOffset;
-    // }
+    newX = parseInt((this.x + this.xOffset).toFixed(0));
 
-    // if (newY !== this.y) {
-    newY = this.y + this.yOffset;
-    // }
+    newY = parseInt((this.y + this.yOffset).toFixed(0));
+
     return this.hasDigits
       ? this.template
           .replace("templateX", newX.toString())
