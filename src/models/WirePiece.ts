@@ -1,7 +1,7 @@
 import { iPoint } from "./iPoint";
 export class WirePiece {
   public original: string = "";
-  public originPosition: iPoint = { x: 0, y: 0 };
+  public templateOriginPosition: iPoint = { x: 0, y: 0 };
   position1: iPoint;
   position2: iPoint;
   constructor(original: string, position1: iPoint, position2: iPoint) {

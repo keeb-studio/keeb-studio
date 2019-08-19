@@ -1,7 +1,7 @@
 import { iPoint } from "./iPoint";
 export class KicadPeice {
   public original: string = "";
-  public originPosition: iPoint = { x: 0, y: 0 };
+  public templateOriginPosition: iPoint = { x: 0, y: 0 };
   public x: number = 0;
   public y: number = 0;
   public xOffset: number = 0;
@@ -9,15 +9,17 @@ export class KicadPeice {
   public template: string = "";
   public hasPosition: boolean = false;
   hasDigits: boolean = false;
-  constructor(original: string, originPosition: iPoint) {
+  constructor(original: string, templateOriginPosition: iPoint) {
     this.original = original;
-    this.originPosition = originPosition;
+    this.templateOriginPosition = templateOriginPosition;
     const digitsRegex = /\ \d+/g;
     const digits = original.match(digitsRegex);
+
     const partType = original.charAt(0);
     if (digits) {
       //convert digitis to ints
       const intDigits = digits.map((x: string) => Number.parseInt(x));
+
       // find out if we need to ignore it because
       // it doesn't actually have x & y in it
       let ignore = true;
@@ -41,8 +43,10 @@ export class KicadPeice {
         this.hasPosition = true;
         this.x = intDigits[xIndex];
         this.y = intDigits[xIndex + 1];
-        this.xOffset = this.x - originPosition.x;
-        this.yOffset = this.y - originPosition.y;
+
+        this.xOffset = this.x - templateOriginPosition.x;
+        this.yOffset = this.y - templateOriginPosition.y;
+
         this.template = original
           .replace(`${this.x}`, "templateX")
           .replace(`${this.y}`, "templateY");
@@ -52,8 +56,16 @@ export class KicadPeice {
     }
   }
   public updatedLine() {
-    const newX = this.originPosition.x + this.xOffset;
-    const newY = this.originPosition.y + this.yOffset;
+    let newX = this.templateOriginPosition.x + this.xOffset;
+    let newY = this.templateOriginPosition.y + this.yOffset;
+
+    // if (newX !== this.x) {
+    newX = this.x + this.xOffset;
+    // }
+
+    // if (newY !== this.y) {
+    newY = this.y + this.yOffset;
+    // }
     return this.hasDigits
       ? this.template
           .replace("templateX", newX.toString())

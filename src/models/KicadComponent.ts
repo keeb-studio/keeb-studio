@@ -35,6 +35,15 @@ export class KicadComponent {
     }
   }
 
+  updateLines(moveTo: iPoint) {
+    this.position.x = moveTo.x;
+    this.position.y = moveTo.y;
+    this.lines.forEach((line: any) => {
+      line.x = moveTo.x;
+      line.y = moveTo.y;
+    });
+  }
+
   private setPosition(position: iPoint, gridSize: iDimension) {
     this.position.x = this.position.x + position.x * gridSize.width;
     this.position.y = this.position.y + position.y * gridSize.height;
