@@ -3,6 +3,7 @@ import KicadSchematic from "./KicadSchematic";
 
 describe("KicadSchematic", () => {
   const fixture = "tests/unit/fixtures/kicad.sch";
+  const template = "src/models/templates/kicad.schematic.teplate.sch";
   const schematic = new KicadSchematic(fixture);
   const firstMXid = "5D5FEB52";
   const firstMXid2 = "5D5ADAFA";
@@ -290,10 +291,11 @@ describe("KicadSchematic", () => {
         ]
       ];
 
+      const schematic = new KicadSchematic(template);
       schematic.writeFile(kle, "temp.sch");
       schematic.writeFile(JSON.stringify(kl2), "temp2.sch");
       unlinkSync("temp.sch");
-      unlinkSync("temp2.sch");
+      // unlinkSync("temp2.sch");
     });
   });
 });
