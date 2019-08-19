@@ -32,8 +32,12 @@ describe("KicadSchematic", () => {
       expect(schematic.sections[2].type).toEqual("comp");
       expect(schematic.sections[3].type).toEqual("comp");
       expect(schematic.sections[4].type).toEqual("wire");
-      expect(schematic.sections[5].type).toEqual("closing");
-      expect(schematic.sections.length).toEqual(6);
+      expect(schematic.sections[5].type).toEqual("wire");
+      expect(schematic.sections[6].type).toEqual("wire");
+      expect(schematic.sections[7].type).toEqual("wire");
+      expect(schematic.sections[8].type).toEqual("wire");
+      expect(schematic.sections[9].type).toEqual("closing");
+      expect(schematic.sections.length).toEqual(10);
     });
 
     it("marks the first component", () => {
