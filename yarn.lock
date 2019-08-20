@@ -6725,6 +6725,11 @@ ramda@0.24.1:
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
 
+random-hex-string@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/random-hex-string/-/random-hex-string-1.0.0.tgz#d47ce2488d0094f6447ad24ab974bbbba9f45fb4"
+  integrity sha1-1HziSI0AlPZEetJKuXS7u6n0X7Q=
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
