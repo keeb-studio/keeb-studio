@@ -14,6 +14,7 @@ export default class KicadSchematic {
   public switchTemplate2: KicadComponent;
   public diodeTemplate: KicadComponent;
   public wireTemplate: KicadWire;
+  public wireTemplates: Array<KicadWire> = [];
   public wires: Array<any> = [];
   constructor(path: string = "") {
     this.path = path;
@@ -39,20 +40,25 @@ export default class KicadSchematic {
     ].join("\n");
   }
 
-  findComponentById(id: string) {
-    const found = this.sections.find((x: any) => {
+  findComponentById(id: string, number: number = 1) {
+    const matching = this.sections.filter((x: any) => {
       return x.component !== null && x.component.uid === id;
     });
-    if (found) {
-      return found.component;
+
+    if (matching.length > 0) {
+      return matching[number - 1].component;
     }
     throw new Error(`component with id:${id} not found`);
   }
 
-  getConnectingWire(mx: KicadComponent, diode: KicadComponent): KicadWire {
+  getConnectingWire(
+    mx: KicadComponent,
+    diode: KicadComponent,
+    wireTemplate: KicadWire
+  ): KicadWire {
     // find position to conenct wire to mx based on template
     const mxPos = this.switchTemplate.position;
-    const wireMxPos = this.wireTemplate.position;
+    const wireMxPos = wireTemplate.position;
     const mxXOffset = mxPos.x - wireMxPos.x;
     const mxYOffset = mxPos.y - wireMxPos.y;
     const mxWirePos = {
@@ -62,7 +68,7 @@ export default class KicadSchematic {
 
     // find position to conenct wire to diode based on template
     const diodePos = this.diodeTemplate.position;
-    const wirediodePos = this.wireTemplate.position2;
+    const wirediodePos = wireTemplate.position2;
     const diodeXOffset = diodePos.x - wirediodePos.x;
     const diodeYOffset = diodePos.y - wirediodePos.y;
     const diodeWirePos = {
@@ -124,7 +130,7 @@ export default class KicadSchematic {
         lines: diode.lines
       });
 
-      const wire = this.getConnectingWire(mxSwitch, diode);
+      const wire = this.getConnectingWire(mxSwitch, diode, this.wireTemplate);
       this.sections.push({ type: "wire", component: wire });
     });
 
@@ -243,7 +249,15 @@ export default class KicadSchematic {
     this.switchTemplate2 = switchTemplate2;
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
+
     this.wireTemplate = this.findComponentById("wire");
+    this.wireTemplates = [
+      this.findComponentById("wire"),
+      this.findComponentById("wire", 2),
+      this.findComponentById("wire", 3),
+      this.findComponentById("wire", 4),
+      this.findComponentById("wire", 5)
+    ];
   }
 
   private removeCompAndWires() {

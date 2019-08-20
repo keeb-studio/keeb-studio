@@ -81,7 +81,11 @@ describe("KicadSchematic", () => {
     describe("given a mx component and diode ", () => {
       it("return a wire that will connect the two", () => {
         // it should match what is in the template
-        const testWire = schematic.getConnectingWire(mx, diode);
+        const testWire = schematic.getConnectingWire(
+          mx,
+          diode,
+          schematic.wireTemplate
+        );
         expect(testWire.position.x).toEqual(wire.position.x);
         expect(testWire.position.y).toEqual(wire.position.y);
         expect(testWire.position2.x).toEqual(wire.position2.x);
@@ -133,14 +137,16 @@ describe("KicadSchematic", () => {
       expect(
         schematic.getConnectingWire(
           schematic.getSwitch({ x: 0, y: 1 }),
-          schematic.getDiode({ x: 0, y: 1 })
+          schematic.getDiode({ x: 0, y: 1 }),
+          schematic.wireTemplate
         ).position
       ).toEqual({ x: 1325, y: 1450 });
 
       expect(
         schematic.getConnectingWire(
           schematic.getSwitch({ x: 1, y: 0 }),
-          schematic.getDiode({ x: 1, y: 0 })
+          schematic.getDiode({ x: 1, y: 0 }),
+          schematic.wireTemplate
         ).position2
       ).toEqual({ x: 1725, y: 950 });
       //
