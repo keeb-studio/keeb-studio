@@ -130,8 +130,13 @@ export default class KicadSchematic {
         lines: diode.lines
       });
 
-      const wire = this.getConnectingWire(mxSwitch, diode, this.wireTemplate);
-      this.sections.push({ type: "wire", component: wire });
+      // const wire = this.getConnectingWire(mxSwitch, diode, this.wireTemplate);
+      // this.sections.push({ type: "wire", component: wire });
+
+      this.wireTemplates.forEach(wireTemplate => {
+        const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+        this.sections.push({ type: "wire", component: wire });
+      });
     });
 
     this.sections.push(closing);

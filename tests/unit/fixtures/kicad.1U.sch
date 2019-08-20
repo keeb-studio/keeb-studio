@@ -38,4 +38,12 @@ F 3 "~" V 950 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  950  950  950
+Wire Wire Line
+	950  1150  950  1275
+Wire Wire Line
+	950  1275  1825  1275
+Wire Wire Line
+	1825  1275  1825  1150
+Wire Wire Line
+	1125  1150  1125  1700
 $EndSCHEMATC

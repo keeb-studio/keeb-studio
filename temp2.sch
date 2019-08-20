@@ -38,6 +38,14 @@ F 3 "~" V 950 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  950  950  950
+Wire Wire Line
+	950  1150  950  1275
+Wire Wire Line
+	950  1275  1825  1275
+Wire Wire Line
+	1825  1275  1825  1150
+Wire Wire Line
+	1125  1150  1125  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -62,6 +70,14 @@ F 3 "~" V 1825 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2200  950  1825  950
+Wire Wire Line
+	1825  1150  1825  1275
+Wire Wire Line
+	1825  1275  2700  1275
+Wire Wire Line
+	2700  1275  2700  1150
+Wire Wire Line
+	2000  1150  2000  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -86,6 +102,14 @@ F 3 "~" V 2700 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3075  950  2700  950
+Wire Wire Line
+	2700  1150  2700  1275
+Wire Wire Line
+	2700  1275  3575  1275
+Wire Wire Line
+	3575  1275  3575  1150
+Wire Wire Line
+	2875  1150  2875  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -110,6 +134,14 @@ F 3 "~" V 3575 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3950  950  3575  950
+Wire Wire Line
+	3575  1150  3575  1275
+Wire Wire Line
+	3575  1275  4450  1275
+Wire Wire Line
+	4450  1275  4450  1150
+Wire Wire Line
+	3750  1150  3750  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -134,6 +166,14 @@ F 3 "~" V 4450 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4825  950  4450  950
+Wire Wire Line
+	4450  1150  4450  1275
+Wire Wire Line
+	4450  1275  5325  1275
+Wire Wire Line
+	5325  1275  5325  1150
+Wire Wire Line
+	4625  1150  4625  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -158,6 +198,14 @@ F 3 "~" V 5325 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5700  950  5325  950
+Wire Wire Line
+	5325  1150  5325  1275
+Wire Wire Line
+	5325  1275  6200  1275
+Wire Wire Line
+	6200  1275  6200  1150
+Wire Wire Line
+	5500  1150  5500  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -182,6 +230,14 @@ F 3 "~" V 6200 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6575  950  6200  950
+Wire Wire Line
+	6200  1150  6200  1275
+Wire Wire Line
+	6200  1275  7075  1275
+Wire Wire Line
+	7075  1275  7075  1150
+Wire Wire Line
+	6375  1150  6375  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -206,6 +262,14 @@ F 3 "~" V 7075 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7450  950  7075  950
+Wire Wire Line
+	7075  1150  7075  1275
+Wire Wire Line
+	7075  1275  7950  1275
+Wire Wire Line
+	7950  1275  7950  1150
+Wire Wire Line
+	7250  1150  7250  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -230,6 +294,14 @@ F 3 "~" V 7950 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8325  950  7950  950
+Wire Wire Line
+	7950  1150  7950  1275
+Wire Wire Line
+	7950  1275  8825  1275
+Wire Wire Line
+	8825  1275  8825  1150
+Wire Wire Line
+	8125  1150  8125  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -254,6 +326,14 @@ F 3 "~" V 8825 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9200  950  8825  950
+Wire Wire Line
+	8825  1150  8825  1275
+Wire Wire Line
+	8825  1275  9700  1275
+Wire Wire Line
+	9700  1275  9700  1150
+Wire Wire Line
+	9000  1150  9000  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -278,6 +358,14 @@ F 3 "~" V 9700 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10075  950  9700  950
+Wire Wire Line
+	9700  1150  9700  1275
+Wire Wire Line
+	9700  1275  10575  1275
+Wire Wire Line
+	10575  1275  10575  1150
+Wire Wire Line
+	9875  1150  9875  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -302,6 +390,14 @@ F 3 "~" V 10575 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10950  950  10575  950
+Wire Wire Line
+	10575  1150  10575  1275
+Wire Wire Line
+	10575  1275  11450  1275
+Wire Wire Line
+	11450  1275  11450  1150
+Wire Wire Line
+	10750  1150  10750  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -326,6 +422,14 @@ F 3 "~" V 11450 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	11825  950  11450  950
+Wire Wire Line
+	11450  1150  11450  1275
+Wire Wire Line
+	11450  1275  12325  1275
+Wire Wire Line
+	12325  1275  12325  1150
+Wire Wire Line
+	11625  1150  11625  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -350,6 +454,14 @@ F 3 "~" V 12325 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	12700  950  12325  950
+Wire Wire Line
+	12325  1150  12325  1275
+Wire Wire Line
+	12325  1275  13200  1275
+Wire Wire Line
+	13200  1275  13200  1150
+Wire Wire Line
+	12500  1150  12500  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -374,6 +486,14 @@ F 3 "~" V 13200 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	13575  950  13200  950
+Wire Wire Line
+	13200  1150  13200  1275
+Wire Wire Line
+	13200  1275  14075  1275
+Wire Wire Line
+	14075  1275  14075  1150
+Wire Wire Line
+	13375  1150  13375  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -398,6 +518,14 @@ F 3 "~" V 14075 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14450  950  14075  950
+Wire Wire Line
+	14075  1150  14075  1275
+Wire Wire Line
+	14075  1275  14950  1275
+Wire Wire Line
+	14950  1275  14950  1150
+Wire Wire Line
+	14250  1150  14250  1700
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -422,6 +550,14 @@ F 3 "~" V 950 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  1500  950  1500
+Wire Wire Line
+	950  1700  950  1825
+Wire Wire Line
+	950  1825  1825  1825
+Wire Wire Line
+	1825  1825  1825  1700
+Wire Wire Line
+	1125  1700  1125  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -446,6 +582,14 @@ F 3 "~" V 2263 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2637  1500  2262  1500
+Wire Wire Line
+	2262  1700  2262  1825
+Wire Wire Line
+	2262  1825  3137  1825
+Wire Wire Line
+	3137  1825  3137  1700
+Wire Wire Line
+	2437  1700  2437  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -470,6 +614,14 @@ F 3 "~" V 3138 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3512  1500  3137  1500
+Wire Wire Line
+	3137  1700  3137  1825
+Wire Wire Line
+	3137  1825  4012  1825
+Wire Wire Line
+	4012  1825  4012  1700
+Wire Wire Line
+	3312  1700  3312  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -494,6 +646,14 @@ F 3 "~" V 4013 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4387  1500  4012  1500
+Wire Wire Line
+	4012  1700  4012  1825
+Wire Wire Line
+	4012  1825  4887  1825
+Wire Wire Line
+	4887  1825  4887  1700
+Wire Wire Line
+	4187  1700  4187  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -518,6 +678,14 @@ F 3 "~" V 4888 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5262  1500  4887  1500
+Wire Wire Line
+	4887  1700  4887  1825
+Wire Wire Line
+	4887  1825  5762  1825
+Wire Wire Line
+	5762  1825  5762  1700
+Wire Wire Line
+	5062  1700  5062  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -542,6 +710,14 @@ F 3 "~" V 5763 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6137  1500  5762  1500
+Wire Wire Line
+	5762  1700  5762  1825
+Wire Wire Line
+	5762  1825  6637  1825
+Wire Wire Line
+	6637  1825  6637  1700
+Wire Wire Line
+	5937  1700  5937  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -566,6 +742,14 @@ F 3 "~" V 6638 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7012  1500  6637  1500
+Wire Wire Line
+	6637  1700  6637  1825
+Wire Wire Line
+	6637  1825  7512  1825
+Wire Wire Line
+	7512  1825  7512  1700
+Wire Wire Line
+	6812  1700  6812  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -590,6 +774,14 @@ F 3 "~" V 7513 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7887  1500  7512  1500
+Wire Wire Line
+	7512  1700  7512  1825
+Wire Wire Line
+	7512  1825  8387  1825
+Wire Wire Line
+	8387  1825  8387  1700
+Wire Wire Line
+	7687  1700  7687  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -614,6 +806,14 @@ F 3 "~" V 8388 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8762  1500  8387  1500
+Wire Wire Line
+	8387  1700  8387  1825
+Wire Wire Line
+	8387  1825  9262  1825
+Wire Wire Line
+	9262  1825  9262  1700
+Wire Wire Line
+	8562  1700  8562  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -638,6 +838,14 @@ F 3 "~" V 9263 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9637  1500  9262  1500
+Wire Wire Line
+	9262  1700  9262  1825
+Wire Wire Line
+	9262  1825  10137  1825
+Wire Wire Line
+	10137  1825  10137  1700
+Wire Wire Line
+	9437  1700  9437  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -662,6 +870,14 @@ F 3 "~" V 10138 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10512  1500  10137  1500
+Wire Wire Line
+	10137  1700  10137  1825
+Wire Wire Line
+	10137  1825  11012  1825
+Wire Wire Line
+	11012  1825  11012  1700
+Wire Wire Line
+	10312  1700  10312  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -686,6 +902,14 @@ F 3 "~" V 11013 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	11387  1500  11012  1500
+Wire Wire Line
+	11012  1700  11012  1825
+Wire Wire Line
+	11012  1825  11887  1825
+Wire Wire Line
+	11887  1825  11887  1700
+Wire Wire Line
+	11187  1700  11187  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -710,6 +934,14 @@ F 3 "~" V 11888 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	12262  1500  11887  1500
+Wire Wire Line
+	11887  1700  11887  1825
+Wire Wire Line
+	11887  1825  12762  1825
+Wire Wire Line
+	12762  1825  12762  1700
+Wire Wire Line
+	12062  1700  12062  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -734,6 +966,14 @@ F 3 "~" V 12763 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	13137  1500  12762  1500
+Wire Wire Line
+	12762  1700  12762  1825
+Wire Wire Line
+	12762  1825  13637  1825
+Wire Wire Line
+	13637  1825  13637  1700
+Wire Wire Line
+	12937  1700  12937  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -758,6 +998,14 @@ F 3 "~" V 14075 1600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14450  1500  14075  1500
+Wire Wire Line
+	14075  1700  14075  1825
+Wire Wire Line
+	14075  1825  14950  1825
+Wire Wire Line
+	14950  1825  14950  1700
+Wire Wire Line
+	14250  1700  14250  2250
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -782,6 +1030,14 @@ F 3 "~" V 950 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  2050  950  2050
+Wire Wire Line
+	950  2250  950  2375
+Wire Wire Line
+	950  2375  1825  2375
+Wire Wire Line
+	1825  2375  1825  2250
+Wire Wire Line
+	1125  2250  1125  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -806,6 +1062,14 @@ F 3 "~" V 2481 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2856  2050  2481  2050
+Wire Wire Line
+	2481  2250  2481  2375
+Wire Wire Line
+	2481  2375  3356  2375
+Wire Wire Line
+	3356  2375  3356  2250
+Wire Wire Line
+	2656  2250  2656  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -830,6 +1094,14 @@ F 3 "~" V 3356 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3731  2050  3356  2050
+Wire Wire Line
+	3356  2250  3356  2375
+Wire Wire Line
+	3356  2375  4231  2375
+Wire Wire Line
+	4231  2375  4231  2250
+Wire Wire Line
+	3531  2250  3531  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -854,6 +1126,14 @@ F 3 "~" V 4231 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4606  2050  4231  2050
+Wire Wire Line
+	4231  2250  4231  2375
+Wire Wire Line
+	4231  2375  5106  2375
+Wire Wire Line
+	5106  2375  5106  2250
+Wire Wire Line
+	4406  2250  4406  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -878,6 +1158,14 @@ F 3 "~" V 5106 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5481  2050  5106  2050
+Wire Wire Line
+	5106  2250  5106  2375
+Wire Wire Line
+	5106  2375  5981  2375
+Wire Wire Line
+	5981  2375  5981  2250
+Wire Wire Line
+	5281  2250  5281  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -902,6 +1190,14 @@ F 3 "~" V 5981 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6356  2050  5981  2050
+Wire Wire Line
+	5981  2250  5981  2375
+Wire Wire Line
+	5981  2375  6856  2375
+Wire Wire Line
+	6856  2375  6856  2250
+Wire Wire Line
+	6156  2250  6156  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -926,6 +1222,14 @@ F 3 "~" V 6856 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7231  2050  6856  2050
+Wire Wire Line
+	6856  2250  6856  2375
+Wire Wire Line
+	6856  2375  7731  2375
+Wire Wire Line
+	7731  2375  7731  2250
+Wire Wire Line
+	7031  2250  7031  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -950,6 +1254,14 @@ F 3 "~" V 7731 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8106  2050  7731  2050
+Wire Wire Line
+	7731  2250  7731  2375
+Wire Wire Line
+	7731  2375  8606  2375
+Wire Wire Line
+	8606  2375  8606  2250
+Wire Wire Line
+	7906  2250  7906  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -974,6 +1286,14 @@ F 3 "~" V 8606 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8981  2050  8606  2050
+Wire Wire Line
+	8606  2250  8606  2375
+Wire Wire Line
+	8606  2375  9481  2375
+Wire Wire Line
+	9481  2375  9481  2250
+Wire Wire Line
+	8781  2250  8781  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -998,6 +1318,14 @@ F 3 "~" V 9481 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9856  2050  9481  2050
+Wire Wire Line
+	9481  2250  9481  2375
+Wire Wire Line
+	9481  2375  10356  2375
+Wire Wire Line
+	10356  2375  10356  2250
+Wire Wire Line
+	9656  2250  9656  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1022,6 +1350,14 @@ F 3 "~" V 10356 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10731  2050  10356  2050
+Wire Wire Line
+	10356  2250  10356  2375
+Wire Wire Line
+	10356  2375  11231  2375
+Wire Wire Line
+	11231  2375  11231  2250
+Wire Wire Line
+	10531  2250  10531  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1046,6 +1382,14 @@ F 3 "~" V 11231 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	11606  2050  11231  2050
+Wire Wire Line
+	11231  2250  11231  2375
+Wire Wire Line
+	11231  2375  12106  2375
+Wire Wire Line
+	12106  2375  12106  2250
+Wire Wire Line
+	11406  2250  11406  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1070,6 +1414,14 @@ F 3 "~" V 12106 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	12481  2050  12106  2050
+Wire Wire Line
+	12106  2250  12106  2375
+Wire Wire Line
+	12106  2375  12981  2375
+Wire Wire Line
+	12981  2375  12981  2250
+Wire Wire Line
+	12281  2250  12281  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1094,6 +1446,14 @@ F 3 "~" V 14075 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14450  2050  14075  2050
+Wire Wire Line
+	14075  2250  14075  2375
+Wire Wire Line
+	14075  2375  14950  2375
+Wire Wire Line
+	14950  2375  14950  2250
+Wire Wire Line
+	14250  2250  14250  2800
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1118,6 +1478,14 @@ F 3 "~" V 950 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  2600  950  2600
+Wire Wire Line
+	950  2800  950  2925
+Wire Wire Line
+	950  2925  1825  2925
+Wire Wire Line
+	1825  2925  1825  2800
+Wire Wire Line
+	1125  2800  1125  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1142,6 +1510,14 @@ F 3 "~" V 2919 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3293  2600  2918  2600
+Wire Wire Line
+	2918  2800  2918  2925
+Wire Wire Line
+	2918  2925  3793  2925
+Wire Wire Line
+	3793  2925  3793  2800
+Wire Wire Line
+	3093  2800  3093  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1166,6 +1542,14 @@ F 3 "~" V 3794 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4168  2600  3793  2600
+Wire Wire Line
+	3793  2800  3793  2925
+Wire Wire Line
+	3793  2925  4668  2925
+Wire Wire Line
+	4668  2925  4668  2800
+Wire Wire Line
+	3968  2800  3968  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1190,6 +1574,14 @@ F 3 "~" V 4669 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5043  2600  4668  2600
+Wire Wire Line
+	4668  2800  4668  2925
+Wire Wire Line
+	4668  2925  5543  2925
+Wire Wire Line
+	5543  2925  5543  2800
+Wire Wire Line
+	4843  2800  4843  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1214,6 +1606,14 @@ F 3 "~" V 5544 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5918  2600  5543  2600
+Wire Wire Line
+	5543  2800  5543  2925
+Wire Wire Line
+	5543  2925  6418  2925
+Wire Wire Line
+	6418  2925  6418  2800
+Wire Wire Line
+	5718  2800  5718  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1238,6 +1638,14 @@ F 3 "~" V 6419 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6793  2600  6418  2600
+Wire Wire Line
+	6418  2800  6418  2925
+Wire Wire Line
+	6418  2925  7293  2925
+Wire Wire Line
+	7293  2925  7293  2800
+Wire Wire Line
+	6593  2800  6593  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1262,6 +1670,14 @@ F 3 "~" V 7294 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7668  2600  7293  2600
+Wire Wire Line
+	7293  2800  7293  2925
+Wire Wire Line
+	7293  2925  8168  2925
+Wire Wire Line
+	8168  2925  8168  2800
+Wire Wire Line
+	7468  2800  7468  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1286,6 +1702,14 @@ F 3 "~" V 8169 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8543  2600  8168  2600
+Wire Wire Line
+	8168  2800  8168  2925
+Wire Wire Line
+	8168  2925  9043  2925
+Wire Wire Line
+	9043  2925  9043  2800
+Wire Wire Line
+	8343  2800  8343  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1310,6 +1734,14 @@ F 3 "~" V 9044 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9418  2600  9043  2600
+Wire Wire Line
+	9043  2800  9043  2925
+Wire Wire Line
+	9043  2925  9918  2925
+Wire Wire Line
+	9918  2925  9918  2800
+Wire Wire Line
+	9218  2800  9218  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1334,6 +1766,14 @@ F 3 "~" V 9919 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10293  2600  9918  2600
+Wire Wire Line
+	9918  2800  9918  2925
+Wire Wire Line
+	9918  2925  10793  2925
+Wire Wire Line
+	10793  2925  10793  2800
+Wire Wire Line
+	10093  2800  10093  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1358,6 +1798,14 @@ F 3 "~" V 10794 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	11168  2600  10793  2600
+Wire Wire Line
+	10793  2800  10793  2925
+Wire Wire Line
+	10793  2925  11668  2925
+Wire Wire Line
+	11668  2925  11668  2800
+Wire Wire Line
+	10968  2800  10968  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1382,6 +1830,14 @@ F 3 "~" V 11669 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	12043  2600  11668  2600
+Wire Wire Line
+	11668  2800  11668  2925
+Wire Wire Line
+	11668  2925  12543  2925
+Wire Wire Line
+	12543  2925  12543  2800
+Wire Wire Line
+	11843  2800  11843  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1406,6 +1862,14 @@ F 3 "~" V 13200 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	13575  2600  13200  2600
+Wire Wire Line
+	13200  2800  13200  2925
+Wire Wire Line
+	13200  2925  14075  2925
+Wire Wire Line
+	14075  2925  14075  2800
+Wire Wire Line
+	13375  2800  13375  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1430,6 +1894,14 @@ F 3 "~" V 14075 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14450  2600  14075  2600
+Wire Wire Line
+	14075  2800  14075  2925
+Wire Wire Line
+	14075  2925  14950  2925
+Wire Wire Line
+	14950  2925  14950  2800
+Wire Wire Line
+	14250  2800  14250  3350
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1454,6 +1926,14 @@ F 3 "~" V 950 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1325  3150  950  3150
+Wire Wire Line
+	950  3350  950  3475
+Wire Wire Line
+	950  3475  1825  3475
+Wire Wire Line
+	1825  3475  1825  3350
+Wire Wire Line
+	1125  3350  1125  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1478,6 +1958,14 @@ F 3 "~" V 2919 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3293  3150  2918  3150
+Wire Wire Line
+	2918  3350  2918  3475
+Wire Wire Line
+	2918  3475  3793  3475
+Wire Wire Line
+	3793  3475  3793  3350
+Wire Wire Line
+	3093  3350  3093  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1502,6 +1990,14 @@ F 3 "~" V 4231 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4606  3150  4231  3150
+Wire Wire Line
+	4231  3350  4231  3475
+Wire Wire Line
+	4231  3475  5106  3475
+Wire Wire Line
+	5106  3475  5106  3350
+Wire Wire Line
+	4406  3350  4406  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1526,6 +2022,14 @@ F 3 "~" V 10356 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10731  3150  10356  3150
+Wire Wire Line
+	10356  3350  10356  3475
+Wire Wire Line
+	10356  3475  11231  3475
+Wire Wire Line
+	11231  3475  11231  3350
+Wire Wire Line
+	10531  3350  10531  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1550,6 +2054,14 @@ F 3 "~" V 12325 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	12700  3150  12325  3150
+Wire Wire Line
+	12325  3350  12325  3475
+Wire Wire Line
+	12325  3475  13200  3475
+Wire Wire Line
+	13200  3475  13200  3350
+Wire Wire Line
+	12500  3350  12500  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1574,6 +2086,14 @@ F 3 "~" V 13200 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	13575  3150  13200  3150
+Wire Wire Line
+	13200  3350  13200  3475
+Wire Wire Line
+	13200  3475  14075  3475
+Wire Wire Line
+	14075  3475  14075  3350
+Wire Wire Line
+	13375  3350  13375  3900
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX1
 U 1 1 5D5FEB52
@@ -1598,4 +2118,12 @@ F 3 "~" V 14075 3250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14450  3150  14075  3150
+Wire Wire Line
+	14075  3350  14075  3475
+Wire Wire Line
+	14075  3475  14950  3475
+Wire Wire Line
+	14950  3475  14950  3350
+Wire Wire Line
+	14250  3350  14250  3900
 $EndSCHEMATC
