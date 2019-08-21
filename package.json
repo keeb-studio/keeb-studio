@@ -13,6 +13,7 @@
     "@ijprest/kle-serial": "^0.15.1",
     "@types/node": "^12.7.2",
     "core-js": "^2.6.5",
+    "crypto-random-string": "^3.0.1",
     "random-hex-string": "^1.0.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",

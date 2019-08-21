@@ -1,4 +1,5 @@
 import { Key } from "@ijprest/kle-serial";
+import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
 import { iDimension } from "./iDimension";
 import { iPoint } from "./iPoint";
@@ -16,7 +17,9 @@ export default class KicadSchematic {
   public wireTemplate: KicadWire;
   public wireTemplates: Array<KicadWire> = [];
   public wires: Array<any> = [];
+  public hexPrefix: string;
   constructor(path: string = "") {
+    this.hexPrefix = cryptoRandomString({ length: 4 });
     this.path = path;
     this.rawFile = readFileSync(path, "utf8");
     this.switchTemplate = new KicadComponent();
@@ -79,7 +82,13 @@ export default class KicadSchematic {
   }
 
   getSwitch(location: iPoint, label: string) {
-    const mx = new KicadComponent(this.switchTemplate.rawLines, label);
+    const mx = new KicadComponent(
+      this.switchTemplate.rawLines,
+      label,
+      { x: -1, y: -1 }, // using defaults todo refactor to named
+      { width: 1, height: 1 },
+      this.hexPrefix
+    );
     const grid = this.getGridDimensions();
 
     mx.updateLines({
@@ -91,7 +100,13 @@ export default class KicadSchematic {
   }
 
   getDiode(location: iPoint, label: string) {
-    const mx = new KicadComponent(this.diodeTemplate.rawLines, label);
+    const mx = new KicadComponent(
+      this.diodeTemplate.rawLines,
+      label,
+      { x: -1, y: -1 }, // using defaults todo refactor to named
+      { width: 1, height: 1 },
+      this.hexPrefix
+    );
     const grid = this.getGridDimensions();
 
     mx.updateLines({

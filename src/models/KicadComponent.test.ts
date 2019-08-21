@@ -27,18 +27,21 @@ describe("KicadComponent", () => {
     it("find and tokenizes position", () => {
       //
 
+      component.lines.map((x: any) => (x.newUid = "somestaticuid"));
       expect(component.lines[1]).toEqual({
         hasDigits: false,
         hasLabel: true,
         hasPosition: false,
         label: "1",
         labelHolder: "TEMPLATE_LABEL",
+        newUid: "somestaticuid",
         original: "L MX_Alps_Hybrid:MX-NoLED MX1",
         template: "L MX_Alps_Hybrid:MX-NoLED MXTEMPLATE_LABEL",
         templateOriginPosition: {
           x: 1375,
           y: 1100
         },
+        uid: "5D5FEB52",
         x: 0,
         xOffset: 0,
         y: 0,
@@ -50,8 +53,10 @@ describe("KicadComponent", () => {
         hasPosition: true,
         label: "1",
         labelHolder: "TEMPLATE_LABEL",
+        newUid: "somestaticuid",
         hasDigits: true,
         original: `F 0 "MX1" H 1408 1323 60  0000 C CNN`,
+        uid: "5D5FEB52",
         x: 1408,
         y: 1323,
         xOffset: 33,
@@ -66,10 +71,12 @@ describe("KicadComponent", () => {
       expect(component.lines[3]).toEqual({
         hasLabel: false,
         labelHolder: "TEMPLATE_LABEL",
+        newUid: "somestaticuid",
         hasPosition: true,
         label: "1",
         hasDigits: true,
         original: "P 1375 1100",
+        uid: "5D5FEB52",
         x: 1375,
         y: 1100,
         xOffset: 0,
@@ -86,7 +93,13 @@ describe("KicadComponent", () => {
       //when changing x and y
       const templateOriginPosition = component.lines[3].templateOriginPosition;
       const original = component.lines[3].original;
-      const testPeice = new KicadPeice(original, templateOriginPosition, "1");
+      const testPeice = new KicadPeice(
+        original,
+        templateOriginPosition,
+        "1",
+        "uid1",
+        "uid1000"
+      );
       testPeice.x = 123;
       testPeice.y = 456;
       // can update the line

@@ -8,11 +8,21 @@ export class KicadPeice {
   public yOffset: number = 0;
   public template: string = "";
   public hasPosition: boolean = false;
+  public newUid: string;
   hasDigits: boolean = false;
   hasLabel: boolean = false;
   public label: string;
   labelHolder: string = "TEMPLATE_LABEL";
-  constructor(original: string, templateOriginPosition: iPoint, label: string) {
+  public uid: string;
+  constructor(
+    original: string,
+    templateOriginPosition: iPoint,
+    label: string,
+    uid: string,
+    newUid: string
+  ) {
+    this.uid = uid;
+    this.newUid = newUid;
     this.label = label;
     this.original = original;
     this.templateOriginPosition = templateOriginPosition;
@@ -43,6 +53,11 @@ export class KicadPeice {
       if (partType === "F") {
         xIndex = 1;
       }
+
+      if (partType === "U") {
+        // console.log(this.uid, original);
+      }
+
       if (
         partType === "F" &&
         original.charAt(1) === " " &&
@@ -102,6 +117,6 @@ export class KicadPeice {
       ? foo
           .replace("templateX", newX.toString())
           .replace("templateY", newY.toString())
-      : this.original;
+      : this.original.replace(this.uid, this.newUid);
   }
 }
