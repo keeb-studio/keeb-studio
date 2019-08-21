@@ -105,13 +105,13 @@ describe("KicadSchematic", () => {
 
   describe("getSwitch", () => {
     it("returns the correct switch for 0,0", () => {
-      expect(schematic.getSwitch({ x: 0, y: 0 }).position).toEqual(
+      expect(schematic.getSwitch({ x: 0, y: 0 }, "1").position).toEqual(
         schematic.switchTemplate.position
       );
     });
 
     it("returns the correct switch for 1,1", () => {
-      expect(schematic.getSwitch({ x: 1, y: 1 }).position).toEqual(
+      expect(schematic.getSwitch({ x: 1, y: 1 }, "1").position).toEqual(
         schematic.switchTemplate2.position
       );
     });
@@ -119,14 +119,14 @@ describe("KicadSchematic", () => {
 
   describe("getDiode", () => {
     it("returns the correct diode for 0,0", () => {
-      expect(schematic.getDiode({ x: 0, y: 0 }).position).toEqual(
+      expect(schematic.getDiode({ x: 0, y: 0 }, "1").position).toEqual(
         schematic.diodeTemplate.position
       );
     });
 
     it("returns the correct diode for 1,1", () => {
       const grid = schematic.getGridDimensions();
-      const diode = schematic.getDiode({ x: 1, y: 1 });
+      const diode = schematic.getDiode({ x: 1, y: 1 }, "1");
       expect(diode.position).toEqual({
         x: schematic.diodeTemplate.position.x + grid.width,
         y: schematic.diodeTemplate.position.y + grid.height
@@ -136,16 +136,16 @@ describe("KicadSchematic", () => {
     it("works with wires", () => {
       expect(
         schematic.getConnectingWire(
-          schematic.getSwitch({ x: 0, y: 1 }),
-          schematic.getDiode({ x: 0, y: 1 }),
+          schematic.getSwitch({ x: 0, y: 1 }, "1"),
+          schematic.getDiode({ x: 0, y: 1 }, "1"),
           schematic.wireTemplate
         ).position
       ).toEqual({ x: 1325, y: 1450 });
 
       expect(
         schematic.getConnectingWire(
-          schematic.getSwitch({ x: 1, y: 0 }),
-          schematic.getDiode({ x: 1, y: 0 }),
+          schematic.getSwitch({ x: 1, y: 0 }, "1"),
+          schematic.getDiode({ x: 1, y: 0 }, "1"),
           schematic.wireTemplate
         ).position2
       ).toEqual({ x: 1725, y: 950 });

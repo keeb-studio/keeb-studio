@@ -9,7 +9,11 @@ export class KicadPeice {
   public template: string = "";
   public hasPosition: boolean = false;
   hasDigits: boolean = false;
-  constructor(original: string, templateOriginPosition: iPoint) {
+  hasLabel: boolean = false;
+  public label: string;
+  labelHolder: string = "TEMPLATE_LABEL";
+  constructor(original: string, templateOriginPosition: iPoint, label: string) {
+    this.label = label;
     this.original = original;
     this.templateOriginPosition = templateOriginPosition;
     const digitsRegex = /\ \d+/g;
@@ -23,6 +27,7 @@ export class KicadPeice {
       // find out if we need to ignore it because
       // it doesn't actually have x & y in it
       let ignore = true;
+      let newLabel = original;
       if (["P", "F", "D"].includes(partType)) {
         ignore = false;
       }
@@ -38,6 +43,19 @@ export class KicadPeice {
       if (partType === "F") {
         xIndex = 1;
       }
+      if (
+        partType === "F" &&
+        original.charAt(1) === " " &&
+        original.charAt(2) === "0"
+      ) {
+        this.hasLabel = true;
+
+        // the label
+        newLabel = original
+          // .replace("MX1", this.labelHolder)
+          .replace("MX1", `MX${this.labelHolder}`)
+          .replace("D?", `D${this.labelHolder}`);
+      }
       if (!ignore) {
         this.hasDigits = true;
         this.hasPosition = true;
@@ -47,10 +65,19 @@ export class KicadPeice {
         this.xOffset = this.x - templateOriginPosition.x;
         this.yOffset = this.y - templateOriginPosition.y;
 
-        this.template = original
+        this.template = newLabel
           .replace(`${this.x}`, "templateX")
           .replace(`${this.y}`, "templateY");
       }
+    } else if (partType === "L") {
+      let newLabel = original;
+      // the label
+      newLabel = original
+        // .replace("MX1", this.labelHolder)
+        .replace("MX1", `MX${this.labelHolder}`)
+        .replace("D?", `D${this.labelHolder}`);
+      this.template = newLabel;
+      this.hasLabel = true;
     } else {
       this.hasDigits = false;
     }
@@ -63,8 +90,16 @@ export class KicadPeice {
 
     newY = parseInt((this.y + this.yOffset).toFixed(0));
 
+    let foo = this.template;
+    if (this.hasLabel) {
+      foo = foo.replace(this.labelHolder, this.label);
+      if (!this.hasDigits) {
+        return foo;
+      }
+    }
+
     return this.hasDigits
-      ? this.template
+      ? foo
           .replace("templateX", newX.toString())
           .replace("templateY", newY.toString())
       : this.original;

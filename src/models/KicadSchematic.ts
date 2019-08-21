@@ -78,8 +78,8 @@ export default class KicadSchematic {
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
-  getSwitch(location: iPoint) {
-    const mx = new KicadComponent(this.switchTemplate.rawLines);
+  getSwitch(location: iPoint, label: string) {
+    const mx = new KicadComponent(this.switchTemplate.rawLines, label);
     const grid = this.getGridDimensions();
 
     mx.updateLines({
@@ -90,8 +90,8 @@ export default class KicadSchematic {
     return mx;
   }
 
-  getDiode(location: iPoint) {
-    const mx = new KicadComponent(this.diodeTemplate.rawLines);
+  getDiode(location: iPoint, label: string) {
+    const mx = new KicadComponent(this.diodeTemplate.rawLines, label);
     const grid = this.getGridDimensions();
 
     mx.updateLines({
@@ -115,15 +115,16 @@ export default class KicadSchematic {
     const keys = k.parse().keys;
 
     const closing = this.sections.pop();
-    keys.forEach((element: Key) => {
-      const mxSwitch = this.getSwitch({ x: element.x, y: element.y });
+    keys.forEach((key: Key, index: number) => {
+      const label = (index + 1).toString();
+      const mxSwitch = this.getSwitch({ x: key.x, y: key.y }, label);
       this.sections.push({
         type: "comp",
         component: mxSwitch,
         lines: mxSwitch.lines
       });
 
-      const diode = this.getDiode({ x: element.x, y: element.y });
+      const diode = this.getDiode({ x: key.x, y: key.y }, label);
       this.sections.push({
         type: "comp",
         component: diode,

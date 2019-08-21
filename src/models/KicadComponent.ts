@@ -8,6 +8,7 @@ export class KicadComponent {
   public rawLines: any;
   constructor(
     rawlines: any = null,
+    label: string = "1",
     position: iPoint = { x: -1, y: -1 },
     gridSize: iDimension = { width: 1, height: 1 }
   ) {
@@ -30,7 +31,7 @@ export class KicadComponent {
       }
 
       this.lines = rawlines.map((line: string) => {
-        return new KicadPeice(line, this.position);
+        return new KicadPeice(line, this.position, label);
       });
     }
   }
