@@ -1,7 +1,7 @@
 import { iPoint } from "./iPoint";
 export class KicadPeice {
   public original: string = "";
-  public templateOriginPosition: iPoint = { x: 0, y: 0 };
+  templateOriginPosition: iPoint = { x: 0, y: 0 };
   public x: number = 0;
   public y: number = 0;
   public xOffset: number = 0;
@@ -25,7 +25,11 @@ export class KicadPeice {
     this.newUid = newUid;
     this.label = label;
     this.original = original;
-    this.templateOriginPosition = templateOriginPosition;
+    this.templateOriginPosition = {
+      x: templateOriginPosition.x,
+      y: templateOriginPosition.y
+    };
+
     const digitsRegex = /\ \d+/g;
     const digits = original.match(digitsRegex);
 
