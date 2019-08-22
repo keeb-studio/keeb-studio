@@ -1,0 +1,3 @@
+[submodule "kle-serial"]
+	path = kle-serial
+	url = git@github.com:ctrlShiftBryan/kle-serial.git
