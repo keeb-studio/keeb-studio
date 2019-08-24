@@ -168,7 +168,6 @@ describe("KicadSchematic", () => {
 
   describe("writeFile", () => {
     it("doesn't raise exception", () => {
-      const kle = [["a", "b"], ["c", "d"]];
       const kl2 = [
         {
           name: "jack"
@@ -296,10 +295,8 @@ describe("KicadSchematic", () => {
       ];
 
       const schematic = new KicadSchematic(template);
-      schematic.writeFile(kle, "temp.sch");
       schematic.writeFile(kl2, "temp2.sch");
-      unlinkSync("temp.sch");
-      // unlinkSync("temp2.sch");
+      unlinkSync("temp2.sch");
     });
   });
 });

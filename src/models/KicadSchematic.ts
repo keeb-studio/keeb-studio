@@ -126,39 +126,33 @@ export default class KicadSchematic {
 
   getWithKLE(kle: kleJSON) {
     this.removeCompAndWires();
-    const k = new KLEParser(kle);
-    const keys = k.keebParse();
-
+    const keys = new KLEParser(kle).keebParse();
     const closing = this.sections.pop();
+
     keys.forEach((keebKey: KeebKey, index: number) => {
-      const key = keebKey.kleKey;
-      const label = (index + 1).toString();
-      // console.log(key.x, keebKey.gridIndex.col);
-      // console.log(key.y, keebKey.gridIndex.row);
-      const x = keebKey.gridIndex.col;
-      const y = keebKey.gridIndex.row;
-      // console.log(x);
-      const mxSwitch = this.getSwitch({ x, y }, label);
-      this.sections.push({
-        type: "comp",
-        component: mxSwitch,
-        lines: mxSwitch.lines
-      });
+      if (keebKey.isSpacer === false) {
+        const label = (index + 1).toString();
+        const x = keebKey.gridIndex.col;
+        const y = keebKey.gridIndex.row;
+        const mxSwitch = this.getSwitch({ x, y }, label);
+        this.sections.push({
+          type: "comp",
+          component: mxSwitch,
+          lines: mxSwitch.lines
+        });
 
-      const diode = this.getDiode({ x, y }, label);
-      this.sections.push({
-        type: "comp",
-        component: diode,
-        lines: diode.lines
-      });
+        const diode = this.getDiode({ x, y }, label);
+        this.sections.push({
+          type: "comp",
+          component: diode,
+          lines: diode.lines
+        });
 
-      // const wire = this.getConnectingWire(mxSwitch, diode, this.wireTemplate);
-      // this.sections.push({ type: "wire", component: wire });
-
-      this.wireTemplates.forEach(wireTemplate => {
-        const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
-        this.sections.push({ type: "wire", component: wire });
-      });
+        this.wireTemplates.forEach(wireTemplate => {
+          const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+          this.sections.push({ type: "wire", component: wire });
+        });
+      }
     });
 
     this.sections.push(closing);
