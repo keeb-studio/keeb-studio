@@ -153,12 +153,6 @@ describe("KicadSchematic", () => {
     });
   });
 
-  describe("getWithKLE", () => {
-    xit("returns a 1 unit component", () => {
-      const oneU = readFileSync("tests/unit/fixtures/kicad.1U.sch", "utf8");
-      expect(schematic.getWithKLE([[""]])).toEqual(oneU);
-    });
-  });
   describe("getEmpty", () => {
     const fixture = "tests/unit/fixtures/kicad.empty.sch";
     const emptySchematic = readFileSync(fixture, "utf8");
@@ -305,7 +299,7 @@ describe("KicadSchematic", () => {
       schematic.writeFile(kle, "temp.sch");
       schematic.writeFile(kl2, "temp2.sch");
       unlinkSync("temp.sch");
-      unlinkSync("temp2.sch");
+      // unlinkSync("temp2.sch");
     });
   });
 });

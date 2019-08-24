@@ -1,11 +1,12 @@
-import { Key } from "@ijprest/kle-serial";
 import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
 import { iDimension } from "./iDimension";
 import { iPoint } from "./iPoint";
+import { KeebKey } from "./KeebKey";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
-import KLEParser, { kleJSON } from "./KLEParser";
+import { kleJSON } from "./kleJSON";
+import KLEParser from "./KLEParser";
 export default class KicadSchematic {
   public path: string;
   public rawFile: string;
@@ -126,19 +127,25 @@ export default class KicadSchematic {
   getWithKLE(kle: kleJSON) {
     this.removeCompAndWires();
     const k = new KLEParser(kle);
-    const keys = k.parse().keys;
+    const keys = k.keebParse();
 
     const closing = this.sections.pop();
-    keys.forEach((key: Key, index: number) => {
+    keys.forEach((keebKey: KeebKey, index: number) => {
+      const key = keebKey.kleKey;
       const label = (index + 1).toString();
-      const mxSwitch = this.getSwitch({ x: key.x, y: key.y }, label);
+      // console.log(key.x, keebKey.gridIndex.col);
+      // console.log(key.y, keebKey.gridIndex.row);
+      const x = keebKey.gridIndex.col;
+      const y = keebKey.gridIndex.row;
+      // console.log(x);
+      const mxSwitch = this.getSwitch({ x, y }, label);
       this.sections.push({
         type: "comp",
         component: mxSwitch,
         lines: mxSwitch.lines
       });
 
-      const diode = this.getDiode({ x: key.x, y: key.y }, label);
+      const diode = this.getDiode({ x, y }, label);
       this.sections.push({
         type: "comp",
         component: diode,

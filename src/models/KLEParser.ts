@@ -1,5 +1,7 @@
 import { Key, Serial } from "@ijprest/kle-serial";
-export type kleJSON = Array<object | Array<object | string>>;
+import { Grid } from "./Grid";
+import { KeebKey } from "./KeebKey";
+import { kleJSON } from "./kleJSON";
 export default class KLEParser {
   private source: kleJSON;
   private sourceString: string;
@@ -8,7 +10,7 @@ export default class KLEParser {
     this.source = source;
   }
 
-  parse() {
+  private parse() {
     return Serial.parse(this.sourceString);
   }
 
@@ -25,7 +27,10 @@ export default class KLEParser {
           xx.forEach((key: string | object, keyIndex: number) => {
             if (typeof key === "string") {
               gridIndex.col++;
-              const keebKey = new KeebKey(key, gridIndex);
+              const keebKey = new KeebKey(key, {
+                col: gridIndex.col,
+                row: gridIndex.row
+              });
               keysOnly.push(keebKey);
             }
           });
@@ -36,21 +41,7 @@ export default class KLEParser {
     new KLEParser(this.source).parse().keys.map((key: Key, index: number) => {
       keysOnly[index].kleKey = key;
     });
-  }
-}
 
-export class Grid {
-  col: number = -1;
-  row: number = -1;
-}
-
-export class KeebKey {
-  label: string = "";
-  kleKey?: Key;
-  gridIndex: Grid = new Grid();
-  constructor(key: string, gridIndex: Grid, kleKey?: Key) {
-    this.label = key;
-    this.gridIndex = gridIndex;
-    this.kleKey = kleKey;
+    return keysOnly;
   }
 }
