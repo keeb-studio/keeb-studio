@@ -132,6 +132,7 @@ describe("KLEParser", () => {
     // const kleString = JSON.stringify(kle);
     it("foo", () => {
       const parser = new KLEParser(kle);
+      parser.keebParse();
     });
   });
 });

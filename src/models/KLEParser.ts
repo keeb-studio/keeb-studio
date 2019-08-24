@@ -1,4 +1,5 @@
 import { Key, Serial } from "@ijprest/kle-serial";
+import "core-js/fn/array/flat-map";
 import { Grid } from "./Grid";
 import { KeebKey } from "./KeebKey";
 import { kleJSON } from "./kleJSON";
@@ -15,7 +16,7 @@ export default class KLEParser {
     return Serial.parse(this.sourceString);
   }
 
-  keebParse() {
+  private pkeebParse() {
     this.allRows = [];
     const gridIndex = new Grid();
     //each row
@@ -50,8 +51,33 @@ export default class KLEParser {
     return this.returnAllRows();
   }
 
+  keebParse() {
+    this.pkeebParse();
+    let maxLength = 0;
+
+    this.allRows.map((row: Array<KeebKey>) => {
+      let rowLength = 0;
+      row.map((key: KeebKey) => {
+        rowLength++;
+        if (rowLength > maxLength) {
+          maxLength = rowLength;
+        }
+      });
+      return rowLength;
+    });
+
+    this.allRows.forEach((row: Array<KeebKey>, index: number) => {
+      const pad = Math.floor((maxLength - row.length) / 2);
+      row.forEach((key: KeebKey) => {
+        key.gridIndex.col = key.gridIndex.col + pad;
+      });
+    });
+
+    return this.returnAllRows();
+  }
+
   private returnAllRows() {
-    return this.allRows.map((row: Array<KeebKey>) =>
+    return this.allRows.flatMap((row: Array<KeebKey>) =>
       row.map((key: KeebKey) => key)
     );
   }
