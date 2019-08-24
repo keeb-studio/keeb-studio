@@ -59,7 +59,6 @@ export class KicadPeice {
       }
 
       if (partType === "U") {
-        // console.log(this.uid, original);
       }
 
       if (

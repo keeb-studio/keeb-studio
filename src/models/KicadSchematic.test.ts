@@ -156,7 +156,7 @@ describe("KicadSchematic", () => {
   describe("getWithKLE", () => {
     xit("returns a 1 unit component", () => {
       const oneU = readFileSync("tests/unit/fixtures/kicad.1U.sch", "utf8");
-      expect(schematic.getWithKLE(`[[""]]`)).toEqual(oneU);
+      expect(schematic.getWithKLE([[""]])).toEqual(oneU);
     });
   });
   describe("getEmpty", () => {
@@ -174,7 +174,7 @@ describe("KicadSchematic", () => {
 
   describe("writeFile", () => {
     it("doesn't raise exception", () => {
-      const kle = `[["a","b"],["c","d"]]`;
+      const kle = [["a", "b"], ["c", "d"]];
       const kl2 = [
         {
           name: "jack"
@@ -303,9 +303,9 @@ describe("KicadSchematic", () => {
 
       const schematic = new KicadSchematic(template);
       schematic.writeFile(kle, "temp.sch");
-      schematic.writeFile(JSON.stringify(kl2), "temp2.sch");
+      schematic.writeFile(kl2, "temp2.sch");
       unlinkSync("temp.sch");
-      // unlinkSync("temp2.sch");
+      unlinkSync("temp2.sch");
     });
   });
 });

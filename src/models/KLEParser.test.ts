@@ -3,7 +3,7 @@ import KLEParser from "./KLEParser";
 describe("KLEParser", () => {
   describe(".parse", () => {
     it("handles a single key", () => {
-      const k = new KLEParser(`[["a"]]`);
+      const k = new KLEParser([["a"]]);
       const keys = k.parse().keys;
       expect(keys.length).toEqual(1);
       expect(keys[0].x).toEqual(0);
@@ -167,7 +167,7 @@ describe("KLEParser", () => {
     //
     // const kleString = JSON.stringify(kle);
     it.only("foo", () => {
-      const k = new KLEParser(JSON.stringify(kle));
+      const parser = new KLEParser(kle);
     });
   });
 });

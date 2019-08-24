@@ -5,8 +5,7 @@ import { iDimension } from "./iDimension";
 import { iPoint } from "./iPoint";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
-import KLEParser from "./KLEParser";
-
+import KLEParser, { kleJSON } from "./KLEParser";
 export default class KicadSchematic {
   public path: string;
   public rawFile: string;
@@ -124,7 +123,7 @@ export default class KicadSchematic {
     };
   }
 
-  getWithKLE(kle: string) {
+  getWithKLE(kle: kleJSON) {
     this.removeCompAndWires();
     const k = new KLEParser(kle);
     const keys = k.parse().keys;
@@ -159,7 +158,7 @@ export default class KicadSchematic {
     return this.render();
   }
 
-  writeFile(kle: string, path: string) {
+  writeFile(kle: kleJSON, path: string) {
     const content = this.getWithKLE(kle);
     writeFileSync(path, content);
   }
