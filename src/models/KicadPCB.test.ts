@@ -1,12 +1,6 @@
 import KicadPCB from "./KicadPCB";
 
 describe("KicadPCB", () => {
-  // it("it can parse a pcb", () => {
-  //   const path = "src/models/templates/kicad.pcb.tamplate.kicad_pcb";
-  //   const rawFile = readFileSync(path, "utf8");
-  //   const pcb = new KicadPCB(rawFile);
-  // });
-
   it("simple", () => {
     const rawFile = `(kicad_pcb())`;
     const pcb = new KicadPCB(rawFile);
@@ -73,5 +67,32 @@ describe("KicadPCB", () => {
         version: "20171130"
       }
     });
+  });
+
+  it("3 value array", () => {
+    // const rawFile = `(kicad_pcb  fp_text value MX-NoLED (at 0 5.08) (layer F.SilkS) hide)`;
+    const rawFile = `(kicad_pcb  (fp_text value MX-NoLED at))`;
+    const pcb = new KicadPCB(rawFile);
+    expect(pcb.parse()).toEqual({
+      kicad_pcb: {
+        fp_text: ["value", "MX-NoLED", "at"]
+      }
+    });
+  });
+
+  it.only("array with mixed objects", () => {
+    // const rawFile = `(kicad_pcb  fp_text value MX-NoLED (at 0 5.08) (layer F.SilkS) hide)`;
+    const rawFile = `(kicad_pcb  (fp_text value (MX-NoLED at)))`;
+    const pcb = new KicadPCB(rawFile);
+    expect(pcb.parse()).toEqual({
+      kicad_pcb: {
+        fp_text: ["value", { "MX-NoLED": "at" }]
+      }
+    });
+  });
+  it("it can parse a pcb a mix array type value", () => {
+    const path = "src/models/templates/kicad.pcb.tamplate.kicad_pcb";
+    // const rawFile = readFileSync(path, "utf8");
+    // const pcb = new KicadPCB(rawFile);
   });
 });

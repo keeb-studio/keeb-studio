@@ -37,25 +37,29 @@ export default class KicadPCB {
         if (this.context.foo[this.context.currentName] === KicadPCB.NOTSET) {
           this.context = { foo: {}, currentName: false };
         } else {
+          console.log("it is set", this.context);
+          // todo determine that even though it is set
+          // we still should open new context
+
+          // this context is already set so we return to it
+          // and then should push next value to it
           this.context = {
             foo: this.context.foo[this.context.currentName],
             currentName: false
           };
         }
-        // this.context = this.context.foo[this.context.currentName];
       }
     }
     //  closing a context
     else if (token === ")") {
       if (this.parentContext.length > 0) {
         let contextParent = this.parentContext.pop();
+
         if (contextParent.foo[contextParent.currentName] === KicadPCB.NOTSET) {
-          // console.log("setting current in parent");
           contextParent.foo[contextParent.currentName] = this.context.foo;
         }
+
         this.context = contextParent;
-      } else {
-        // delete this.context.currentName;
       }
     }
     // setting a property or value
@@ -63,25 +67,22 @@ export default class KicadPCB {
       // add the property
 
       if (!this.context.currentName) {
+        // console.log(this.context);
         this.context.currentName = token;
         this.context.foo[token] = KicadPCB.NOTSET;
-
-        // console.log("add");
       }
       // set the property for the first time
       else if (this.context.foo[this.context.currentName] === KicadPCB.NOTSET) {
         this.context.foo[this.context.currentName] = token;
+      } else {
+        const currentValue = this.context.foo[this.context.currentName];
 
-        // console.log("set");
+        let newValue = Array.isArray(currentValue)
+          ? [...currentValue, token]
+          : [...[currentValue], token];
+
+        this.context.foo[this.context.currentName] = newValue;
       }
-      // set a 2nd value to the prop as an array
-      // else {
-      //   const currentValue = this.context[this.context.currentName];
-      //   let newValue = Array.isArray(currentValue)
-      //     ? currentValue.push(token)
-      //     : [...[currentValue], token];
-      //   this.context[this.context.currentName] = newValue;
-      // }
     }
   }
 
