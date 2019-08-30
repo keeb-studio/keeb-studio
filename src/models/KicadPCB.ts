@@ -1,92 +1,101 @@
 export default class KicadPCB {
-  private result: any = null;
-  parentContext: Array<any> = [];
-  context: any = null;
-
-  currentContextNameSet: boolean = false;
-  currentContextValueSet: boolean = false;
-  currentName: string = "";
-
-  static NOTSET = "asldkjasldkasjdlkasd";
-  constructor(content: string) {
-    const lines = content.split(/\r?\n/);
-
-    const tokenLines: Array<Array<string>> = lines
-      .map((line: string, index: number) => {
+  static funtionalParse(content: string) {
+    const remainingTokens: Array<string> = flatMap(
+      content.split(/\r?\n/),
+      (line: string) => {
         line = line.replace(/#.*$/, "");
         return line.split(/([()]|"(?:\\"|[^"])*")|\s+/).filter(t => !!t);
-      })
-      .filter(t => t.length > 0);
+      }
+    ).filter(t => t.length > 0);
 
-    tokenLines.forEach((line: Array<string>) =>
-      line.forEach((token: string) => {
-        this.handleToken(token);
-      })
-    );
-
-    this.result = this.context.foo;
+    return this.functionParseToken({
+      token: remainingTokens.shift() || "",
+      remainingTokens,
+      context: {},
+      lastState: "",
+      lastProperty: "",
+      parentContext: null,
+      parentContextProperty: ""
+    });
   }
 
-  handleToken(token: string) {
-    // opening a context
-    if (token === "(") {
-      if (this.context === null) {
-        this.context = { foo: {}, currentName: false };
-      } else {
-        this.parentContext.push(this.context);
-        if (this.context.foo[this.context.currentName] === KicadPCB.NOTSET) {
-          this.context = { foo: {}, currentName: false };
-        } else {
-          console.log("it is set", this.context);
-          // todo determine that even though it is set
-          // we still should open new context
+  static functionParseToken({
+    token,
+    remainingTokens,
+    context,
+    lastState,
+    lastProperty,
+    parentContext,
+    parentContextProperty
+  }: ParseContext): any {
+    const newState = getNewState(lastState, token);
 
-          // this context is already set so we return to it
-          // and then should push next value to it
-          this.context = {
-            foo: this.context.foo[this.context.currentName],
-            currentName: false
-          };
-        }
-      }
+    if (remainingTokens.length === 0) {
+      return context;
     }
-    //  closing a context
-    else if (token === ")") {
-      if (this.parentContext.length > 0) {
-        let contextParent = this.parentContext.pop();
 
-        if (contextParent.foo[contextParent.currentName] === KicadPCB.NOTSET) {
-          contextParent.foo[contextParent.currentName] = this.context.foo;
-        }
-
-        this.context = contextParent;
-      }
+    if (newState === ADD_PROPERTY) {
+      context[token] = {};
+      lastProperty = token;
     }
-    // setting a property or value
-    else {
-      // add the property
 
-      if (!this.context.currentName) {
-        // console.log(this.context);
-        this.context.currentName = token;
-        this.context.foo[token] = KicadPCB.NOTSET;
-      }
-      // set the property for the first time
-      else if (this.context.foo[this.context.currentName] === KicadPCB.NOTSET) {
-        this.context.foo[this.context.currentName] = token;
-      } else {
-        const currentValue = this.context.foo[this.context.currentName];
-
-        let newValue = Array.isArray(currentValue)
-          ? [...currentValue, token]
-          : [...[currentValue], token];
-
-        this.context.foo[this.context.currentName] = newValue;
-      }
+    if (newState === NEW_CONTEXT) {
+      context = context[lastProperty];
+      parentContextProperty = lastProperty;
+      lastProperty = "";
+      parentContext = { ...context };
     }
+
+    if (newState === SET_PROPERTY) {
+      context[lastProperty] = token;
+    }
+
+    if (newState === CLOSE_CONTEXT) {
+      parentContext[parentContextProperty] = context;
+      return { ...parentContext };
+    }
+
+    return this.functionParseToken({
+      token: remainingTokens.shift() || "",
+      remainingTokens,
+      context: context || {},
+      lastState: newState,
+      lastProperty,
+      parentContext,
+      parentContextProperty
+    });
   }
+}
 
-  parse() {
-    return this.result;
+const NEW_CONTEXT = "NEW_CONTEXT";
+const ADD_PROPERTY = "ADD_PROPERTY";
+const SET_PROPERTY = "SET_PROPERTY";
+const CLOSE_CONTEXT = "CLOSE_CONTEXT";
+
+function getNewState(state: string, token: string): string {
+  if (token === "(") {
+    return NEW_CONTEXT;
+  } else if (token === ")") {
+    return CLOSE_CONTEXT;
+  } else if (state === ADD_PROPERTY) {
+    return SET_PROPERTY;
+  } else {
+    return ADD_PROPERTY;
   }
+}
+interface ParseContext {
+  token: string;
+  remainingTokens: Array<string>;
+  context: any;
+  lastState: string;
+  lastProperty: string;
+  parentContext: any;
+  parentContextProperty: string;
+}
+
+function flatMap<T, U>(
+  array: T[],
+  callbackfn: (value: T, index: number, array: T[]) => U[]
+): U[] {
+  return Array.prototype.concat(...array.map(callbackfn));
 }
