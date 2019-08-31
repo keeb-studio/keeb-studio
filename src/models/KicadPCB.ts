@@ -29,7 +29,7 @@ export default class KicadPCB {
     parentContextProperty
   }: ParseContext): any {
     const newState = getNewState(lastState, token);
-
+    console.log(token, remainingTokens);
     if (remainingTokens.length === 0) {
       return context;
     }
@@ -51,6 +51,7 @@ export default class KicadPCB {
     }
 
     if (newState === CLOSE_CONTEXT) {
+      // todo
       parentContext[parentContextProperty] = context;
       return { ...parentContext };
     }
@@ -70,6 +71,7 @@ export default class KicadPCB {
 const NEW_CONTEXT = "NEW_CONTEXT";
 const ADD_PROPERTY = "ADD_PROPERTY";
 const SET_PROPERTY = "SET_PROPERTY";
+const PUSH_PROPERTY = "PUSH_PROPERTY";
 const CLOSE_CONTEXT = "CLOSE_CONTEXT";
 
 function getNewState(state: string, token: string): string {
@@ -79,6 +81,8 @@ function getNewState(state: string, token: string): string {
     return CLOSE_CONTEXT;
   } else if (state === ADD_PROPERTY) {
     return SET_PROPERTY;
+  } else if (state === SET_PROPERTY) {
+    return PUSH_PROPERTY;
   } else {
     return ADD_PROPERTY;
   }

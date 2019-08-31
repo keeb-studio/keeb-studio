@@ -27,16 +27,16 @@ describe("KicadPCB", () => {
     });
   });
 
-  // it("2 nested", () => {
-  //   const rawFile = `(kicad_pcb  (version 20171130) (a 1) )`;
-  //   const pcb = new KicadPCB(rawFile);
-  //   expect(pcb.parse()).toEqual({
-  //     kicad_pcb: {
-  //       version: "20171130",
-  //       a: "1"
-  //     }
-  //   });
-  // });
+  it.only("2 nested", () => {
+    const rawFile = `(kicad_pcb  (version 20171130) (a 1) )`;
+    const result = KicadPCB.funtionalParse(rawFile);
+    expect(result).toEqual({
+      kicad_pcb: {
+        version: "20171130",
+        a: "1"
+      }
+    });
+  });
 
   // it("2 nested array", () => {
   //   const rawFile = `(kicad_pcb  (version 20171130) (a d 1) )`;
