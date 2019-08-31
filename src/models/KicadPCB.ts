@@ -8,30 +8,43 @@ export default class KicadPCB {
       }
     ).filter(t => t.length > 0);
 
-    return this.functionParseToken({
+    const { context } = this.functionParseToken({
       token: remainingTokens.shift() || "",
       remainingTokens,
       context: {},
       lastState: "",
       lastProperty: "",
       parentContext: null,
-      parentContextProperty: ""
+      parentContextProperty: "",
+      parenCount: 1
     });
+
+    return context;
   }
 
-  static functionParseToken({
-    token,
-    remainingTokens,
-    context,
-    lastState,
-    lastProperty,
-    parentContext,
-    parentContextProperty
-  }: ParseContext): any {
+  public static functionParseToken(params: ParseContext): any {
+    let {
+      token,
+      remainingTokens,
+      context,
+      lastState,
+      lastProperty,
+      parentContext,
+      parentContextProperty,
+      parenCount
+    } = params;
     const newState = getNewState(lastState, token);
-    console.log(token, remainingTokens);
+    // console.log(token, newState, params);
     if (remainingTokens.length === 0) {
-      return context;
+      return {
+        token: remainingTokens.shift() || "",
+        remainingTokens: remainingTokens || [],
+        context,
+        lastState: newState,
+        lastProperty,
+        parentContext,
+        parentContextProperty
+      };
     }
 
     if (newState === ADD_PROPERTY) {
@@ -51,28 +64,81 @@ export default class KicadPCB {
     }
 
     if (newState === CLOSE_CONTEXT) {
-      // todo
       parentContext[parentContextProperty] = context;
-      return { ...parentContext };
+
+      return {
+        token: remainingTokens.shift() || "",
+        remainingTokens,
+        context: { ...parentContext },
+        lastState: newState,
+        lastProperty: parentContextProperty,
+        parentContext: null,
+        parentContextProperty: ""
+      };
     }
 
     return this.functionParseToken({
       token: remainingTokens.shift() || "",
-      remainingTokens,
+      remainingTokens: remainingTokens || [],
       context: context || {},
       lastState: newState,
       lastProperty,
       parentContext,
-      parentContextProperty
+      parentContextProperty,
+      parenCount
     });
+  }
+
+  public static addToken(tokenContext: TokenContext): TokenContext {
+    let tokens = [...tokenContext.tokens];
+    const token = tokens.shift() || "";
+    const action = getNewState(tokenContext.action, token);
+
+    let context = { ...tokenContext.context } as any;
+
+    let open = tokenContext.open;
+    if (action === NEW_CONTEXT) {
+      open++;
+    } else if (action === CLOSE_CONTEXT) {
+      open--;
+    }
+
+    let property = tokenContext.property;
+    if (action === ADD_PROPERTY) {
+      property = token;
+      const { context: child_context, tokens: child_tokens } = this.addToken({
+        tokens,
+        action,
+        context,
+        property,
+        open: 0
+      });
+      context[token] = child_context;
+      tokens = child_tokens;
+    }
+
+    const newTokenContext = {
+      tokens,
+      action,
+      context,
+      property,
+      open
+    };
+
+    if (open === 0) {
+      return newTokenContext;
+    } else {
+      return this.addToken(newTokenContext);
+    }
   }
 }
 
-const NEW_CONTEXT = "NEW_CONTEXT";
-const ADD_PROPERTY = "ADD_PROPERTY";
-const SET_PROPERTY = "SET_PROPERTY";
-const PUSH_PROPERTY = "PUSH_PROPERTY";
-const CLOSE_CONTEXT = "CLOSE_CONTEXT";
+export const NEW_CONTEXT = "NEW_CONTEXT";
+export const ADD_PROPERTY = "ADD_PROPERTY";
+export const SET_PROPERTY = "SET_PROPERTY";
+export const PUSH_PROPERTY = "PUSH_PROPERTY";
+export const CLOSE_CONTEXT = "CLOSE_CONTEXT";
+export const START = "START";
 
 function getNewState(state: string, token: string): string {
   if (token === "(") {
@@ -95,6 +161,28 @@ interface ParseContext {
   lastProperty: string;
   parentContext: any;
   parentContextProperty: string;
+  parenCount: number;
+}
+
+interface TokenContext {
+  tokens: Array<string>;
+  context: object;
+  action: string;
+  property: string;
+  open: number;
+}
+
+export function getDefaultParseContext(): ParseContext {
+  return {
+    token: "",
+    remainingTokens: [],
+    context: {},
+    lastState: "",
+    lastProperty: "",
+    parentContext: null,
+    parentContextProperty: "",
+    parenCount: 0
+  };
 }
 
 function flatMap<T, U>(
