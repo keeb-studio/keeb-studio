@@ -103,6 +103,16 @@ export default class KicadPCB {
     }
 
     let property = tokenContext.property;
+
+    // console.log(action);
+    // console.log(action, tokenContext);
+    if (action === NEW_CONTEXT) {
+      const reuseContext = tokenContext.context[tokenContext.property];
+      // console.log(NEW_CONTEXT, tokenContext, reuseContext ? true : false);
+      if (reuseContext) {
+        context = tokenContext.context[tokenContext.property];
+      }
+    }
     if (action === ADD_PROPERTY) {
       property = token;
       //look at next token?
@@ -114,16 +124,22 @@ export default class KicadPCB {
         open: 0
       });
       const { contextValue } = child_context;
+
       context[token] = contextValue || child_context;
+      console.log("add prop", token, context[token]);
       tokens = child_tokens;
     } else if (action === SET_PROPERTY) {
-      return {
+      // console.log("set", context, property);
+      // we have to recurse if next token is (
+      return this.addToken({
         tokens,
         action,
         context: { contextValue: token },
         property,
         open
-      };
+      });
+    } else if (action === CLOSE_CONTEXT) {
+      // console.log("close", open);
     }
 
     const newTokenContext = {
@@ -134,6 +150,7 @@ export default class KicadPCB {
       open
     };
 
+    // if (tokens[0] === ")") console.log("nextToken", tokens[0] === ")", open);
     if (open === 0) {
       return newTokenContext;
     } else {
