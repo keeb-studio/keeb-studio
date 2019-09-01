@@ -39,8 +39,28 @@ describe("KicadPCB", () => {
         });
       });
     });
+    describe("(kicad_pcb((version 20171130) (a 1)))", () => {
+      it("kicad_pcb", () => {
+        expect(
+          KicadPCB.addToken({
+            tokens: ["(", "kicad_pcb", "(", "version", "20171130", ")", ")"],
+            action: START,
+            context: {},
+            property: "",
+            open: 0
+          })
+        ).toEqual({
+          action: CLOSE_CONTEXT,
+          context: { kicad_pcb: { version: "20171130" } },
+          property: "kicad_pcb",
+          tokens: [],
+          open: 0
+        });
+      });
+    });
   });
-  // describe("simplest", () => {
+
+  // describe("simplest", ()cc => {
   //   const rawFile = `()`;
   //   it("functionalParse", () => {
   //     expect(KicadPCB.funtionalParse(rawFile)).toEqual({});

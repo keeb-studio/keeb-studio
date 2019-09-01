@@ -93,7 +93,6 @@ export default class KicadPCB {
     let tokens = [...tokenContext.tokens];
     const token = tokens.shift() || "";
     const action = getNewState(tokenContext.action, token);
-
     let context = { ...tokenContext.context } as any;
 
     let open = tokenContext.open;
@@ -106,6 +105,7 @@ export default class KicadPCB {
     let property = tokenContext.property;
     if (action === ADD_PROPERTY) {
       property = token;
+      //look at next token?
       const { context: child_context, tokens: child_tokens } = this.addToken({
         tokens,
         action,
@@ -113,8 +113,17 @@ export default class KicadPCB {
         property,
         open: 0
       });
-      context[token] = child_context;
+      const { contextValue } = child_context;
+      context[token] = contextValue || child_context;
       tokens = child_tokens;
+    } else if (action === SET_PROPERTY) {
+      return {
+        tokens,
+        action,
+        context: { contextValue: token },
+        property,
+        open
+      };
     }
 
     const newTokenContext = {
@@ -166,7 +175,7 @@ interface ParseContext {
 
 interface TokenContext {
   tokens: Array<string>;
-  context: object;
+  context: any;
   action: string;
   property: string;
   open: number;
