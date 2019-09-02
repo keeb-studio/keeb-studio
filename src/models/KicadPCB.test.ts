@@ -44,7 +44,17 @@ describe("KicadPCB", () => {
       it("kicad_pcb", () => {
         expect(
           KicadPCB.addToken({
-            tokens: ["(", "kicad_pcb", "(", "version", "20171130", ")", ")"],
+            tokens: [
+              /**/ "(",
+              /*  */ "kicad_pcb",
+              /*  */ "(",
+              /*    */ "(",
+              /*      */ "version",
+              /*      */ "20171130",
+              /*    */ ")",
+              /*  */ ")",
+              /**/ ")"
+            ],
             action: START,
             context: {},
             property: "",
@@ -61,21 +71,23 @@ describe("KicadPCB", () => {
     });
 
     describe("(kicad_pcb((version 20171130) (a 1)))", () => {
-      it.only("kicad_pcb", () => {
+      it("kicad_pcb", () => {
         expect(
           KicadPCB.addToken({
             tokens: [
-              "(",
-              "kicad_pcb",
-              "(",
-              "version",
-              "20171130",
-              ")",
-              "(",
-              "a",
-              "1",
-              ")",
-              ")"
+              /**/ "(",
+              /*  */ "kicad_pcb",
+              /*  */ "(",
+              /*    */ "(",
+              /*      */ "version",
+              /*      */ "20171130",
+              /*    */ ")",
+              /*    */ "(",
+              /*      */ "a",
+              /*      */ "1",
+              /*    */ ")",
+              /*  */ ")",
+              /**/ ")"
             ],
             action: START,
             context: {},

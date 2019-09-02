@@ -34,7 +34,6 @@ export default class KicadPCB {
       parenCount
     } = params;
     const newState = getNewState(lastState, token);
-    // console.log(token, newState, params);
     if (remainingTokens.length === 0) {
       return {
         token: remainingTokens.shift() || "",
@@ -92,7 +91,10 @@ export default class KicadPCB {
   public static addToken(tokenContext: TokenContext): TokenContext {
     let tokens = [...tokenContext.tokens];
     const token = tokens.shift() || "";
-    const action = getNewState(tokenContext.action, token);
+    let action = getNewState(tokenContext.action, token);
+    // if (tokenContext.tokens.length === 0) {
+    //   return tokenContext;
+    // }
     let context = { ...tokenContext.context } as any;
 
     let open = tokenContext.open;
@@ -104,33 +106,32 @@ export default class KicadPCB {
 
     let property = tokenContext.property;
 
-    // console.log(action);
-    // console.log(action, tokenContext);
     if (action === NEW_CONTEXT) {
-      const reuseContext = tokenContext.context[tokenContext.property];
-      // console.log(NEW_CONTEXT, tokenContext, reuseContext ? true : false);
-      if (reuseContext) {
-        context = tokenContext.context[tokenContext.property];
-      }
+      // const reuseContext = tokenContext.context[tokenContext.property];
+      // if (reuseContext) {
+      //   context = tokenContext.context[tokenContext.property];
+      // }
     }
     if (action === ADD_PROPERTY) {
       property = token;
-      //look at next token?
-      const { context: child_context, tokens: child_tokens } = this.addToken({
+
+      const {
+        action: child_action,
+        context: child_context,
+        tokens: child_tokens
+      } = this.addToken({
         tokens,
         action,
         context,
         property,
-        open: 0
+        open: 0 // TODO ? what should this be?
       });
       const { contextValue } = child_context;
-
+      // TODO HERE WE NEED TO MERGE response
       context[token] = contextValue || child_context;
-      console.log("add prop", token, context[token]);
+      action = child_action;
       tokens = child_tokens;
     } else if (action === SET_PROPERTY) {
-      // console.log("set", context, property);
-      // we have to recurse if next token is (
       return this.addToken({
         tokens,
         action,
@@ -139,7 +140,25 @@ export default class KicadPCB {
         open
       });
     } else if (action === CLOSE_CONTEXT) {
-      // console.log("close", open);
+      //todo why is open 1?
+      if (tokenContext.action === CLOSE_CONTEXT) {
+        return {
+          tokens,
+          action,
+          context,
+          property,
+          open
+        };
+      }
+      // Velse {
+      //   return this.addToken({
+      //     tokens,
+      //     action,
+      //     context,
+      //     property,
+      //     open
+      //   });
+      // }
     }
 
     const newTokenContext = {
@@ -150,11 +169,10 @@ export default class KicadPCB {
       open
     };
 
-    // if (tokens[0] === ")") console.log("nextToken", tokens[0] === ")", open);
-    if (open === 0) {
-      return newTokenContext;
-    } else {
+    if (open > 0) {
       return this.addToken(newTokenContext);
+    } else {
+      return newTokenContext;
     }
   }
 }
