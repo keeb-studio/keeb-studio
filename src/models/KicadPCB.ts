@@ -92,9 +92,7 @@ export default class KicadPCB {
     let tokens = [...tokenContext.tokens];
     const token = tokens.shift() || "";
     let action = getNewState(tokenContext.action, token);
-    // if (tokenContext.tokens.length === 0) {
-    //   return tokenContext;
-    // }
+    // console.log(action, token);
     let context = { ...tokenContext.context } as any;
 
     let open = tokenContext.open;
@@ -150,15 +148,14 @@ export default class KicadPCB {
           open
         };
       }
-      // Velse {
-      //   return this.addToken({
-      //     tokens,
-      //     action,
-      //     context,
-      //     property,
-      //     open
-      //   });
-      // }
+    } else if (action === PUSH_PROPERTY) {
+      let { contextValue } = context;
+      if (Array.isArray(contextValue)) {
+        contextValue = [...contextValue, token];
+      } else {
+        contextValue = [contextValue, token];
+      }
+      context.contextValue = contextValue;
     }
 
     const newTokenContext = {
