@@ -9,39 +9,6 @@ export default class KicadPCB {
     return content.split(/\r?\n/);
   }
 
-  public static getSection(name: string, tokens: Array<string>): Array<string> {
-    let openCount = 0;
-    let closeCount = 0;
-    let currentName = "";
-    let openCountWhenFound = 0;
-    let closeCountWhenFound = 0;
-    let matchingTokens = [];
-    tokens.forEach((token: string) => {
-      if (token === "(") {
-        openCount++;
-
-        console.log(openCount, closeCount, token);
-      } else if (token === ")") {
-        closeCount++;
-
-        console.log(openCount, closeCount, token);
-      } else {
-        if (token === name) {
-          openCountWhenFound = openCount;
-          closeCountWhenFound = closeCount;
-        }
-        console.log(openCount, closeCount, token);
-      }
-    });
-    return [];
-  }
-
-  public static parsePCB(raw: string): KicadPCB {
-    const tokens = this.parseTokens(raw);
-    console.log(tokens);
-    return new KicadPCB();
-  }
-
   public static getLines(lines: Array<string>): Foo {
     let openCount = 0;
     let closeCount = 0;
