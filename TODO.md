@@ -30,3 +30,13 @@ output:
 addToken -> processes the single token without recursing
 getContext -> processes all tokens until closing context
 
+
+---
+kicad_pcb
+ general
+ page
+ layers
+ setup
+ net - array
+ netclass
+ module - array
