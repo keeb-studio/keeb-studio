@@ -10,18 +10,18 @@ export default class KicadPCB {
   }
 
   public static getLines(lines: Array<string>): Foo {
+    const rootLines: Array<string> = [];
+    const sections: Array<Array<string>> = [];
+    let currentSection: Array<string> = [];
+
     let openCount = 0;
     let closeCount = 0;
-    let lastLevel = 0;
     let level = 0;
-    const rootLines: Array<string> = [];
-    let currentSection: Array<string> = [];
-    const sections: Array<Array<string>> = [];
-    let lastRoot = true;
     let root = true;
+    let lastRoot = true;
+
     lines.forEach((line: string, index: number) => {
       openCount = openCount + (line.match(/\(/g) || []).length;
-      lastLevel = level;
       level = openCount - closeCount;
       closeCount = closeCount + (line.match(/\)/g) || []).length;
       lastRoot = root;

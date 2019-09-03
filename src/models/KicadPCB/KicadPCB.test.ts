@@ -58,8 +58,9 @@ describe("KicadPCB", () => {
       const fixture = "src/models/templates/kicad.pcb.tamplate.kicad_pcb";
       const raw = readFileSync(fixture, "utf8");
       const lines = KicadPCB.parseTokens(raw);
-
-      expect(KicadPCB.getLines(lines).lines).toEqual([
+      const result = KicadPCB.getLines(lines);
+      // console.log(result.sections);
+      expect(result.lines).toEqual([
         '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
         "",
         "section_0",
