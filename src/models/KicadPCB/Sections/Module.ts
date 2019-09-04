@@ -2,7 +2,9 @@ import { Section } from "./Section";
 export class Module extends Section {
   public name: string;
   public type: string;
-  public position: string;
+  public originalPosition: string;
+  public x: number;
+  public y: number;
   constructor(lines: Array<string>) {
     super(lines);
 
@@ -35,14 +37,18 @@ export class Module extends Section {
     const positionLine = lines.find((line: string) => {
       return line.indexOf("(at ") > -1;
     });
-    this.position = "";
+    this.originalPosition = "";
+    this.x = 0;
+    this.y = 0;
     if (positionLine) {
       var regex = /(?<=\(at\ )(.*)(?=\))/;
-      const position = positionLine.match(regex);
-      if (position) {
-        this.position = position[0].toString();
+      const originalPosition = positionLine.match(regex);
+      if (originalPosition) {
+        this.originalPosition = originalPosition[0].toString();
       }
-      console.log(this.position);
+      const positions = this.originalPosition.split(" ");
+      this.x = Number.parseFloat(positions[0]);
+      this.y = Number.parseFloat(positions[1]);
     }
   }
 }

@@ -45,6 +45,12 @@ describe("Module", () => {
       `  )`
     ];
 
+    it("parses position", () => {
+      const module = new Module(lines);
+      expect(module.x).toEqual(43.144201);
+      expect(module.y).toEqual(39.0872);
+    });
+
     it("parses type", () => {
       const module = new Module(lines);
       expect(module.type).toEqual("MX-NoLED");
