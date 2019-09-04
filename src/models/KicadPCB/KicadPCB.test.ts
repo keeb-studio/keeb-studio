@@ -1,4 +1,5 @@
 import KicadPCB from "./KicadPCB";
+import { General } from "./Sections/General";
 describe("KicadPCB", () => {
   describe("render", () => {
     //
@@ -33,9 +34,15 @@ describe("KicadPCB", () => {
 )
 `;
 
+    const pcb = new KicadPCB({ raw: raw, path: "" });
     it("renders properly", () => {
-      const pcb = new KicadPCB({ raw: raw, path: "" });
       expect(pcb.render()).toEqual(raw);
+    });
+
+    it("has the proper sections", () => {
+      //
+      const firstSection = pcb.sections[0];
+      expect(firstSection instanceof General).toBe(true);
     });
   });
 });
