@@ -15,7 +15,7 @@ describe("KicadPCB", () => {
   )
   
   (module Keebio-Parts:MX_PCB_100H (layer F.Cu) (tedit 549A0505) (tstamp 5D61E4E6)
-    (at 10 25)
+    (at 10 15)
     (path /5D5FEB52)
     (fp_text reference MX1 (at 0 3.175) (layer F.SilkS)
       (effects (font (size 1.27 1.524) (thickness 0.2032)))
@@ -103,7 +103,21 @@ describe("KicadPCB", () => {
 
     it("it determines diff between mx and diode", () => {
       expect(pcb.xDiodeDiff).toEqual(-10);
-      expect(pcb.yDiodeDiff).toEqual(-25);
+      expect(pcb.yDiodeDiff).toEqual(-15);
+    });
+
+    describe("positionSwitch", () => {
+      it("places the mx module properly when rendered", () => {
+        pcb.positionSwitch(1, 1, 1);
+        const result = pcb.render().split("\n");
+        expect(result[11]).toEqual("    (at 19.05 19.05)");
+      });
+
+      it.only("places the diode module properly when rendered", () => {
+        pcb.positionSwitch(1, 1, 1);
+        const result = pcb.render().split("\n");
+        expect(result[28]).toEqual("    (at 9.05 4.05)");
+      });
     });
   });
 });

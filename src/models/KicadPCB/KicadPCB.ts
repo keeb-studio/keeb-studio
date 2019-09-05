@@ -3,6 +3,8 @@ import SectionFactory from "./Sections/Factory";
 import { Module } from "./Sections/Module";
 import { Section } from "./Sections/Section";
 
+const gridSize = 19.05;
+
 export default class KicadPCB {
   rawLines: Array<string> = [];
   rawSections: Array<Array<string>> = [];
@@ -38,6 +40,15 @@ export default class KicadPCB {
     });
     if (found) return found;
     throw new Error(`${name} Not Found`);
+  }
+
+  public positionSwitch(mxIndex: number, gridX: number, gridY: number) {
+    const mx = this.findByName(`MX${mxIndex}`);
+    const diode = this.findByName(`D${mxIndex}`);
+    mx.x = gridX * gridSize;
+    mx.y = gridY * gridSize;
+    diode.x = mx.x + this.xDiodeDiff;
+    diode.y = mx.y + this.yDiodeDiff;
   }
 
   public render(): string {

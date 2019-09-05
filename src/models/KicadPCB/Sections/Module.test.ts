@@ -65,7 +65,7 @@ describe("Module", () => {
       const module = new Module(lines);
       module.x = 1.2345;
       module.y = 6.789;
-      expect(module.render()).toContain("(at 1.2345 6.789)");
+      expect(module.render()).toContain("(at 1.23 6.79)");
     });
   });
 });

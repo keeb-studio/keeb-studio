@@ -46,6 +46,7 @@ export class Module extends Section {
         return false;
       }
     });
+
     this.originalPosition = "";
     this.x = 0;
     this.y = 0;
@@ -61,6 +62,7 @@ export class Module extends Section {
     }
     this.originalX = this.x;
     this.originalY = this.y;
+    this.lines[this.positionIndex] = "    (at xPos yPos)";
   }
 
   public render() {
@@ -68,8 +70,8 @@ export class Module extends Section {
       .map((line: string, index: number) => {
         if (index === this.positionIndex) {
           return line
-            .replace(this.originalX.toString(), this.x.toString())
-            .replace(this.originalY.toString(), this.y.toString());
+            .replace("xPos", this.x.toFixed(2).toString())
+            .replace("yPos", this.y.toFixed(2).toString());
         }
         return line;
       })
