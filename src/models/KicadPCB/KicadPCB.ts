@@ -32,7 +32,7 @@ export default class KicadPCB {
         const isSection = line.indexOf("section_") === 0;
         if (isSection) {
           const sectionIndex = parseInt(line.replace("section_", ""));
-          return this.rawSections[sectionIndex].join("\n");
+          return this.sections[sectionIndex].render();
         }
         return line;
       })

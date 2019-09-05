@@ -4,6 +4,10 @@ export class Section {
   constructor(lines: Array<string>) {
     this.lines = lines;
   }
+
+  public render() {
+    return this.lines.join("\n");
+  }
 }
 
 // export enum SectionType {
