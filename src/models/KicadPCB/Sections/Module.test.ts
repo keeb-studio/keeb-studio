@@ -60,5 +60,12 @@ describe("Module", () => {
       const module = new Module(lines);
       expect(module.name).toEqual("MX1");
     });
+
+    it("renders with updated position", () => {
+      const module = new Module(lines);
+      module.x = 1.2345;
+      module.y = 6.789;
+      expect(module.render()).toContain("(at 1.2345 6.789)");
+    });
   });
 });

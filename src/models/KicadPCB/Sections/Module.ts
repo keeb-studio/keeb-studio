@@ -5,6 +5,10 @@ export class Module extends Section {
   public originalPosition: string;
   public x: number;
   public y: number;
+
+  originalX: number;
+  originalY: number;
+  public positionIndex: number;
   constructor(lines: Array<string>) {
     super(lines);
 
@@ -34,8 +38,14 @@ export class Module extends Section {
       }
     }
 
-    const positionLine = lines.find((line: string) => {
-      return line.indexOf("(at ") > -1;
+    this.positionIndex = -1;
+    const positionLine = lines.find((line: string, index: number) => {
+      if (line.indexOf("(at ") > -1) {
+        this.positionIndex = index;
+        return true;
+      } else {
+        return false;
+      }
     });
     this.originalPosition = "";
     this.x = 0;
@@ -50,5 +60,20 @@ export class Module extends Section {
       this.x = Number.parseFloat(positions[0]);
       this.y = Number.parseFloat(positions[1]);
     }
+    this.originalX = this.x;
+    this.originalY = this.y;
+  }
+
+  public render() {
+    return this.lines
+      .map((line: string, index: number) => {
+        if (index === this.positionIndex) {
+          return line
+            .replace(this.originalX.toString(), this.x.toString())
+            .replace(this.originalY.toString(), this.y.toString());
+        }
+        return line;
+      })
+      .join("\n");
   }
 }
