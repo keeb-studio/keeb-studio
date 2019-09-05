@@ -10,6 +10,9 @@ export default class KicadPCB {
   // initial position (x and y to use as 0,0)
   // mxwidth in mm (19.05)
   sections: Array<any> = [];
+  public xDiodeDiff: number;
+  public yDiodeDiff: number;
+
   constructor(params: iKicadPCBConstructorParams) {
     const { raw, path } = params;
     if (raw) {
@@ -22,6 +25,11 @@ export default class KicadPCB {
       );
       this.sections = sections;
     }
+    const mxInit = this.findByName("MX1");
+    const diodeInit = this.findByName("D1");
+
+    this.xDiodeDiff = diodeInit.x - mxInit.x;
+    this.yDiodeDiff = diodeInit.y - mxInit.y;
   }
 
   public findByName(name: string): Module {
