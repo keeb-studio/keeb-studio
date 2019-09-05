@@ -44,5 +44,19 @@ describe("KicadPCB", () => {
       const firstSection = pcb.sections[0];
       expect(firstSection instanceof General).toBe(true);
     });
+
+    describe("findByName", () => {
+      it("can find the module", () => {
+        expect(pcb.findByName("MX1").render()).toContain(
+          "fp_text reference MX1 "
+        );
+      });
+
+      it("throws not found exception", () => {
+        expect(() => {
+          pcb.findByName("MX2");
+        }).toThrowError("MX2 Not Found");
+      });
+    });
   });
 });

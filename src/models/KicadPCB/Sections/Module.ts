@@ -1,6 +1,5 @@
 import { Section } from "./Section";
 export class Module extends Section {
-  public name: string;
   public type: string;
   public originalPosition: string;
   public x: number;

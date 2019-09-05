@@ -1,13 +1,11 @@
 import KicadPCBParser from "./KicadPCBParser";
 import SectionFactory from "./Sections/Factory";
+import { Module } from "./Sections/Module";
+import { Section } from "./Sections/Section";
 
 export default class KicadPCB {
   rawLines: Array<string> = [];
   rawSections: Array<Array<string>> = [];
-  // public
-  // position components
-  // render
-
   // private
   // initial position (x and y to use as 0,0)
   // mxwidth in mm (19.05)
@@ -24,6 +22,14 @@ export default class KicadPCB {
       );
       this.sections = sections;
     }
+  }
+
+  public findByName(name: string): Module {
+    const found = this.sections.find((section: Section) => {
+      return section.name === name;
+    });
+    if (found) return found;
+    throw new Error(`${name} Not Found`);
   }
 
   public render(): string {

@@ -1,6 +1,6 @@
 export class Section {
   public lines: Array<string>;
-
+  public name: string = "";
   constructor(lines: Array<string>) {
     this.lines = lines;
   }
