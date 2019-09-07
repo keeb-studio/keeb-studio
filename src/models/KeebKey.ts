@@ -5,9 +5,19 @@ export class KeebKey {
   kleKey: Key;
   gridIndex: Grid = new Grid();
   isSpacer: boolean = false;
-  constructor(label: string, gridIndex: Grid, kleKey?: Key) {
+  index: number;
+  constructor(label: string, gridIndex: Grid, index: number, kleKey?: Key) {
     this.label = label;
     this.gridIndex = gridIndex;
     this.kleKey = kleKey || new Key();
+    this.index = index;
+  }
+
+  get x(): number {
+    return this.kleKey.x;
+  }
+
+  get y(): number {
+    return this.kleKey.y;
   }
 }
