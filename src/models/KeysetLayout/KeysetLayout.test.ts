@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 import KeysetLayout from "./KeysetLayout";
 describe("KeysetLayout", () => {
   it.only("can initialize from raw", () => {
-    const path = "/Users/barendt/Desktop/jack.json";
+    const path = "tests/unit/fixtures/jack.json";
     const raw = readFileSync(path, "utf8");
     const keysetLayout = new KeysetLayout({ raw });
     const keys = keysetLayout.keys();
