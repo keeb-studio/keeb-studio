@@ -1,0 +1,26 @@
+{
+  viewer {
+    gists(privacy: SECRET, first: 100) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      edges {
+        repository: node {
+          id
+          name
+          createdAt
+          description
+          files {
+            encodedName
+            encoding
+            extension
+            name
+            size
+          }
+        }
+      }
+    }
+  }
+}

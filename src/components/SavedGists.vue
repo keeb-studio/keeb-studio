@@ -6,15 +6,17 @@
       <input v-model="inputToken" type="text" name="gh_token" id="gh_token" />
       <button @click="token = inputToken">Ok</button>
     </label>
-    <h6 v-else>Token:{{ token }}</h6>
+    <List v-else />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import List from "./SavedGists/List.vue";
+
 @Component({
-  // All component options are allowed in here
+  components: { List },
   watch: {
     token(newName) {
       localStorage.token = newName;
@@ -23,13 +25,7 @@ import Component from "vue-class-component";
 })
 export default class Saved extends Vue {
   token: string | null = null;
-  tokenInputToken: string = "";
-  // data() {
-  //   return {
-  //     inputToken: "",
-  //     token: ""
-  //   };
-  // }
+  inputToken: string = "";
 
   mounted() {
     if (localStorage.token) {
