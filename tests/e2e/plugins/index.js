@@ -7,7 +7,7 @@
 
 /* eslint-disable import/no-extraneous-dependencies, global-require, arrow-body-style */
 // const webpack = require('@cypress/webpack-preprocessor')
-
+require("cypress-watch-and-reload/plugins");
 module.exports = (on, config) => {
   // on('file:preprocessor', webpack({
   //  webpackOptions: require('@vue/cli-service/webpack.config'),
