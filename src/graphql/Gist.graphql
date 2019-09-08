@@ -1,0 +1,12 @@
+query Gist($id: ID!) {
+  node(id: $id) {
+    ... on Gist {
+      name
+      files {
+        extension
+        name
+        text
+      }
+    }
+  }
+}
