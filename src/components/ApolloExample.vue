@@ -53,6 +53,7 @@ export default {
     //   return
     // },
     files() {
+      const thing = ''
       if (this.viewer) {
         const x = this.viewer.gists.edges
           .map(x => x.repository)
@@ -62,9 +63,7 @@ export default {
             });
           })
           .filter(x => x.name.indexOf(".kbd.") > -1)
-          .map(x => {
-            return { name: x.name, id: x.gistId };
-          });
+          .map(x => ({ name: x.name,id: x.gistId }));
         return x;
       }
       return [];
