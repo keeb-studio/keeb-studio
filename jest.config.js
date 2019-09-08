@@ -23,5 +23,13 @@ module.exports = {
     "ts-jest": {
       babelConfig: true
     }
-  }
+  },
+  collectCoverageFrom: ["**/*.{js,jsx,vue}"],
+  coveragePathIgnorePatterns: [
+    "babel.config.js",
+    "jest.config.js",
+    "postcss.config.js",
+    "coverage",
+    "tests"
+  ]
 };
