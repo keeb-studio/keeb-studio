@@ -1,7 +1,7 @@
 import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
-import { iDimension } from "./iDimension";
-import { iPoint } from "./iPoint";
+import { IDimension } from "./iDimension";
+import { IPoint } from "./iPoint";
 import { KeebKey } from "./KeebKey";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
@@ -10,13 +10,13 @@ import KLEParser from "./KLEParser";
 export default class KicadSchematic {
   public path: string;
   public rawFile: string;
-  public sections: Array<any> = [];
+  public sections: any[] = [];
   public switchTemplate: KicadComponent;
   public switchTemplate2: KicadComponent;
   public diodeTemplate: KicadComponent;
   public wireTemplate: KicadWire;
-  public wireTemplates: Array<KicadWire> = [];
-  public wires: Array<any> = [];
+  public wireTemplates: KicadWire[] = [];
+  public wires: any[] = [];
   public hexPrefix: string;
   constructor(path: string = "") {
     this.hexPrefix = cryptoRandomString({ length: 4 });
@@ -29,32 +29,32 @@ export default class KicadSchematic {
     this.parseLines();
   }
 
-  render() {
+  public render() {
     // have to add back a newline
     return [
-      ...flatMap(this.sections, (x: any) => {
-        return x.component === null
-          ? x.lines
-          : x.component.lines.map((x: any) => {
-              return x.updatedLine();
+      ...flatMap(this.sections, (s: any) => {
+        return s.component === null
+          ? s.lines
+          : s.component.lines.map((l: any) => {
+              return l.updatedLine();
             });
       }),
       ""
     ].join("\n");
   }
 
-  findComponentById(id: string, number: number = 1) {
-    const matching = this.sections.filter((x: any) => {
-      return x.component !== null && x.component.uid === id;
+  public findComponentById(id: string, index: number = 1) {
+    const matching = this.sections.filter((s: any) => {
+      return s.component !== null && s.component.uid === id;
     });
 
     if (matching.length > 0) {
-      return matching[number - 1].component;
+      return matching[index - 1].component;
     }
     throw new Error(`component with id:${id} not found`);
   }
 
-  getConnectingWire(
+  public getConnectingWire(
     mx: KicadComponent,
     diode: KicadComponent,
     wireTemplate: KicadWire
@@ -81,7 +81,7 @@ export default class KicadSchematic {
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
-  getSwitch(location: iPoint, label: string) {
+  public getSwitch(location: IPoint, label: string) {
     const mx = new KicadComponent(
       this.switchTemplate.rawLines,
       label,
@@ -99,7 +99,7 @@ export default class KicadSchematic {
     return mx;
   }
 
-  getDiode(location: iPoint, label: string) {
+  public getDiode(location: IPoint, label: string) {
     const mx = new KicadComponent(
       this.diodeTemplate.rawLines,
       label,
@@ -117,14 +117,14 @@ export default class KicadSchematic {
     return mx;
   }
 
-  getGridDimensions(): iDimension {
+  public getGridDimensions(): IDimension {
     return {
       width: this.switchTemplate2.position.x - this.switchTemplate.position.x,
       height: this.switchTemplate2.position.y - this.switchTemplate.position.y
     };
   }
 
-  getWithKLE(kle: kleJSON) {
+  public getWithKLE(kle: kleJSON) {
     this.removeCompAndWires();
     const keys = new KLEParser(kle).keebParse();
     const closing = this.sections.pop();
@@ -148,7 +148,7 @@ export default class KicadSchematic {
           lines: diode.lines
         });
 
-        this.wireTemplates.forEach(wireTemplate => {
+        this.wireTemplates.forEach((wireTemplate: any) => {
           const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
           this.sections.push({ type: "wire", component: wire });
         });
@@ -159,19 +159,19 @@ export default class KicadSchematic {
     return this.render();
   }
 
-  writeFile(kle: kleJSON, path: string) {
+  public writeFile(kle: kleJSON, path: string) {
     const content = this.getWithKLE(kle);
     writeFileSync(path, content);
   }
 
-  getEmpty() {
+  public getEmpty() {
     this.removeCompAndWires();
     return [
-      ...flatMap(this.sections, (x: any) => {
-        return x.component === null
-          ? x.lines
-          : x.component.lines.map((x: any) => {
-              return x.updatedLine();
+      ...flatMap(this.sections, (s: any) => {
+        return s.component === null
+          ? s.lines
+          : s.component.lines.map((l: any) => {
+              return l.updatedLine();
             });
       }),
       ""
@@ -190,7 +190,7 @@ export default class KicadSchematic {
     let switchTemplate = new KicadComponent();
     let switchTemplate2 = new KicadComponent();
     let diodeTemplate = new KicadComponent();
-    lines.forEach(line => {
+    lines.forEach((line: any) => {
       closeSection = false;
 
       if (lastWasWire) {

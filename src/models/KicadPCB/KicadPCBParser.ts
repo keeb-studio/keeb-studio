@@ -4,7 +4,7 @@ export default class KicadPCBParser {
     return this.getLines(lines);
   }
 
-  public static parseLines(content: string): Array<string> {
+  public static parseLines(content: string): string[] {
     // return flatMap(content.split(/\r?\n/), (line: string) => {
     //   line = line.replace(/#.*$/, "");
     //   return line.split(/([()]|"(?:\\"|[^"])*")|\s+/).filter(t => !!t);
@@ -12,10 +12,10 @@ export default class KicadPCBParser {
     return content.split(/\r?\n/);
   }
 
-  public static getLines(lines: Array<string>): Pcb {
-    const rootLines: Array<string> = [];
-    const sections: Array<Array<string>> = [];
-    let currentSection: Array<string> = [];
+  public static getLines(lines: string[]): Pcb {
+    const rootLines: string[] = [];
+    const sections: string[][] = [];
+    let currentSection: string[] = [];
 
     let openCount = 0;
     let closeCount = 0;
@@ -55,6 +55,6 @@ export default class KicadPCBParser {
 }
 
 interface Pcb {
-  lines: Array<string>;
-  sections: Array<Array<string>>;
+  lines: string[];
+  sections: string[][];
 }

@@ -6,10 +6,49 @@ import { kleJSON } from "./kleJSON";
 export default class KLEParser {
   private source: kleJSON;
   private sourceString: string;
-  private allRows: Array<Array<KeebKey>> = [];
+  private allRows: KeebKey[][] = [];
   constructor(source: kleJSON) {
     this.sourceString = JSON.stringify(source);
     this.source = source;
+  }
+
+  public keebParse() {
+    this.pkeebParse();
+    let maxLength = 0;
+
+    this.allRows.map((row: KeebKey[]) => {
+      let rowLength = 0;
+      row.map((key: KeebKey) => {
+        rowLength++;
+        if (rowLength > maxLength) {
+          maxLength = rowLength;
+        }
+      });
+      return rowLength;
+    });
+
+    this.allRows.forEach((row: KeebKey[], index: number) => {
+      const pad = Math.floor((maxLength - row.length) / 2);
+      row.forEach((key: KeebKey) => {
+        key.gridIndex.col = key.gridIndex.col + pad;
+      });
+    });
+
+    return this.returnAllRows();
+  }
+
+  public findKey(index: number, allRows: KeebKey[][]) {
+    let x = -1;
+    let found = new KeebKey("", { row: 0, col: 0 }, 0);
+    allRows.map((row: KeebKey[]) => {
+      row.map((key: KeebKey) => {
+        x++;
+        if (x === index) {
+          found = key;
+        }
+      });
+    });
+    return found;
   }
 
   private parse() {
@@ -19,11 +58,11 @@ export default class KLEParser {
   private pkeebParse() {
     this.allRows = [];
     const gridIndex = new Grid();
-    //each row
+    // each row
     let totalIndex = 0;
     this.source.forEach(
       (row: Array<string | object> | object, rowIndex: number) => {
-        const keebRow: Array<KeebKey> = [];
+        const keebRow: KeebKey[] = [];
         const isArray = Array.isArray(row);
         gridIndex.col = -1;
         if (isArray) {
@@ -57,48 +96,9 @@ export default class KLEParser {
     return this.returnAllRows();
   }
 
-  keebParse() {
-    this.pkeebParse();
-    let maxLength = 0;
-
-    this.allRows.map((row: Array<KeebKey>) => {
-      let rowLength = 0;
-      row.map((key: KeebKey) => {
-        rowLength++;
-        if (rowLength > maxLength) {
-          maxLength = rowLength;
-        }
-      });
-      return rowLength;
-    });
-
-    this.allRows.forEach((row: Array<KeebKey>, index: number) => {
-      const pad = Math.floor((maxLength - row.length) / 2);
-      row.forEach((key: KeebKey) => {
-        key.gridIndex.col = key.gridIndex.col + pad;
-      });
-    });
-
-    return this.returnAllRows();
-  }
-
   private returnAllRows() {
-    return this.allRows.flatMap((row: Array<KeebKey>) =>
+    return this.allRows.flatMap((row: KeebKey[]) =>
       row.map((key: KeebKey) => key)
     );
-  }
-
-  findKey(index: number, allRows: Array<Array<KeebKey>>) {
-    let x = -1;
-    let found = new KeebKey("", { row: 0, col: 0 }, 0);
-    allRows.map((row: Array<KeebKey>) => {
-      row.map((key: KeebKey) => {
-        x++;
-        if (x === index) {
-          found = key;
-        }
-      });
-    });
-    return found;
   }
 }

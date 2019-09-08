@@ -3,10 +3,10 @@ import KeysetLayout from "./KeysetLayout/KeysetLayout";
 import KicadPCB from "./KicadPCB/KicadPCB";
 
 export default class KicadPcbMxPlacer {
-  layout: KeysetLayout;
-  pcb: KicadPCB;
-  outputPath: string;
-  constructor(params: iKicadPcbPlacer) {
+  public layout: KeysetLayout;
+  public pcb: KicadPCB;
+  public outputPath: string;
+  constructor(params: IKicadPcbPlacer) {
     const kleRaw = readFileSync(params.klePath, "utf8");
     this.layout = new KeysetLayout({ raw: kleRaw });
 
@@ -16,7 +16,7 @@ export default class KicadPcbMxPlacer {
   }
 }
 
-interface iKicadPcbPlacer {
+interface IKicadPcbPlacer {
   pcbPath: string;
   klePath: string;
   outputPath: string;

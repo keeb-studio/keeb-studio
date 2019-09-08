@@ -1,4 +1,4 @@
 export class Grid {
-  col: number = -1;
-  row: number = -1;
+  public col: number = -1;
+  public row: number = -1;
 }

@@ -4,9 +4,9 @@ import { KeebKey } from "../KeebKey";
 import { kleJSON } from "../kleJSON";
 
 export default class KeysetLayout {
-  kleParsed: kleJSON;
-  private allRows: Array<Array<KeebKey>> = [];
-  constructor(params: iKeysetLayout) {
+  public kleParsed: kleJSON;
+  private allRows: KeebKey[][] = [];
+  constructor(params: IKeysetLayout) {
     const { raw } = params;
     this.kleParsed = JSON.parse(raw);
     // Serial.parse(raw);
@@ -17,7 +17,7 @@ export default class KeysetLayout {
     let totalIndex = 0;
     this.kleParsed.forEach(
       (row: Array<string | object> | object, rowIndex: number) => {
-        const keebRow: Array<KeebKey> = [];
+        const keebRow: KeebKey[] = [];
         const isArray = Array.isArray(row);
         gridIndex.col = -1;
         if (isArray) {
@@ -53,13 +53,13 @@ export default class KeysetLayout {
   }
 
   public keys() {
-    return this.allRows.flatMap((row: Array<KeebKey>) =>
+    return this.allRows.flatMap((row: KeebKey[]) =>
       row.map((key: KeebKey) => key)
     );
   }
 
   public positions() {
-    return this.allRows.flatMap((row: Array<KeebKey>) =>
+    return this.allRows.flatMap((row: KeebKey[]) =>
       row.map((key: KeebKey) => {
         return {
           x: key.x,
@@ -71,10 +71,10 @@ export default class KeysetLayout {
     );
   }
 
-  findKey(index: number, allRows: Array<Array<KeebKey>>) {
+  public findKey(index: number, allRows: KeebKey[][]) {
     let x = -1;
     let found = new KeebKey("", { row: 0, col: 0 }, 0);
-    allRows.map((row: Array<KeebKey>) => {
+    allRows.map((row: KeebKey[]) => {
       row.map((key: KeebKey) => {
         x++;
         if (x === index) {
@@ -86,6 +86,6 @@ export default class KeysetLayout {
   }
 }
 
-interface iKeysetLayout {
+interface IKeysetLayout {
   raw: string;
 }

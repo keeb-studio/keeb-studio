@@ -1,7 +1,7 @@
-import { iPoint } from "./iPoint";
+import { IPoint } from "./iPoint";
 export class KicadPeice {
   public original: string = "";
-  templateOriginPosition: iPoint = { x: 0, y: 0 };
+  public templateOriginPosition: IPoint = { x: 0, y: 0 };
   public x: number = 0;
   public y: number = 0;
   public xOffset: number = 0;
@@ -9,14 +9,14 @@ export class KicadPeice {
   public template: string = "";
   public hasPosition: boolean = false;
   public newUid: string;
-  hasDigits: boolean = false;
-  hasLabel: boolean = false;
+  public hasDigits: boolean = false;
+  public hasLabel: boolean = false;
   public label: string;
-  labelHolder: string = "TEMPLATE_LABEL";
+  public labelHolder: string = "TEMPLATE_LABEL";
   public uid: string;
   constructor(
     original: string,
-    templateOriginPosition: iPoint,
+    templateOriginPosition: IPoint,
     label: string,
     uid: string,
     newUid: string
@@ -35,8 +35,8 @@ export class KicadPeice {
 
     const partType = original.charAt(0);
     if (digits) {
-      //convert digitis to ints
-      const intDigits = digits.map((x: string) => Number.parseInt(x));
+      // convert digitis to ints
+      const intDigits = digits.map((d: string) => Number.parseInt(d, 10));
 
       // find out if we need to ignore it because
       // it doesn't actually have x & y in it
@@ -58,8 +58,8 @@ export class KicadPeice {
         xIndex = 1;
       }
 
-      if (partType === "U") {
-      }
+      // if (partType === "U") {
+      // }
 
       if (
         partType === "F" &&
@@ -104,9 +104,9 @@ export class KicadPeice {
     let newX = this.templateOriginPosition.x + this.xOffset;
     let newY = this.templateOriginPosition.y + this.yOffset;
 
-    newX = parseInt((this.x + this.xOffset).toFixed(0));
+    newX = parseInt((this.x + this.xOffset).toFixed(0), 10);
 
-    newY = parseInt((this.y + this.yOffset).toFixed(0));
+    newY = parseInt((this.y + this.yOffset).toFixed(0), 10);
 
     let foo = this.template;
     if (this.hasLabel) {

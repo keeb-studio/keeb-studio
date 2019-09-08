@@ -1,6 +1,6 @@
 import * as KicadPCB from "./KicadNameSpace";
 export default class SectionFactory {
-  public static getSection(lines: Array<string>) {
+  public static getSection(lines: string[]) {
     const line = lines[0];
     if (line.indexOf("general") > -1) {
       return new KicadPCB.General(lines);

@@ -1,6 +1,6 @@
 import { Section } from "./Section";
 export class General extends Section {
-  constructor(lines: Array<string>) {
+  constructor(lines: string[]) {
     super(lines);
   }
 }

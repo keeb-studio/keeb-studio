@@ -13,7 +13,7 @@ describe("KicadPCB", () => {
     (modules 2)
     (nets 5)
   )
-  
+
   (module Keebio-Parts:MX_PCB_100H (layer F.Cu) (tedit 549A0505) (tstamp 5D61E4E6)
     (at 10 15)
     (path /5D5FEB52)
@@ -30,7 +30,7 @@ describe("KicadPCB", () => {
     (pad 1 thru_hole circle (at 2.54 -5.08) (size 2.286 2.286) (drill 1.4986) (layers *.Cu *.SilkS *.Mask)
       (net 4 "Net-(MX1-Pad1)"))
   )
-  
+
   (module Keebio-Parts:Diode-dual (layer F.Cu) (tedit 5B7FFAB1) (tstamp 5D61E4C8)
     (at 0 0 270)
     (path /5D5F5496)
@@ -76,7 +76,7 @@ describe("KicadPCB", () => {
 )
 `;
 
-    const pcb = new KicadPCB({ raw: raw, path: "" });
+    const pcb = new KicadPCB({ raw, path: "" });
     it("renders properly", () => {
       expect(pcb.render()).toEqual(raw);
     });

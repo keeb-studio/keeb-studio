@@ -5,10 +5,10 @@ export class Module extends Section {
   public x: number;
   public y: number;
 
-  originalX: number;
-  originalY: number;
+  public originalX: number;
+  public originalY: number;
   public positionIndex: number;
-  constructor(lines: Array<string>) {
+  constructor(lines: string[]) {
     super(lines);
 
     const nameLine = lines.find((line: string) => {
@@ -17,7 +17,7 @@ export class Module extends Section {
 
     this.name = "";
     if (nameLine) {
-      var regex = /(?<=fp_text reference\ )(.*)(?=\ \(.*\()/;
+      const regex = /(?<=fp_text reference\ )(.*)(?=\ \(.*\()/;
       const name = nameLine.match(regex);
       if (name) {
         this.name = name[0].toString();
@@ -30,7 +30,7 @@ export class Module extends Section {
 
     this.type = "";
     if (typeLine) {
-      var regex = /(?<=fp_text value\ )(.*)(?=\ \(.*\()/;
+      const regex = /(?<=fp_text value\ )(.*)(?=\ \(.*\()/;
       const type = typeLine.match(regex);
       if (type) {
         this.type = type[0].toString();
@@ -51,7 +51,7 @@ export class Module extends Section {
     this.x = 0;
     this.y = 0;
     if (positionLine) {
-      var regex = /(?<=\(at\ )(.*)(?=\))/;
+      const regex = /(?<=\(at\ )(.*)(?=\))/;
       const originalPosition = positionLine.match(regex);
       if (originalPosition) {
         this.originalPosition = originalPosition[0].toString();

@@ -154,8 +154,8 @@ describe("KicadSchematic", () => {
   });
 
   describe("getEmpty", () => {
-    const fixture = "tests/unit/fixtures/kicad.empty.sch";
-    const emptySchematic = readFileSync(fixture, "utf8");
+    const emptyFixture = "tests/unit/fixtures/kicad.empty.sch";
+    const emptySchematic = readFileSync(emptyFixture, "utf8");
     it("returns an empty schematic", () => {
       expect(schematic.getEmpty()).toEqual(emptySchematic);
     });
@@ -175,7 +175,7 @@ describe("KicadSchematic", () => {
         [
           "Esc",
           "!\n1",
-          '"\n2',
+          `"\n2`,
           "£\n3",
           "$\n4",
           "%\n5",
@@ -294,8 +294,8 @@ describe("KicadSchematic", () => {
         ]
       ];
 
-      const schematic = new KicadSchematic(template);
-      schematic.writeFile(kl2, "temp2.sch");
+      const templateSchematic = new KicadSchematic(template);
+      templateSchematic.writeFile(kl2, "temp2.sch");
       unlinkSync("temp2.sch");
     });
   });

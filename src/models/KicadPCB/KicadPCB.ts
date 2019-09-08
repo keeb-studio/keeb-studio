@@ -6,23 +6,23 @@ import { Section } from "./Sections/Section";
 const gridSize = 19.05;
 
 export default class KicadPCB {
-  rawLines: Array<string> = [];
-  rawSections: Array<Array<string>> = [];
+  public rawLines: string[] = [];
+  public rawSections: string[][] = [];
   // private
   // initial position (x and y to use as 0,0)
   // mxwidth in mm (19.05)
-  sections: Array<any> = [];
+  public sections: any[] = [];
   public xDiodeDiff: number;
   public yDiodeDiff: number;
 
-  constructor(params: iKicadPCBConstructorParams) {
+  constructor(params: IKicadPCBConstructorParams) {
     const { raw, path } = params;
     if (raw) {
       const linesAndSections = KicadPCBParser.getLinesFromContent(raw);
       this.rawLines = linesAndSections.lines;
       this.rawSections = linesAndSections.sections;
       // const sections = SectionFactory.getSection(this.)
-      const sections = this.rawSections.map((section: Array<string>) =>
+      const sections = this.rawSections.map((section: string[]) =>
         SectionFactory.getSection(section)
       );
       this.sections = sections;
@@ -38,7 +38,9 @@ export default class KicadPCB {
     const found = this.sections.find((section: Section) => {
       return section.name === name;
     });
-    if (found) return found;
+    if (found) {
+      return found;
+    }
     throw new Error(`${name} Not Found`);
   }
 
@@ -56,7 +58,7 @@ export default class KicadPCB {
       .map((line: string) => {
         const isSection = line.indexOf("section_") === 0;
         if (isSection) {
-          const sectionIndex = parseInt(line.replace("section_", ""));
+          const sectionIndex = parseInt(line.replace("section_", ""), 10);
           return this.sections[sectionIndex].render();
         }
         return line;
@@ -65,7 +67,7 @@ export default class KicadPCB {
   }
 }
 
-interface iKicadPCBConstructorParams {
+interface IKicadPCBConstructorParams {
   path: string;
   raw: string;
 }

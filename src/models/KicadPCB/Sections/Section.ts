@@ -1,7 +1,7 @@
 export class Section {
-  public lines: Array<string>;
+  public lines: string[];
   public name: string = "";
-  constructor(lines: Array<string>) {
+  constructor(lines: string[]) {
     this.lines = lines;
   }
 

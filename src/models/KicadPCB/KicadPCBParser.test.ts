@@ -4,7 +4,7 @@ describe("KicadPCB", () => {
   describe("getLines", () => {
     it("fines root lines", () => {
       const lines = [
-        '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
+        "(kicad_pcb (version 20171130) (host pcbnew \"(5.1.0)-1\")",
         "  (general",
         "    (thickness 1.6)",
         "    (drawings 0)",
@@ -18,7 +18,7 @@ describe("KicadPCB", () => {
       ];
 
       expect(KicadPCBParser.getLines(lines).lines).toEqual([
-        '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
+        "(kicad_pcb (version 20171130) (host pcbnew \"(5.1.0)-1\")",
         "section_0",
         ")",
         ""
@@ -27,7 +27,7 @@ describe("KicadPCB", () => {
 
     it("finds sections - simple", () => {
       const lines = [
-        '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
+        "(kicad_pcb (version 20171130) (host pcbnew \"(5.1.0)-1\")",
         "  (general",
         "    (thickness 1.6)",
         "    (drawings 0)",
@@ -61,7 +61,7 @@ describe("KicadPCB", () => {
       const result = KicadPCBParser.getLines(lines);
       // console.log(result.sections);
       expect(result.lines).toEqual([
-        '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
+        "(kicad_pcb (version 20171130) (host pcbnew \"(5.1.0)-1\")",
         "",
         "section_0",
         "  ",

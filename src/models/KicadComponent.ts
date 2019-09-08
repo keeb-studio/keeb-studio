@@ -1,20 +1,20 @@
 import cryptoRandomString from "crypto-random-string";
-import { iDimension } from "./iDimension";
-import { iPoint } from "./iPoint";
+import { IDimension } from "./iDimension";
+import { IPoint } from "./iPoint";
 import { KicadPeice } from "./KicadPeice";
 
 export class KicadComponent {
-  lines: any = [];
+  public lines: any = [];
   public uid: string = "";
   public newUid: string = "";
-  public position: iPoint = { x: 0, y: 0 };
+  public position: IPoint = { x: 0, y: 0 };
   public rawLines: any;
   public hexPrefix: string;
   constructor(
     rawlines: any = null,
     label: string = "1",
-    position: iPoint = { x: -1, y: -1 },
-    gridSize: iDimension = { width: 1, height: 1 },
+    position: IPoint = { x: -1, y: -1 },
+    gridSize: IDimension = { width: 1, height: 1 },
     uidPrefix: string = ""
   ) {
     this.hexPrefix = cryptoRandomString({ length: 4 });
@@ -29,8 +29,8 @@ export class KicadComponent {
       if (positionLine) {
         const rawPostitions = positionLine.replace(/P /, "");
         const positions = rawPostitions.split(/ /);
-        this.position.x = Number.parseInt(positions[0]);
-        this.position.y = Number.parseInt(positions[1]);
+        this.position.x = Number.parseInt(positions[0], 10);
+        this.position.y = Number.parseInt(positions[1], 10);
       }
 
       if (position.x > -1) {
@@ -49,7 +49,7 @@ export class KicadComponent {
     }
   }
 
-  updateLines(moveTo: iPoint) {
+  public updateLines(moveTo: IPoint) {
     this.position.x = moveTo.x;
     this.position.y = moveTo.y;
     this.lines.forEach((line: any) => {
@@ -58,7 +58,7 @@ export class KicadComponent {
     });
   }
 
-  private setPosition(position: iPoint, gridSize: iDimension) {
+  private setPosition(position: IPoint, gridSize: IDimension) {
     this.position.x = this.position.x + position.x * gridSize.width;
     this.position.y = this.position.y + position.y * gridSize.height;
   }
