@@ -21,6 +21,9 @@ yarn test:unit
 ```
 
 ### Run your end-to-end tests
+
+
+You will need to set `CYPRESS_GHTOKEN` with a github api token with access to gists to use.
 ```
 yarn test:e2e
 ```
