@@ -1,7 +1,5 @@
 <template>
-  <div>
-    {{ display }}
-  </div>
+  <div>Gist: {{ display }}</div>
 </template>
 
 <script lang="ts">
