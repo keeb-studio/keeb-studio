@@ -1,6 +1,6 @@
 import cryptoRandomString from "crypto-random-string";
-import { IDimension } from "./iDimension";
-import { IPoint } from "./iPoint";
+import { IDimension } from "../interfaces/iDimension";
+import { IPoint } from "../interfaces/iPoint";
 import { KicadPeice } from "./KicadPeice";
 
 export class KicadComponent {

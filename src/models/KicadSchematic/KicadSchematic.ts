@@ -1,12 +1,12 @@
 import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
-import { IDimension } from "./iDimension";
-import { IPoint } from "./iPoint";
-import { KeebKey } from "./KeebKey";
+import { IDimension } from "../interfaces/iDimension";
+import { IPoint } from "../interfaces/iPoint";
+import { KeebKey } from "../KeysetLayout/KeebKey";
+import { kleJSON } from "../KLE/kleJSON";
+import KLEParser from "../KLE/KLEParser";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
-import { kleJSON } from "./kleJSON";
-import KLEParser from "./KLEParser";
 export default class KicadSchematic {
   public path: string;
   public rawFile: string;

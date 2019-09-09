@@ -1,4 +1,4 @@
-import { IPoint } from "./iPoint";
+import { IPoint } from "../interfaces/iPoint";
 import { WirePiece } from "./WirePiece";
 export class KicadWire {
   public lines: any = [];

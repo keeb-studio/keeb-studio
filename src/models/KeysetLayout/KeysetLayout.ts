@@ -1,7 +1,7 @@
 import { Key, Serial } from "@ijprest/kle-serial";
-import { Grid } from "../Grid";
-import { KeebKey } from "../KeebKey";
-import { kleJSON } from "../kleJSON";
+import { kleJSON } from "../KLE/kleJSON";
+import { Grid } from "./Grid";
+import { KeebKey } from "./KeebKey";
 
 export default class KeysetLayout {
   public kleParsed: kleJSON;

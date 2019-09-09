@@ -61,7 +61,7 @@ describe("KicadComponent", () => {
         y: 1323,
         xOffset: 33,
         yOffset: 223,
-        template: "F 0 \"MXTEMPLATE_LABEL\" H templateX templateY 60  0000 C CNN",
+        template: 'F 0 "MXTEMPLATE_LABEL" H templateX templateY 60  0000 C CNN',
         templateOriginPosition: {
           x: 1375,
           y: 1100

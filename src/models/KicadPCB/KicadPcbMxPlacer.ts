@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
-import KeysetLayout from "./KeysetLayout/KeysetLayout";
-import KicadPCB from "./KicadPCB/KicadPCB";
+import KeysetLayout from "../KeysetLayout/KeysetLayout";
+import KicadPCB from "./KicadPCB";
 
 export default class KicadPcbMxPlacer {
   public layout: KeysetLayout;

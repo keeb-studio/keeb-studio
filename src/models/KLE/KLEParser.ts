@@ -1,8 +1,8 @@
 import { Key, Serial } from "@ijprest/kle-serial";
 import "core-js/fn/array/flat-map";
-import { Grid } from "./Grid";
-import { KeebKey } from "./KeebKey";
-import { kleJSON } from "./kleJSON";
+import { Grid } from "../KeysetLayout/Grid";
+import { KeebKey } from "../KeysetLayout/KeebKey";
+import { kleJSON } from "../KLE/kleJSON";
 export default class KLEParser {
   private source: kleJSON;
   private sourceString: string;

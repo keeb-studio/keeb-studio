@@ -1,4 +1,4 @@
-import { IPoint } from "./iPoint";
+import { IPoint } from "../interfaces/iPoint";
 export class WirePiece {
   public original: string = "";
   public templateOriginPosition: IPoint = { x: 0, y: 0 };
