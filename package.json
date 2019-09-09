@@ -11,7 +11,10 @@
     "test": "vue-cli-service test:unit --coverage"
   },
   "dependencies": {
+    "@ijprest/kle-serial": "^0.15.1",
+    "@types/node": "^12.7.4",
     "core-js": "^3.1.2",
+    "crypto-random-string": "^3.0.1",
     "graphql-tag": "^2.10.1",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-rc.2",
