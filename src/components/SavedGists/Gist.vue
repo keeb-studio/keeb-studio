@@ -12,6 +12,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import "vue-apollo";
 import GIST from "../../graphql/Gist.gql";
+import KeysetLayout from "../../models/KeysetLayout/KeysetLayout";
 @Component({
   apollo: {
     node: {
@@ -25,10 +26,14 @@ import GIST from "../../graphql/Gist.gql";
 export default class Gist extends Vue {
   public node: any = null;
   @Prop() private file!: any;
+  keysetLayout: KeysetLayout | null = null;
   get selectContent() {
     if (this.file && this.node) {
-      return this.node.files.find((file: any) => file.name === this.file.name)
-        .text;
+      const raw = this.node.files.find(
+        (file: any) => file.name === this.file.name
+      ).text;
+      this.keysetLayout = new KeysetLayout({ raw });
+      return raw;
     }
     return "";
   }
