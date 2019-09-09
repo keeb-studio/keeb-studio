@@ -25,39 +25,31 @@ import GISTS from "../../graphql/Gists.gql";
     viewer: {
       query: GISTS
     }
-  },
-  methods: {
-    selectGist(file) {
-      this.selectedFile = file;
-    }
-  },
-  computed: {
-    files() {
-      const thing = "";
-      if (this.viewer) {
-        const x = this.viewer.gists.edges
-          .map(x => x.repository)
-          .flatMap(x => {
-            return x.files.map(y => {
-              return { ...y, gistId: x.id };
-            });
-          })
-          .filter(x => x.name.indexOf(".kbd.") > -1)
-          .map(x => ({ name: x.name, id: x.gistId }));
-        return x;
-      }
-      return [];
-    }
   }
 })
 export default class Saved extends Vue {
-  viewer: null;
-  data() {
-    return {
-      newMessage: "",
-      gistId: "",
-      selectedFile: null
-    };
+  newMessage: string = "";
+  gistId: string = "";
+  selectedFile: any = null;
+  viewer: any = null;
+
+  selectGist(file: any) {
+    this.selectedFile = file;
+  }
+
+  get files() {
+    if (this.viewer) {
+      return this.viewer.gists.edges
+        .map((edge: any) => edge.repository)
+        .flatMap((repository: any) => {
+          return repository.files.map((file: any) => {
+            return { ...file, gistId: repository.id };
+          });
+        })
+        .filter((file: any) => file.name.indexOf(".kbd.") > -1)
+        .map((file: any) => ({ name: file.name, id: file.gistId }));
+    }
+    return [];
   }
 }
 </script>
