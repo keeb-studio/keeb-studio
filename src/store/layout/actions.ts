@@ -13,7 +13,6 @@
 //         commit("profileLoaded", payload);
 //       },
 //       error => {
-//         console.log(error);
 //         commit("profileError");
 //       }
 //     );

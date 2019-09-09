@@ -59,7 +59,6 @@ describe("KicadPCB", () => {
       const raw = readFileSync(fixture, "utf8");
       const lines = KicadPCBParser.parseLines(raw);
       const result = KicadPCBParser.getLines(lines);
-      // console.log(result.sections);
       expect(result.lines).toEqual([
         '(kicad_pcb (version 20171130) (host pcbnew "(5.1.0)-1")',
         "",
