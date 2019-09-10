@@ -1,4 +1,5 @@
 import { Module } from "vuex";
+import KeysetLayout from "../../models/KeysetLayout/KeysetLayout";
 import { RootState } from "../RootState";
 // import { actions } from "./actions";
 import { getters } from "./getters";
@@ -7,7 +8,8 @@ import { mutations } from "./mutations";
 
 export const state: LayoutState = {
   raw: "[]",
-  error: false
+  error: false,
+  keyset: new KeysetLayout({ raw: "[]" })
 };
 
 const namespaced: boolean = true;

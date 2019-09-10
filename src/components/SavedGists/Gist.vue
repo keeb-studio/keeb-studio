@@ -2,7 +2,7 @@
   <div>
     <h2>{{ file.name }}</h2>
     <h5>{{ file.id }}</h5>
-    <h6>{{ keyset.allRows.length }}</h6>
+    <h6>{{ keyset }}</h6>
     <div>
       {{ selectContent }}
     </div>

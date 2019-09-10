@@ -1,11 +1,18 @@
 <template>
-  <div>Gist: {{ display }}</div>
+  <div>
+    <Keyset />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
-@Component
+import Keyset from "./Keyset.vue";
+@Component({
+  components: {
+    Keyset
+  }
+})
 export default class Main extends Vue {
   @Getter("keyset", { namespace: "layout" }) keyset: any;
   //todo move to vuex getter

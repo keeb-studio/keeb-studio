@@ -5,7 +5,7 @@ import { KeebKey } from "./KeebKey";
 
 export default class KeysetLayout {
   public kleParsed: kleJSON;
-  private allRows: KeebKey[][] = [];
+  public allRows: KeebKey[][] = [];
   constructor(params: IKeysetLayout) {
     const { raw } = params;
     this.kleParsed = JSON.parse(raw);
