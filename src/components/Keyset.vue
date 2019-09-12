@@ -77,7 +77,7 @@ export default class Keyset extends Vue {
     const maxKey = this.keys.reduce((prev, current) =>
       prev.y + prev.height > current.y + current.height ? prev : current
     );
-    return (maxKey.y + maxKey.height) * 56 + 16;
+    return (maxKey.y + maxKey.height) * 56 + 16 + 100;
   }
 
   // todo move into model
@@ -86,7 +86,7 @@ export default class Keyset extends Vue {
     const maxKey = this.keys.reduce((prev, current) =>
       prev.x + prev.width > current.x + current.width ? prev : current
     );
-    return (maxKey.x + maxKey.width) * 56 + 16;
+    return (maxKey.x + maxKey.width) * 56 + 16 + 100;
   }
 }
 </script>

@@ -14,11 +14,15 @@ export const getters: GetterTree<LayoutState, RootState> = {
     return state.keyset.allRows.flatMap((k: KeebKey[]) =>
       k.map((k2: KeebKey) => {
         const params = {
+          ...k2,
           x: k2.x,
           y: k2.y,
           width: k2.kleKey.width,
           height: k2.kleKey.height,
-          label: k2.label,
+          // label: k2.label,
+          rotation_angle: k2.kleKey.rotation_angle,
+          rotation_x: k2.kleKey.rotation_x,
+          rotation_y: k2.kleKey.rotation_y,
           t1: k2.kleKey.labels[0] || "",
           t2: k2.kleKey.labels[1] || "",
           t3: k2.kleKey.labels[2] || "",

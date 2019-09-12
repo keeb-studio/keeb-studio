@@ -28,6 +28,10 @@ export class Key {
 
   public font: string = "Verdana";
 
+  public rotation_angle: number = 0;
+  public rotation_x: number = 0;
+  public rotation_y: number = 0;
+
   public t1: string = "";
   public t2: string = "";
   public t3: string = "";
