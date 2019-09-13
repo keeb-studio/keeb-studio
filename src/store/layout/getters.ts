@@ -6,36 +6,28 @@ import { RootState } from "../RootState";
 import { LayoutState } from "./LayoutState";
 
 export const getters: GetterTree<LayoutState, RootState> = {
+  singleKey(state): boolean {
+    return state.selected.length === 1;
+  },
+
+  selectedKeys(state): Array<KeebKey> {
+    // const ids = state.selected.map((id: string) => { return });
+    return [];
+  },
   keyset(state): KeysetLayout {
     return state.keyset;
   },
 
-  allKeys(state): any {
-    return state.keyset.allRows.flatMap((k: KeebKey[]) =>
-      k.map((k2: KeebKey) => {
-        const params = {
-          ...k2,
-          x: k2.x,
-          y: k2.y,
-          width: k2.kleKey.width,
-          height: k2.kleKey.height,
-          // label: k2.label,
-          rotation_angle: k2.kleKey.rotation_angle,
-          rotation_x: k2.kleKey.rotation_x,
-          rotation_y: k2.kleKey.rotation_y,
-          t1: k2.kleKey.labels[0] || "",
-          t2: k2.kleKey.labels[1] || "",
-          t3: k2.kleKey.labels[2] || "",
-          t4: k2.kleKey.labels[3] || "",
-          t5: k2.kleKey.labels[4] || "",
-          t6: k2.kleKey.labels[5] || "",
-          t7: k2.kleKey.labels[6] || "",
-          t8: k2.kleKey.labels[7] || "",
-          t9: k2.kleKey.labels[8] || "",
-          backgroundHex: k2.kleKey.color
-        };
-        return new Key(params);
-      })
-    );
+  allKeys(state, getters): Key[] {
+    writeKeys(state);
+    return state.allkeys;
   }
 };
+
+export function writeKeys(state: LayoutState): any {
+  const json = JSON.stringify(state.allkeys);
+  if (state.keyset.kleParsed[0]) {
+    localStorage[state.keyset.kleParsed[0].name] = json;
+  }
+  return null;
+}

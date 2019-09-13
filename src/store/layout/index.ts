@@ -9,7 +9,9 @@ import { mutations } from "./mutations";
 export const state: LayoutState = {
   raw: "[]",
   error: false,
-  keyset: new KeysetLayout({ raw: "[]" })
+  keyset: new KeysetLayout({ raw: "[]" }),
+  selected: [],
+  allkeys: []
 };
 
 const namespaced: boolean = true;

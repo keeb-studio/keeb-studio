@@ -5,7 +5,7 @@
       :y="model.y"
       :width="model.calc_width + model.width"
       :height="model.calc_height + model.height"
-      :style="`stroke: ${model.color_darkest}; stroke-width: 2;`"
+      :style="`stroke: ${outlineColor}; stroke-width: 2;`"
       :fill="model.color_darker"
       :foo="model.rotation_angle"
       :foo1="model.rotation_x"
@@ -108,13 +108,17 @@
 import { Key } from "@/models/KeysetLayout/Key";
 import { Component, Mixins, Vue, Prop } from "vue-property-decorator";
 import Color from "color";
+import { Mutation } from "vuex-class";
 
 @Component({})
 export default class KeyCap extends Vue {
+  @Mutation("selectKey", { namespace: "layout" }) selectKey: any;
   @Prop({ required: true })
   public modelKey!: Key;
+  public selected: boolean = false;
   handleClick() {
-    console.log(this.model);
+    // this.selected = !this.selected;
+    this.selectKey(this.model.id);
   }
 
   lighten(col: string, amt: number) {
@@ -125,6 +129,9 @@ export default class KeyCap extends Vue {
     }
   }
 
+  get outlineColor() {
+    return this.selected ? "red" : this.model.color_darkest;
+  }
   get model() {
     const width = 54 * this.modelKey.width + this.modelKey.width;
     const height = 54 * this.modelKey.height + 1;
@@ -143,7 +150,6 @@ export default class KeyCap extends Vue {
 
     return {
       ...this.modelKey,
-
       calc_width: width,
       calc_height: height,
       calc_width2: width - 19,
