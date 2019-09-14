@@ -38,7 +38,7 @@ export default class Gist extends Vue {
       const raw = this.node.files.find(
         (file: any) => file.name === this.file.name
       ).text;
-      this.layoutLoaded(raw);
+      this.layoutLoaded({ raw, name: this.file.name });
       this.$router.push({ name: "home" });
       return raw;
     }

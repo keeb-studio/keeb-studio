@@ -1,4 +1,3 @@
-import { KeebKey } from "@/models/KeysetLayout/KeebKey";
 import { Key } from "@/models/KeysetLayout/Key";
 import { GetterTree } from "vuex";
 import KeysetLayout from "../../models/KeysetLayout/KeysetLayout";
@@ -10,24 +9,18 @@ export const getters: GetterTree<LayoutState, RootState> = {
     return state.selected.length === 1;
   },
 
-  selectedKeys(state): Array<KeebKey> {
-    // const ids = state.selected.map((id: string) => { return });
-    return [];
+  selectedKeys(state): Array<Key> {
+    return state.selected
+      .map((id: string) => state.allkeys.find(x => x.id === id) || new Key())
+      .filter((x: Key) => x.id !== "");
   },
+
   keyset(state): KeysetLayout {
     return state.keyset;
   },
 
   allKeys(state, getters): Key[] {
-    writeKeys(state);
+    // writeKeys(state);
     return state.allkeys;
   }
 };
-
-export function writeKeys(state: LayoutState): any {
-  const json = JSON.stringify(state.allkeys);
-  if (state.keyset.kleParsed[0]) {
-    localStorage[state.keyset.kleParsed[0].name] = json;
-  }
-  return null;
-}

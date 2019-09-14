@@ -32,6 +32,9 @@ export class Key {
   public rotation_x: number = 0;
   public rotation_y: number = 0;
 
+  public color: string = "";
+  public textColor: string[] = [];
+
   public t1: string = "";
   public t2: string = "";
   public t3: string = "";

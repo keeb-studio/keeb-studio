@@ -11,7 +11,8 @@ export const state: LayoutState = {
   error: false,
   keyset: new KeysetLayout({ raw: "[]" }),
   selected: [],
-  allkeys: []
+  allkeys: [],
+  name: ""
 };
 
 const namespaced: boolean = true;

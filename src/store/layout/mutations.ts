@@ -5,15 +5,15 @@ import { MutationTree } from "vuex";
 import { LayoutState } from "./LayoutState";
 
 export const mutations: MutationTree<LayoutState> = {
-  layoutLoaded(state, payload: string) {
-    localStorage.kleraw = payload;
+  layoutLoaded(state: LayoutState, { raw, name }) {
     state.error = false;
-    state.raw = payload;
-    state.keyset = new KeysetLayout({ raw: payload });
+    state.name = name;
+    state.keyset = new KeysetLayout({ raw });
     state.allkeys = state.keyset.allRows.flatMap((k: KeebKey[]) =>
       k.map((k2: KeebKey) => {
         const params = {
           ...k2,
+          ...k2.kleKey,
           x: k2.x,
           y: k2.y,
           width: k2.kleKey.width,
@@ -35,17 +35,37 @@ export const mutations: MutationTree<LayoutState> = {
         return new Key(params);
       })
     );
+    writeKeys(state);
   },
-  layoutError(state) {
+  loadFromStorage(state: LayoutState, name) {
+    const parsed = JSON.parse(localStorage[name]);
+    state.allkeys = parsed;
+  },
+  layoutError(state: LayoutState) {
     state.error = true;
     state.raw = "{}";
   },
+  changeKeyValue(state: LayoutState, { id, property, value }) {
+    const key = state.allkeys.find((k: Key) => k.id === id) as any;
+    key[property] = value;
+    writeKeys(state);
+  },
   selectKey(state, selectedKey: string) {
-    const { selected } = state;
-    if (selected.includes(selectedKey)) {
-      state.selected = selected.filter((id: string) => selectedKey !== id);
-    } else {
-      selected.push(selectedKey);
-    }
+    // const { selected } = state;
+    // if (selected.includes(selectedKey)) {
+    //   state.selected = selected.filter((id: string) => selectedKey !== id);
+    // } else {
+    //   selected.push(selectedKey);
+    // }
+    state.selected = [selectedKey];
   }
 };
+
+export function writeKeys(state: LayoutState): any {
+  const json = JSON.stringify(state.allkeys);
+  const parsed = state.keyset.kleParsed[0] as any;
+  if (parsed) {
+    localStorage[state.name] = json;
+  }
+  return null;
+}

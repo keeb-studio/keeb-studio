@@ -8,16 +8,26 @@
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
-        <g transform="translate(10,10)">
-          <g transform="translate(5,5)">
-            <KeyCap v-for="k in keys" :key="k.id" :model-key="k"></KeyCap>
-            <!-- <div v-for="k in keys" :key="k.id" :model-key="k" :id="k.id"></div> -->
-          </g>
-        </g>
+        <KeyCap
+          v-for="k in keys"
+          :key="k.id"
+          v-bind="k"
+          :model-key="k"
+          outlineColor="black"
+        ></KeyCap>
+        <!-- <div v-for="k in keys" :key="k.id" :model-key="k" :id="k.id"></div> -->
       </svg>
     </div>
     <div class="row">
-      <div class="col-sm">One of three columns</div>
+      <div class="col-sm">
+        <ul>
+          <KeyEditor
+            v-for="(id, index) in selectedKeys"
+            :key="index"
+            :theKey="id"
+          />
+        </ul>
+      </div>
       <div class="col-sm">
         <div class="row">
           <div class="col-8 col-sm-6">
@@ -42,25 +52,22 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
-import KeyCap from "./Keyset/Keycap.vue";
+import KeyCap from "./Keyset/KeyCapV2.vue";
+import KeyEditor from "./KeyEditor.vue";
+// import KeyCap from "./Keyset/Keycap.vue";
 // import Keyset from "./Keyset.vue";
 @Component({
   components: {
-    KeyCap
+    KeyCap,
+    KeyEditor
   }
 })
 export default class Keyset extends Vue {
   @Getter("keyset", { namespace: "layout" }) keyset: any;
   @Getter("allKeys", { namespace: "layout" }) allKeys: any;
-  @Mutation("layoutLoaded", { namespace: "layout" }) layoutLoaded: any;
+  @Getter("selectedKeys", { namespace: "layout" }) selectedKeys: any;
 
   get keys() {
-    // todo this better
-    // add is loaded property to vuex
-    if (this.allKeys.length < 1) {
-      const raw = localStorage.getItem("kleraw");
-      this.layoutLoaded(raw);
-    }
     return this.allKeys;
   }
 
@@ -74,7 +81,7 @@ export default class Keyset extends Vue {
   // todo move into model
   get maxHeight() {
     if (this.keys.length < 1) return 0;
-    const maxKey = this.keys.reduce((prev, current) =>
+    const maxKey = this.keys.reduce((prev: any, current: any) =>
       prev.y + prev.height > current.y + current.height ? prev : current
     );
     return (maxKey.y + maxKey.height) * 56 + 16 + 100;
@@ -83,7 +90,7 @@ export default class Keyset extends Vue {
   // todo move into model
   get maxWidth() {
     if (this.keys.length < 1) return 0;
-    const maxKey = this.keys.reduce((prev, current) =>
+    const maxKey = this.keys.reduce((prev: any, current: any) =>
       prev.x + prev.width > current.x + current.width ? prev : current
     );
     return (maxKey.x + maxKey.width) * 56 + 16 + 100;

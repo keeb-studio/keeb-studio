@@ -6,4 +6,5 @@ export interface LayoutState {
   keyset: KeysetLayout;
   selected: string[];
   allkeys: Key[];
+  name: string;
 }

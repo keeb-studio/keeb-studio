@@ -17,6 +17,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import "vue-apollo";
 import Gist from "./Gist.vue";
 import GISTS from "../../graphql/Gists.gql";
+import { Mutation, Getter } from "vuex-class";
+const namespace = "layout";
 @Component({
   components: {
     Gist
@@ -28,13 +30,19 @@ import GISTS from "../../graphql/Gists.gql";
   }
 })
 export default class Saved extends Vue {
+  @Mutation("loadFromStorage", { namespace }) loadFromStorage: any;
   newMessage: string = "";
   gistId: string = "";
   selectedFile: any = null;
   viewer: any = null;
 
   selectGist(file: any) {
-    this.selectedFile = file;
+    if (localStorage[file.name] === undefined) {
+      this.selectedFile = file;
+    } else {
+      this.loadFromStorage(file.name);
+      this.$router.push({ name: "home" });
+    }
   }
 
   get files() {
