@@ -2,9 +2,8 @@
   <div class="container-fluid">
     <div class="row p-3">
       <svg
-        :width="maxWidth"
-        :height="maxHeight"
-        :viewBox="`0.000 0.000 ${maxWidth} ${maxHeight}`"
+        width="1200"
+        height="400"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
@@ -19,16 +18,14 @@
       </svg>
     </div>
     <div class="row">
-      <div class="col-sm">
-        <ul>
-          <KeyEditor
-            v-for="(id, index) in selectedKeys"
-            :key="index"
-            :theKey="id"
-          />
-        </ul>
+      <div class="col-sm-6">
+        <KeyEditor
+          v-for="(id, index) in selectedKeys"
+          :key="index"
+          :theKey="id"
+        />
       </div>
-      <div class="col-sm">
+      <div class="col-sm-3">
         <div class="row">
           <div class="col-8 col-sm-6">
             <!-- <ColorPicker id="background-color" name="Background Color" />
@@ -42,7 +39,7 @@
           <div class="col-4 col-sm-6"></div>
         </div>
       </div>
-      <div class="col-sm">
+      <div class="col-sm-3">
         One of three columns
       </div>
     </div>
