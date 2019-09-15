@@ -14,15 +14,22 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
+import MathHelper from "../models/MathHelper";
 @Component({})
 export default class PcbCalc extends Vue {
   @Prop() private theKey!: Key;
+  pcbPosition() {
+    const { x, y, width, height } = this.theKey;
+    return MathHelper.keyPcbPosition(x, y, width, height, 0, 0);
+  }
   get x() {
-    return this.theKey.x;
+    const { x } = this.pcbPosition();
+    return x;
   }
 
   get y() {
-    return this.theKey.y;
+    const { y } = this.pcbPosition();
+    return y;
   }
 }
 </script>
