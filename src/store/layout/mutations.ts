@@ -39,6 +39,7 @@ export const mutations: MutationTree<LayoutState> = {
   },
   loadFromStorage(state: LayoutState, name) {
     const parsed = JSON.parse(localStorage[name]);
+    state.name = name;
     state.allkeys = parsed;
   },
   layoutError(state: LayoutState) {
@@ -62,11 +63,5 @@ export const mutations: MutationTree<LayoutState> = {
 };
 
 export function writeKeys(state: LayoutState): any {
-  const json = JSON.stringify(state.allkeys);
-  //todo kleparsed no more
-  const parsed = state.keyset.kleParsed[0] as any;
-  if (parsed) {
-    localStorage[state.name] = json;
-  }
-  return null;
+  localStorage[state.name] = JSON.stringify(state.allkeys);
 }

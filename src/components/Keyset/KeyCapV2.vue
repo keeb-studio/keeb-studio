@@ -91,7 +91,7 @@ export default class KeyCapV2 extends Vue {
   }
 
   get textColor(): string {
-    return this.default.textColor;
+    return this.default ? this.default.textColor : "black";
   }
   get texts(): Array<IText> {
     const tw = 17;
