@@ -120,11 +120,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Getter, Mutation } from "vuex-class";
+import { Getter, Mutation, Action } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
 @Component({})
 export default class KeyEditor extends Vue {
-  @Mutation("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
+  @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
   @Prop() private theKey!: Key;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   changeValue(x: any, property: string) {

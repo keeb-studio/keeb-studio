@@ -1,21 +1,31 @@
 import { Key } from "@/models/KeysetLayout/Key";
 import { GetterTree } from "vuex";
+import { LayoutState } from ".";
 import KeysetLayout from "../../models/KeysetLayout/KeysetLayout";
 import { RootState } from "../RootState";
-import { LayoutState } from "./LayoutState";
 
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
+  hasChanges,
   isSelectedGetter,
   keyset,
   selectedKeys,
   singleKey,
+  timeSinceChanged,
   unSelectedKeys
 };
+
+function timeSinceChanged(state: LayoutState): number {
+  return state.timeSinceChange;
+}
 
 function allKeys(state: LayoutState): Key[] {
   // writeKeys(state);
   return state.allkeys;
+}
+
+function hasChanges(state: LayoutState): boolean {
+  return state.hasChanges;
 }
 
 function isSelectedGetter(state: LayoutState): Function {

@@ -2,11 +2,12 @@ import { KeebKey } from "@/models/KeysetLayout/KeebKey";
 import { Key } from "@/models/KeysetLayout/Key";
 import KeysetLayout from "@/models/KeysetLayout/KeysetLayout";
 import { MutationTree } from "vuex";
-import { LayoutState } from "./LayoutState";
+import { LayoutState } from "./index";
 
 export const mutations: MutationTree<LayoutState> = {
   layoutLoaded(state: LayoutState, { raw, name }) {
     state.error = false;
+    state.hasChanges = false;
     state.name = name;
     state.keyset = new KeysetLayout({ raw });
     state.allkeys = state.keyset.allRows.flatMap((k: KeebKey[]) =>
@@ -35,21 +36,18 @@ export const mutations: MutationTree<LayoutState> = {
         return new Key(params);
       })
     );
-    writeKeys(state);
+    // writeKeys(state);
   },
   loadFromStorage(state: LayoutState, name) {
     const parsed = JSON.parse(localStorage[name]);
     state.name = name;
     state.allkeys = parsed;
+    state.hasChanges = false;
+    state.timeSinceChange = -1;
   },
   layoutError(state: LayoutState) {
     state.error = true;
     state.raw = "{}";
-  },
-  changeKeyValue(state: LayoutState, { id, property, value }) {
-    const key = state.allkeys.find((k: Key) => k.id === id) as any;
-    key[property] = value;
-    writeKeys(state);
   },
   selectKey(state, selectedKey: string) {
     // const { selected } = state;
