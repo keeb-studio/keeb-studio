@@ -1,14 +1,5 @@
 <template>
   <g class="keycap" @click="handleClick">
-    <!-- <rect
-        :x="model.x"
-        :y="model.y"
-        :width="model.calc_width + model.width"
-        :height="model.calc_height + model.height"
-        :fill="model.color_darker"
-        "
-      /> -->
-
     <g>
       <rect
         :style="`stroke: ${outlineColor}; stroke-width: 1;`"
@@ -50,7 +41,6 @@ export default class KeyCapV2 extends Vue {
   @Prop() private rotation_x!: number;
   @Prop() private rotation_y!: number;
   @Prop() private color!: number;
-  @Prop() private outlineColor!: string;
   @Prop() private t1!: number;
   @Prop() private t2!: number;
   @Prop() private t3!: number;
@@ -64,7 +54,16 @@ export default class KeyCapV2 extends Vue {
   @Prop() private default!: IDefaultText;
 
   @Mutation("selectKey", { namespace: "layout" }) selectKey: any;
+  @Getter("isSelectedGetter", { namespace: "layout" }) isSelectedGetter: any;
 
+  get isSelected(): boolean {
+    return this.isSelectedGetter(this.id);
+  }
+
+  get outlineColor(): string {
+    return this.isSelected ? "red" : "black";
+  }
+  // @Prop() private outlineColor!: string;
   handleClick() {
     // this.selected = !this.selected;
     this.selectKey(this.id);

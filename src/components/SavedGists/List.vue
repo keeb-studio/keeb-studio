@@ -5,7 +5,18 @@
       <Gist :file="selectedFile" />
     </div>
     <div v-else>
-      <div v-for="file of files" :key="file.id">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Filter</label>
+          <input
+            class="form-control"
+            aria-describedby="filter"
+            placeholder="Filter Name"
+            @input="filter"
+          />
+        </div>
+      </form>
+      <div v-for="file of filteredFiles" :key="file.id">
         <a @click="selectGist(file)">{{ file.name }}</a>
       </div>
     </div>
@@ -31,7 +42,7 @@ const namespace = "layout";
 })
 export default class Saved extends Vue {
   @Mutation("loadFromStorage", { namespace }) loadFromStorage: any;
-  newMessage: string = "";
+  searchTerm: string = "";
   gistId: string = "";
   selectedFile: any = null;
   viewer: any = null;
@@ -45,6 +56,17 @@ export default class Saved extends Vue {
     }
   }
 
+  filter(event: any) {
+    this.searchTerm = event.target.value;
+  }
+
+  get filteredFiles() {
+    return this.files.filter((file: IGist) =>
+      this.searchTerm.length > 0
+        ? file.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+        : true
+    );
+  }
   get files() {
     if (this.viewer) {
       return this.viewer.gists.edges
@@ -54,11 +76,17 @@ export default class Saved extends Vue {
             return { ...file, gistId: repository.id };
           });
         })
-        .filter((file: any) => file.name.indexOf(".kbd.") > -1)
-        .map((file: any) => ({ name: file.name, id: file.gistId }));
+        .filter((file: IGist) => file.name.indexOf(".kbd.") > -1)
+        .map((file: IGist) => ({ name: file.name, id: file.gistId }));
     }
     return [];
   }
+}
+
+interface IGist {
+  name: string;
+  id: string;
+  gistId: string;
 }
 </script>
 

@@ -47,18 +47,6 @@
 
       <div class="input-group col-6">
         <div class="input-group-prepend">
-          <div class="input-group-text p-1 tiny-t">height</div>
-        </div>
-        <input
-          :key="'height'"
-          type="text"
-          :name="'height'"
-          :value="theKey['height']"
-          @input="x => changeValue(x, 'height')"
-          :placeholder="'height'"
-          class="form-control"
-        />
-        <div class="input-group-prepend">
           <div class="input-group-text p-1 tiny-t">width</div>
         </div>
         <input
@@ -68,6 +56,18 @@
           :value="theKey['width']"
           @input="x => changeValue(x, 'width')"
           :placeholder="'width'"
+          class="form-control"
+        />
+        <div class="input-group-prepend">
+          <div class="input-group-text p-1 tiny-t">height</div>
+        </div>
+        <input
+          :key="'height'"
+          type="text"
+          :name="'height'"
+          :value="theKey['height']"
+          @input="x => changeValue(x, 'height')"
+          :placeholder="'height'"
           class="form-control"
         />
       </div>
