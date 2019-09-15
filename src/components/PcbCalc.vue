@@ -4,7 +4,8 @@
     <div class="row">
       <ul>
         <li>x: {{ x }}</li>
-        <li>y: {{ y }}1</li>
+        <li>y: {{ y }}</li>
+        <li>y: {{ rotation }}</li>
       </ul>
     </div>
   </div>
@@ -19,17 +20,38 @@ import MathHelper from "../models/MathHelper";
 export default class PcbCalc extends Vue {
   @Prop() private theKey!: Key;
   pcbPosition() {
-    const { x, y, width, height } = this.theKey;
-    return MathHelper.keyPcbPosition(x, y, width, height, 0, 0);
+    const {
+      x,
+      y,
+      width,
+      height,
+      rotation_angle,
+      rotation_x,
+      rotation_y
+    } = this.theKey;
+    return MathHelper.rotatedKicad(
+      x,
+      y,
+      width,
+      height,
+      0,
+      0,
+      rotation_x,
+      rotation_y,
+      rotation_angle
+    );
   }
+
+  get rotation() {
+    return MathHelper.roundResult(this.pcbPosition().rotation);
+  }
+
   get x() {
-    const { x } = this.pcbPosition();
-    return x;
+    return MathHelper.roundResult(this.pcbPosition().x);
   }
 
   get y() {
-    const { y } = this.pcbPosition();
-    return y;
+    return MathHelper.roundResult(this.pcbPosition().y);
   }
 }
 </script>
