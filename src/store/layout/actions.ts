@@ -1,8 +1,8 @@
 import { Key } from "@/models/KeysetLayout/Key";
+import axios from "axios";
 import { ActionContext, ActionTree } from "vuex";
 import { LayoutState } from ".";
 import { RootState } from "../RootState";
-
 export const actions: ActionTree<LayoutState, RootState> = {
   changeKeyValue
 };
@@ -32,4 +32,43 @@ async function countDownTimer(store: ActionContext<LayoutState, RootState>) {
     }, 1000);
     resolve("resolved");
   });
+}
+
+export async function gistExists(
+  name: string,
+  token: string
+): Promise<boolean | string> {
+  // const token = localStorage.getItem("token") || "";
+  // const config = {
+  //   method: "get",
+
+  //   withCredentials: true,
+  //   crossdomain: true
+  // } as any;
+  try {
+    const path = "https://api.github.com/gists";
+    const resp = await axios.get(path, {
+      withCredentials: true,
+      headers: {
+        Authorizaion: `Bearer ${token}`
+      }
+    });
+
+    let isFound = false;
+    if (resp.status === 200) {
+      const matching = resp.data.find(
+        (gist: any) => gist.files[`${name}.keeb.json`] !== undefined
+      );
+      if (matching !== undefined) {
+        isFound = matching.id;
+      }
+    }
+    return new Promise(resolve => {
+      return resolve(isFound);
+    });
+  } catch (error) {
+    return new Promise(resolve => {
+      return resolve(false);
+    });
+  }
 }
