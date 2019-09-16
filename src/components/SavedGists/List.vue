@@ -1,13 +1,11 @@
 <template>
   <div>
     <div v-if="selectedFile !== null">
-      <a @click="selectedFile = null">Change</a>
-      <Gist :file="selectedFile" />
+      <Gist :file="selectedFile" :gist-type="gistType" />
     </div>
     <div v-else>
       <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Filter</label>
+        <div class="form-group mt-4">
           <input
             class="form-control"
             aria-describedby="filter"
@@ -42,24 +40,26 @@ const namespace = "layout";
 })
 export default class Saved extends Vue {
   @Mutation("loadFromStorage", { namespace }) loadFromStorage: any;
+
+  @Prop({ required: true })
+  public gistType!: string;
+
   searchTerm: string = "";
   gistId: string = "";
   selectedFile: any = null;
   viewer: any = null;
 
   selectGist(file: any) {
-    if (localStorage[file.name] === undefined) {
-      this.selectedFile = file;
-    } else {
-      this.loadFromStorage(file.name);
-      this.$router.push({ name: "home" });
-    }
+    this.selectedFile = file;
   }
 
   filter(event: any) {
     this.searchTerm = event.target.value;
   }
 
+  get extension() {
+    return this.gistType === "load" ? ".keeb.json" : ".kbd.json";
+  }
   get filteredFiles() {
     return this.files.filter((file: IGist) =>
       this.searchTerm.length > 0
@@ -76,7 +76,7 @@ export default class Saved extends Vue {
             return { ...file, gistId: repository.id };
           });
         })
-        .filter((file: IGist) => file.name.indexOf(".kbd.") > -1)
+        .filter((file: IGist) => file.name.indexOf(this.extension) > -1)
         .map((file: IGist) => ({ name: file.name, id: file.gistId }));
     }
     return [];

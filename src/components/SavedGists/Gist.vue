@@ -2,7 +2,6 @@
   <div>
     <h2>{{ file.name }}</h2>
     <h5>{{ file.id }}</h5>
-    <h6>{{ keyset }}</h6>
     <div>
       {{ selectContent }}
     </div>
@@ -13,13 +12,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import "vue-apollo";
 import GIST from "../../graphql/Gist.gql";
-import KeysetLayout from "../../models/KeysetLayout/KeysetLayout";
 import { mapMutations } from "vuex";
 import { Mutation, Getter } from "vuex-class";
 const namespace = "layout";
 @Component({
   apollo: {
     node: {
+      fetchPolicy: "no-cache",
       query: GIST,
       variables() {
         return { id: this.file.id };
@@ -28,18 +27,30 @@ const namespace = "layout";
   }
 })
 export default class Gist extends Vue {
+  @Mutation("importKle", { namespace }) importKle: any;
+  @Mutation("loadGist", { namespace }) loadGist: any;
+
+  @Prop()
+  public file!: any;
+
+  @Prop({ required: true })
+  public gistType!: string;
+
   public node: any = null;
-  @Prop() private file!: any;
-  keysetLayout: KeysetLayout | null = null;
-  @Mutation("layoutLoaded", { namespace }) layoutLoaded: any;
-  @Getter("keyset", { namespace }) keyset: any;
+
   get selectContent() {
     if (this.file && this.node) {
       const raw = this.node.files.find(
         (file: any) => file.name === this.file.name
       ).text;
-      this.layoutLoaded({ raw, name: this.file.name });
-      this.$router.push({ name: "home" });
+
+      if (this.gistType === "load") {
+        this.loadGist({ raw, name: this.file.name, id: this.file.id });
+        this.$router.push({ name: "home" });
+      } else {
+        this.importKle({ raw, name: this.file.name });
+        this.$router.push({ name: "home" });
+      }
       return raw;
     }
     return "";

@@ -42,7 +42,7 @@ async function persist(state: LayoutState): Promise<boolean> {
   //todo move to vuex
   const token = localStorage.token;
   const { keebGistId: id, name: kbdName } = state;
-  const name = kbdName.replace(".kbd.json", "");
+  const name = kbdName.replace(".kbd.json", "").replace(".keeb.json", "");
   const content = {
     meta: { name: name },
     content: state.allkeys

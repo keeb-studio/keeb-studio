@@ -5,12 +5,20 @@ import { MutationTree } from "vuex";
 import { LayoutState } from "./index";
 
 export const mutations: MutationTree<LayoutState> = {
-  layoutLoaded(state: LayoutState, { raw, name }) {
+  loadGist(state: LayoutState, { raw, name, id }) {
+    state.selected = [];
     state.error = false;
     state.hasChanges = false;
     state.name = name;
-    state.keyset = new KeysetLayout({ raw });
-    state.allkeys = state.keyset.allRows.flatMap((k: KeebKey[]) =>
+    const parsed = JSON.parse(raw) as any;
+    state.keebGistId = id;
+    state.allkeys = parsed.content;
+  },
+  importKle(state: LayoutState, { raw, name }) {
+    state.error = false;
+    state.hasChanges = false;
+    state.name = name;
+    state.allkeys = new KeysetLayout({ raw }).allRows.flatMap((k: KeebKey[]) =>
       k.map((k2: KeebKey) => {
         const params = {
           ...k2,

@@ -87,7 +87,6 @@ export async function gistExists(
       return resolve(isFound);
     });
   } catch (error) {
-    // console.log(error);
     return new Promise(resolve => {
       return resolve(false);
     });
