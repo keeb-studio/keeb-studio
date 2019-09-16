@@ -5,6 +5,9 @@ import { MutationTree } from "vuex";
 import { LayoutState } from "./index";
 
 export const mutations: MutationTree<LayoutState> = {
+  toggleMultiSelect(state: LayoutState) {
+    state.multiSelect = !state.multiSelect;
+  },
   loadGist(state: LayoutState, { raw, name, id }) {
     state.selected = [];
     state.error = false;
@@ -58,13 +61,17 @@ export const mutations: MutationTree<LayoutState> = {
     state.raw = "{}";
   },
   selectKey(state, selectedKey: string) {
-    // const { selected } = state;
-    // if (selected.includes(selectedKey)) {
-    //   state.selected = selected.filter((id: string) => selectedKey !== id);
-    // } else {
-    //   selected.push(selectedKey);
-    // }
-    state.selected = [selectedKey];
+    if (state.multiSelect) {
+      const { selected } = state;
+      if (selected.includes(selectedKey)) {
+        state.selected = selected.filter((id: string) => selectedKey !== id);
+      } else {
+        selected.push(selectedKey);
+      }
+    }
+    else {
+      state.selected = [selectedKey];
+    }
   }
 };
 

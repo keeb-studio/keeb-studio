@@ -10,11 +10,12 @@ export interface LayoutState {
   error: boolean;
   selected: string[];
   allkeys: Key[];
-  name: string;
+ name: string;
   hasChanges: boolean;
   timeSinceChange: number;
   timer: any;
   keebGistId: string | null;
+  multiSelect: boolean;
 }
 
 export const state: LayoutState = {
@@ -26,7 +27,8 @@ export const state: LayoutState = {
   raw: "[]",
   selected: [],
   timer: null,
-  timeSinceChange: -1
+  timeSinceChange: -1,
+  multiSelect: false
 };
 
 const namespaced: boolean = true;

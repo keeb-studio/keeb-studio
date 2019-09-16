@@ -6,14 +6,20 @@ import { RootState } from "../RootState";
 export const getters: GetterTree<LayoutState, RootState> = {
   hasChanges,
   isSelectedGetter,
+  multiSelect,
   selectedKeys,
   singleKey,
   timeSinceChanged,
-  unSelectedKeys
+  unSelectedKeys,
+  lastSelectedKey
 };
 
 function timeSinceChanged(state: LayoutState): number {
   return state.timeSinceChange;
+}
+
+function multiSelect(state: LayoutState): boolean {
+  return state.multiSelect
 }
 
 function hasChanges(state: LayoutState): boolean {
@@ -24,6 +30,11 @@ function isSelectedGetter(state: LayoutState): Function {
   return function(id: string): boolean {
     return selectedKeys(state).find(x => x.id === id) !== undefined;
   };
+}
+
+function lastSelectedKey(state: LayoutState): Key {
+  const selected = selectedKeys(state);
+  return selected[selected.length -1];
 }
 
 function selectedKeys(state: LayoutState): Array<Key> {

@@ -11,8 +11,11 @@ async function changeKeyValue(
   store: ActionContext<LayoutState, RootState>,
   { id, property, value }: any
 ) {
-  const key = store.state.allkeys.find((k: Key) => k.id === id) as any;
-  key[property] = value;
+  const keysToChange = store.state.multiSelect ? store.state.selected : [id];
+  keysToChange.forEach((id: string) => {
+    const key = store.state.allkeys.find((k: Key) => k.id === id) as any;
+    key[property] = value;
+  });
 
   store.state.hasChanges = true;
   store.state.timeSinceChange = 0;

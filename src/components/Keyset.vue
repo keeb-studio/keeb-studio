@@ -25,11 +25,7 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <KeyEditor
-          v-for="(id, index) in selectedKeys"
-          :key="index"
-          :theKey="id"
-        />
+        <KeyEditor v-if="lastSelectedKey" :theKey="lastSelectedKey" />
       </div>
       <div class="col-sm-3">
         <div class="row">
@@ -38,11 +34,7 @@
             <ColorPicker id="alpa-color" name="Alpha Color" /> -->
           </div>
           <div class="col-4 col-sm-6">
-            <SchematicMeta
-              v-for="(id, index) in selectedKeys"
-              :key="index"
-              :theKey="id"
-            />
+            <SchematicMeta v-if="lastSelectedKey" :theKey="lastSelectedKey" />
           </div>
         </div>
 
@@ -52,11 +44,7 @@
         </div>
       </div>
       <div class="col-sm-3">
-        <PcbCalc
-          v-for="(id, index) in selectedKeys"
-          :key="index"
-          :theKey="id"
-        />
+        <PcbCalc v-if="lastSelectedKey" :theKey="lastSelectedKey" />
       </div>
     </div>
   </div>
@@ -78,6 +66,7 @@ import SchematicMeta from "./SchematicMeta.vue";
   }
 })
 export default class Keyset extends Vue {
+  @Getter("lastSelectedKey", { namespace: "layout" }) lastSelectedKey: any;
   @Getter("selectedKeys", { namespace: "layout" }) selectedKeys: any;
   @Getter("unSelectedKeys", { namespace: "layout" }) unSelectedKeys: any;
 }
