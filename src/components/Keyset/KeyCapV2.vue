@@ -9,8 +9,7 @@
         :height="calcHeight"
         :transform="calcTransform"
         :fill="color"
-      >
-      </rect>
+      ></rect>
       <text
         :transform="calcTransform"
         class="keytext"
@@ -20,7 +19,7 @@
         :y="t.y"
         :fill="textColor"
         :text-anchor="t.align"
-        >{{ t.text }}</text
+        >{{ getText(i) }}</text
       >
     </g>
   </g>
@@ -33,6 +32,9 @@ import { Getter, Mutation } from "vuex-class";
 const BASEUNIT = 54;
 @Component({})
 export default class KeyCapV2 extends Vue {
+  @Prop() private schematic_x!: number;
+  @Prop() private schematic_y!: number;
+  @Prop() private schematic_index!: number;
   @Prop() private x!: number;
   @Prop() private y!: number;
   @Prop() private width!: number;
@@ -41,25 +43,44 @@ export default class KeyCapV2 extends Vue {
   @Prop() private rotation_x!: number;
   @Prop() private rotation_y!: number;
   @Prop() private color!: number;
-  @Prop() private t1!: number;
-  @Prop() private t2!: number;
-  @Prop() private t3!: number;
-  @Prop() private t4!: number;
-  @Prop() private t5!: number;
-  @Prop() private t6!: number;
-  @Prop() private t7!: number;
-  @Prop() private t8!: number;
-  @Prop() private t9!: number;
+  @Prop() private t1!: string;
+  @Prop() private t2!: string;
+  @Prop() private t3!: string;
+  @Prop() private t4!: string;
+  @Prop() private t5!: string;
+  @Prop() private t6!: string;
+  @Prop() private t7!: string;
+  @Prop() private t8!: string;
+  @Prop() private t9!: string;
   @Prop() private id!: string;
   @Prop() private default!: IDefaultText;
 
-  @Mutation("selectKey", { namespace: "layout" }) selectKey: any;
-  @Getter("isSelectedGetter", { namespace: "layout" }) isSelectedGetter: any;
+  @Mutation("selectKey", { namespace: "layout" })
+  selectKey: any;
+
+  @Getter("isSelectedGetter", { namespace: "layout" })
+  isSelectedGetter: any;
+
+  @Getter("gridMode", { namespace: "layout" })
+  gridMode: any;
 
   get isSelected(): boolean {
     return this.isSelectedGetter(this.id);
   }
 
+  getText(index: number): string {
+    if (this.gridMode) {
+      if (index === 0) {
+        return this.schematic_x.toString();
+      } else if (index === 8) {
+        return this.schematic_y.toString();
+      }
+      return "";
+    } else {
+      const foo = this.texts[index];
+      return foo.text;
+    }
+  }
   get outlineColor(): string {
     return this.isSelected ? "red" : "black";
   }
@@ -160,7 +181,7 @@ export default class KeyCapV2 extends Vue {
 interface IText {
   x: number;
   y: number;
-  text: number;
+  text: string;
   align: string;
 }
 

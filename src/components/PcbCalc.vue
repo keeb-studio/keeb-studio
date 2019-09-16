@@ -2,7 +2,7 @@
   <div>
     <legend class="col-form-label  col-form-label-sm pb-0">PCB</legend>
     <div class="row">
-      <ul>
+      <ul class="pl-3">
         <li>x: {{ x }}</li>
         <li>y: {{ y }}</li>
         <li>r: {{ rotation }}</li>

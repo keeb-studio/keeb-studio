@@ -4,7 +4,7 @@ export class Key {
   constructor(params: any = {}) {
     // init any params passed in
     for (const [k, v] of Object.entries(params)) {
-      (<any>this)[k] = v;
+      (this as any)[k] = v;
     }
 
     //set an id if not passed in
@@ -13,7 +13,12 @@ export class Key {
     } else {
       this.id = params.id;
     }
+
   }
+
+  public schematic_x: number = -1;
+  public schematic_y: number = -1;
+  public schematic_index: number = -1;
 
   public text: string = "";
   public meta: object = {};

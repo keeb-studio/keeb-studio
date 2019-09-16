@@ -16,6 +16,14 @@
       >
         Multi: {{ multiSelect ? "on" : "off" }}
       </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        @click="toggleGridMode"
+      >
+        Grid Mode: {{ gridMode ? "on" : "off" }}
+      </button>
       <WriteGist />
     </div>
   </header>
@@ -29,8 +37,14 @@ export default class Nav extends Vue {
   @Getter("multiSelect", { namespace: "layout" })
   multiSelect: any;
 
+  @Getter("gridMode", { namespace: "layout" })
+  gridMode: any;
+
   @Mutation("toggleMultiSelect", { namespace: "layout" })
   toggleMultiSelect: any;
+
+  @Mutation("toggleGridMode", { namespace: "layout" })
+  toggleGridMode: any;
 }
 </script>
 <style lang="scss" scoped></style>

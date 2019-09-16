@@ -11,7 +11,8 @@ export const getters: GetterTree<LayoutState, RootState> = {
   singleKey,
   timeSinceChanged,
   unSelectedKeys,
-  lastSelectedKey
+  lastSelectedKey,
+  gridMode
 };
 
 function timeSinceChanged(state: LayoutState): number {
@@ -20,6 +21,10 @@ function timeSinceChanged(state: LayoutState): number {
 
 function multiSelect(state: LayoutState): boolean {
   return state.multiSelect
+}
+
+function gridMode(state: LayoutState): boolean {
+  return state.gridMode;
 }
 
 function hasChanges(state: LayoutState): boolean {

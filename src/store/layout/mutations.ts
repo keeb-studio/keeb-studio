@@ -8,6 +8,10 @@ export const mutations: MutationTree<LayoutState> = {
   toggleMultiSelect(state: LayoutState) {
     state.multiSelect = !state.multiSelect;
   },
+
+  toggleGridMode(state: LayoutState) {
+    state.gridMode = !state.gridMode;
+  },
   loadGist(state: LayoutState, { raw, name, id }) {
     state.selected = [];
     state.error = false;
@@ -22,12 +26,15 @@ export const mutations: MutationTree<LayoutState> = {
     state.hasChanges = false;
     state.name = name;
     state.allkeys = new KeysetLayout({ raw }).allRows.flatMap((k: KeebKey[]) =>
-      k.map((k2: KeebKey) => {
+      k.map((k2: KeebKey, index: number) => {
         const params = {
           ...k2,
           ...k2.kleKey,
           x: k2.x,
           y: k2.y,
+          schematic_index: index,
+          schematic_x: k2.gridIndex.col,
+          schematic_y: k2.gridIndex.row,
           width: k2.kleKey.width,
           height: k2.kleKey.height,
           rotation_angle: k2.kleKey.rotation_angle,

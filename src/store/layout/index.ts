@@ -16,6 +16,7 @@ export interface LayoutState {
   timer: any;
   keebGistId: string | null;
   multiSelect: boolean;
+  gridMode: boolean;
 }
 
 export const state: LayoutState = {
@@ -28,7 +29,8 @@ export const state: LayoutState = {
   selected: [],
   timer: null,
   timeSinceChange: -1,
-  multiSelect: false
+  multiSelect: false,
+  gridMode: false
 };
 
 const namespaced: boolean = true;

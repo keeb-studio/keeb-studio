@@ -34,6 +34,7 @@ const namespace = "layout";
   },
   apollo: {
     viewer: {
+      fetchPolicy: "no-cache",
       query: GISTS
     }
   }
