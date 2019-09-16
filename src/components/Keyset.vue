@@ -37,7 +37,13 @@
             <!-- <ColorPicker id="background-color" name="Background Color" />
             <ColorPicker id="alpa-color" name="Alpha Color" /> -->
           </div>
-          <div class="col-4 col-sm-6">more</div>
+          <div class="col-4 col-sm-6">
+            <SchematicMeta
+              v-for="(id, index) in selectedKeys"
+              :key="index"
+              :theKey="id"
+            />
+          </div>
         </div>
 
         <div class="row">
@@ -62,11 +68,13 @@ import { Getter, Mutation } from "vuex-class";
 import KeyCap from "./Keyset/KeyCapV2.vue";
 import KeyEditor from "./KeyEditor.vue";
 import PcbCalc from "./PcbCalc.vue";
+import SchematicMeta from "./SchematicMeta.vue";
 @Component({
   components: {
     KeyCap,
     KeyEditor,
-    PcbCalc
+    PcbCalc,
+    SchematicMeta
   }
 })
 export default class Keyset extends Vue {

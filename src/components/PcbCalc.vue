@@ -5,7 +5,7 @@
       <ul>
         <li>x: {{ x }}</li>
         <li>y: {{ y }}</li>
-        <li>y: {{ rotation }}</li>
+        <li>r: {{ rotation }}</li>
       </ul>
     </div>
   </div>
