@@ -1,21 +1,60 @@
 import aaxios from "axios";
-import { gistExists } from "./actions";
+import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 const axios = aaxios as any;
-describe("gistExists", () => {
+
+describe("actions", () => {
+  let gh = "";
   beforeAll(() => {
-    const RESP = { status: 200, data: mockResp };
-    axios.get = jest.fn(x => {
-      return Promise.resolve(RESP);
+    gh = process.env.CYPRESS_GHTOKEN || ("no_token" as string);
+  });
+  describe("gistUpdate", () => {
+    beforeAll(() => {
+      const RESP = { status: 200, data: mockResp[0] };
+      axios.patch = jest.fn(x => {
+        return Promise.resolve(RESP);
+      });
+    });
+    it("returns true when successful", async () => {
+      const result = await gistUpdate(
+        "249185b2796fc4706fbdd567dc72e4b5",
+        "board3",
+        { name: "board3", content: { keys: [] } },
+        gh
+      );
+      expect(result).toEqual(true);
     });
   });
-  it("return id if found", async () => {
-    const result = await gistExists("board", "someghkey");
-    expect(result).toEqual("1e4b1d0e53bd714207307eddcc451103");
+  describe("gistCreate", () => {
+    beforeAll(() => {
+      const RESP = { status: 201, data: mockResp[0] };
+      axios.post = jest.fn(x => {
+        return Promise.resolve(RESP);
+      });
+    });
+    it("returns the id when created", async () => {
+      const result = await gistCreate(
+        "board3",
+        { name: "board3", content: { keys: [] } },
+        gh
+      );
+      expect(result).toEqual("12f7e59c0f9420591d355649f62beb3f");
+    });
   });
-
-  it("return false if missing", async () => {
-    const result = await gistExists("board2", "someghkey");
-    expect(result).toEqual(false);
+  describe("gistExists", () => {
+    beforeAll(() => {
+      const RESP = { status: 200, data: mockResp };
+      axios.get = jest.fn(x => {
+        return Promise.resolve(RESP);
+      });
+    });
+    it("return id if found", async () => {
+      const result = await gistExists("board", gh);
+      expect(result).toEqual("12f7e59c0f9420591d355649f62beb3f");
+    });
+    it("return false if missing", async () => {
+      const result = await gistExists("board2", gh);
+      expect(result).toEqual(false);
+    });
   });
 });
 
@@ -26,7 +65,7 @@ const mockResp = [
       "https://api.github.com/gists/1e4b1d0e53bd714207307eddcc451103/forks",
     commits_url:
       "https://api.github.com/gists/1e4b1d0e53bd714207307eddcc451103/commits",
-    id: "1e4b1d0e53bd714207307eddcc451103",
+    id: "12f7e59c0f9420591d355649f62beb3f",
     node_id: "MDQ6R2lzdDFlNGIxZDBlNTNiZDcxNDIwNzMwN2VkZGNjNDUxMTAz",
     git_pull_url:
       "https://gist.github.com/1e4b1d0e53bd714207307eddcc451103.git",

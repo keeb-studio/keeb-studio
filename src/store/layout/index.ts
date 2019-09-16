@@ -16,18 +16,20 @@ export interface LayoutState {
   hasChanges: boolean;
   timeSinceChange: number;
   timer: any;
+  keebGistId: string | null;
 }
 
 export const state: LayoutState = {
-  raw: "[]",
-  error: false,
-  keyset: new KeysetLayout({ raw: "[]" }),
-  selected: [],
   allkeys: [],
-  name: "",
+  error: false,
   hasChanges: false,
-  timeSinceChange: -1,
-  timer: null
+  keebGistId: null,
+  keyset: new KeysetLayout({ raw: "[]" }),
+  name: "",
+  raw: "[]",
+  selected: [],
+  timer: null,
+  timeSinceChange: -1
 };
 
 const namespaced: boolean = true;
