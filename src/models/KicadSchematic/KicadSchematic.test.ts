@@ -299,4 +299,7 @@ describe("KicadSchematic", () => {
       unlinkSync("temp2.sch");
     });
   });
+  describe.only("foo", () => {
+    //
+  });
 });

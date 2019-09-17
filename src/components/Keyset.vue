@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a :href="doIt" download="something.kicad_pcb" >demo</a>
     <div class="row p-3">
       <svg
         width="1200"
@@ -13,14 +14,14 @@
           v-bind="k"
           :model-key="k"
           outlineColor="black"
-        ></KeyCap>
+        />
         <KeyCap
           v-for="k in selectedKeys"
           :key="k.id"
           v-bind="k"
           :model-key="k"
           outlineColor="black"
-        ></KeyCap>
+        />
       </svg>
     </div>
     <div class="row">
@@ -31,7 +32,7 @@
         <div class="row">
           <div class="col-8 col-sm-6">
             <!-- <ColorPicker id="background-color" name="Background Color" />
-            <ColorPicker id="alpa-color" name="Alpha Color" /> -->
+            <ColorPicker id="alpa-color" name="Alpha Color" />-->
           </div>
           <div class="col-4 col-sm-6">
             <SchematicMeta v-if="lastSelectedKey" :theKey="lastSelectedKey" />
@@ -69,6 +70,14 @@ export default class Keyset extends Vue {
   @Getter("lastSelectedKey", { namespace: "layout" }) lastSelectedKey: any;
   @Getter("selectedKeys", { namespace: "layout" }) selectedKeys: any;
   @Getter("unSelectedKeys", { namespace: "layout" }) unSelectedKeys: any;
+
+  get doIt() {
+    var text = "Some data I want to export";
+    var data = new Blob([text], { type: "application/octet-stream" });
+
+return window.URL.createObjectURL(data);
+
+  }
 }
 </script>
 

@@ -2,6 +2,7 @@ import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
 import { IDimension } from "../interfaces/iDimension";
 import { IPoint } from "../interfaces/iPoint";
+import { IGridRotated, ISchematicKey } from '../KeysetLayout/IGrid';
 import { KeebKey } from "../KeysetLayout/KeebKey";
 import { kleJSON } from "../KLE/kleJSON";
 import KLEParser from "../KLE/KLEParser";
@@ -36,8 +37,8 @@ export default class KicadSchematic {
         return s.component === null
           ? s.lines
           : s.component.lines.map((l: any) => {
-              return l.updatedLine();
-            });
+            return l.updatedLine();
+          });
       }),
       ""
     ].join("\n");
@@ -124,6 +125,53 @@ export default class KicadSchematic {
     };
   }
 
+  public static padGrid(keys: Array<IGridRotated>): Array<ISchematicKey> {
+
+    const allXs = {} as any;
+    const allYs = {} as any;
+
+    keys.forEach((key: IGridRotated, index: number) => {
+
+    })
+    return []
+  }
+
+  public getWithKeep(keys: Array<IGridRotated>) {
+    this.removeCompAndWires();
+    const keysa = new KLEParser([]).keebParse();
+    const closing = this.sections.pop();
+
+    const fixed = KicadSchematic.padGrid(keys);
+    fixed.forEach((keebKey: ISchematicKey, index: number) => {
+      if (keebKey.isSpacer === false) {
+        const label = (index + 1).toString();
+        const x = keebKey.x; // x
+        const y = keebKey.y; // y
+        const mxSwitch = this.getSwitch({ x, y }, label);
+        this.sections.push({
+          type: "comp",
+          component: mxSwitch,
+          lines: mxSwitch.lines
+        });
+
+        const diode = this.getDiode({ x, y }, label);
+        this.sections.push({
+          type: "comp",
+          component: diode,
+          lines: diode.lines
+        });
+
+        this.wireTemplates.forEach((wireTemplate: any) => {
+          const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+          this.sections.push({ type: "wire", component: wire });
+        });
+      }
+    });
+
+    this.sections.push(closing);
+    return this.render();
+  }
+
   public getWithKLE(kle: kleJSON) {
     this.removeCompAndWires();
     const keys = new KLEParser(kle).keebParse();
@@ -132,8 +180,8 @@ export default class KicadSchematic {
     keys.forEach((keebKey: KeebKey, index: number) => {
       if (keebKey.isSpacer === false) {
         const label = (index + 1).toString();
-        const x = keebKey.gridIndex.col;
-        const y = keebKey.gridIndex.row;
+        const x = keebKey.gridIndex.col; // x
+        const y = keebKey.gridIndex.row; // y
         const mxSwitch = this.getSwitch({ x, y }, label);
         this.sections.push({
           type: "comp",
@@ -171,8 +219,8 @@ export default class KicadSchematic {
         return s.component === null
           ? s.lines
           : s.component.lines.map((l: any) => {
-              return l.updatedLine();
-            });
+            return l.updatedLine();
+          });
       }),
       ""
     ].join("\n");
