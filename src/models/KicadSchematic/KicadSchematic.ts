@@ -2,10 +2,11 @@ import cryptoRandomString from "crypto-random-string";
 import { readFileSync, writeFileSync } from "fs";
 import { IDimension } from "../interfaces/iDimension";
 import { IPoint } from "../interfaces/iPoint";
-import { IGridRotated, ISchematicKey } from '../KeysetLayout/IGrid';
+import { IGridRotated } from "../KeysetLayout/IGrid";
 import { KeebKey } from "../KeysetLayout/KeebKey";
 import { kleJSON } from "../KLE/kleJSON";
 import KLEParser from "../KLE/KLEParser";
+import GridPlacer from "./GridPlacer";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
 export default class KicadSchematic {
@@ -37,8 +38,8 @@ export default class KicadSchematic {
         return s.component === null
           ? s.lines
           : s.component.lines.map((l: any) => {
-            return l.updatedLine();
-          });
+              return l.updatedLine();
+            });
       }),
       ""
     ].join("\n");
@@ -125,47 +126,34 @@ export default class KicadSchematic {
     };
   }
 
-  public static padGrid(keys: Array<IGridRotated>): Array<ISchematicKey> {
-
-    const allXs = {} as any;
-    const allYs = {} as any;
-
-    keys.forEach((key: IGridRotated, index: number) => {
-
-    })
-    return []
-  }
-
-  public getWithKeep(keys: Array<IGridRotated>) {
+  public getWithKeeb(keys: Array<IGridRotated>) {
     this.removeCompAndWires();
-    const keysa = new KLEParser([]).keebParse();
     const closing = this.sections.pop();
 
-    const fixed = KicadSchematic.padGrid(keys);
-    fixed.forEach((keebKey: ISchematicKey, index: number) => {
-      if (keebKey.isSpacer === false) {
-        const label = (index + 1).toString();
-        const x = keebKey.x; // x
-        const y = keebKey.y; // y
-        const mxSwitch = this.getSwitch({ x, y }, label);
-        this.sections.push({
-          type: "comp",
-          component: mxSwitch,
-          lines: mxSwitch.lines
-        });
+    const fixed = GridPlacer.pad(keys);
+    fixed.forEach((key: IGridRotated, index: number) => {
+      const label = (index + 1).toString();
+      const x = key.x;
+      const y = key.y;
+      const mxSwitch = this.getSwitch({ x, y }, label);
+      this.sections.push({
+        type: "comp",
+        component: mxSwitch,
+        lines: mxSwitch.lines
+      });
 
-        const diode = this.getDiode({ x, y }, label);
-        this.sections.push({
-          type: "comp",
-          component: diode,
-          lines: diode.lines
-        });
+      const diode = this.getDiode({ x, y }, label);
+      this.sections.push({
+        type: "comp",
+        component: diode,
+        lines: diode.lines
+      });
 
-        this.wireTemplates.forEach((wireTemplate: any) => {
-          const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
-          this.sections.push({ type: "wire", component: wire });
-        });
-      }
+      this.wireTemplates.forEach((wireTemplate: any) => {
+        const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+        this.sections.push({ type: "wire", component: wire });
+      });
+      // }
     });
 
     this.sections.push(closing);
@@ -219,8 +207,8 @@ export default class KicadSchematic {
         return s.component === null
           ? s.lines
           : s.component.lines.map((l: any) => {
-            return l.updatedLine();
-          });
+              return l.updatedLine();
+            });
       }),
       ""
     ].join("\n");
