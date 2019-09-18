@@ -5,15 +5,16 @@ import { RootState } from "../RootState";
 
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
+  gridMode,
   hasChanges,
   isSelectedGetter,
+  lastSelectedKey,
   multiSelect,
+  name,
   selectedKeys,
   singleKey,
   timeSinceChanged,
-  unSelectedKeys,
-  lastSelectedKey,
-  gridMode
+  unSelectedKeys
 };
 
 function allKeys(state: LayoutState): Array<Key> {
@@ -30,6 +31,10 @@ function multiSelect(state: LayoutState): boolean {
 
 function gridMode(state: LayoutState): boolean {
   return state.gridMode;
+}
+
+function name(state: LayoutState): string {
+  return state.name;
 }
 
 function hasChanges(state: LayoutState): boolean {

@@ -1,4 +1,4 @@
-import "core-js/fn/array/flat-map";
+// import "core-js/fn/array/flat-map";
 import { readFileSync } from "fs";
 import KeysetLayout from "./KeysetLayout";
 describe("KeysetLayout", () => {

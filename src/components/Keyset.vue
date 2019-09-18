@@ -1,6 +1,5 @@
 <template>
   <div>
-    <a :href="doIt" download="something.kicad_pcb">demo</a>
     <div class="row p-3">
       <svg
         width="1200"
@@ -49,7 +48,7 @@
       </div>
     </div>
     <div class="row">
-      {{ schematicRender }}
+      <!-- {{ schematicRender }} -->
     </div>
   </div>
 </template>
@@ -61,6 +60,9 @@ import KeyCap from "./Keyset/KeyCapV2.vue";
 import KeyEditor from "./KeyEditor.vue";
 import PcbCalc from "./PcbCalc.vue";
 import SchematicMeta from "./SchematicMeta.vue";
+import { Key } from "@/models/KeysetLayout/Key";
+import GridPlacer from "@/models/KicadSchematic/GridPlacer";
+import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
 @Component({
   components: {
     KeyCap,
@@ -74,24 +76,7 @@ export default class Keyset extends Vue {
   @Getter("selectedKeys", { namespace: "layout" }) selectedKeys: any;
   @Getter("unSelectedKeys", { namespace: "layout" }) unSelectedKeys: any;
   @Getter("allKeys", { namespace: "layout" }) allKeys: any;
-
-  get doIt() {
-    var text = "Some data I want to export";
-    var data = new Blob([text], { type: "application/octet-stream" });
-
-    return window.URL.createObjectURL(data);
-  }
-
-  get schematicRender() {
-    const foo = this.allKeys.map((a: any) => {
-      return {
-        x: a.x,
-        y: a.y
-      };
-    });
-    console.log(foo);
-    return "this is a schematic 2";
-  }
+  @Getter("name", { namespace: "layout" }) name: any;
 }
 </script>
 

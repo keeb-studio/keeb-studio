@@ -1,7 +1,10 @@
 import { IGridRotated, ISchematicKey } from "../KeysetLayout/IGrid";
 
 export default class GridPlacer {
-  public static pad(keys: Array<IGridRotated>): Array<IGridRotated> {
+  public static pad(
+    keys: Array<IGridRotated>,
+    reset: boolean = true
+  ): Array<IGridRotated> {
     const allRows = [] as any;
     const rowIndex = {} as any;
 
@@ -15,14 +18,22 @@ export default class GridPlacer {
     });
 
     let maxRow = 0;
-    allRows.forEach((row: Array<ISchematicKey>) => {
+    let newIndex = 0;
+    allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       if (row.length > maxRow) {
         maxRow = row.length;
       }
+      row.forEach((key: ISchematicKey, newX: number) => {
+        if (reset) {
+          key.x = newX;
+          key.y = newY;
+        }
+        key.index = newIndex++;
+      });
     });
 
     allRows.forEach((row: Array<ISchematicKey>) => {
-      if (row.length < maxRow) {
+      if (row.length < maxRow && reset) {
         const pad = Math.floor((maxRow - row.length) / 2);
         row.forEach((key: ISchematicKey) => {
           key.x = key.x + pad;

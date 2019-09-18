@@ -1,5 +1,5 @@
 import cryptoRandomString from "crypto-random-string";
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { IDimension } from "../interfaces/iDimension";
 import { IPoint } from "../interfaces/iPoint";
 import { IGridRotated } from "../KeysetLayout/IGrid";
@@ -10,7 +10,7 @@ import GridPlacer from "./GridPlacer";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
 export default class KicadSchematic {
-  public path: string;
+  // public path: string;
   public rawFile: string;
   public sections: any[] = [];
   public switchTemplate: KicadComponent;
@@ -20,10 +20,12 @@ export default class KicadSchematic {
   public wireTemplates: KicadWire[] = [];
   public wires: any[] = [];
   public hexPrefix: string;
-  constructor(path: string = "") {
+  constructor(rawFile: string = "") {
     this.hexPrefix = cryptoRandomString({ length: 4 });
-    this.path = path;
-    this.rawFile = readFileSync(path, "utf8");
+
+    // this.path = path;
+    // console.log(path);
+    this.rawFile = rawFile;
     this.switchTemplate = new KicadComponent();
     this.switchTemplate2 = new KicadComponent();
     this.diodeTemplate = new KicadComponent();

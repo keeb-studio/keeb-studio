@@ -30,7 +30,7 @@ export class KicadPeice {
       y: templateOriginPosition.y
     };
 
-    const digitsRegex = /\ \d+/g;
+    const digitsRegex = / \d+/g;
     const digits = original.match(digitsRegex);
 
     const partType = original.charAt(0);

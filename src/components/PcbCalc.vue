@@ -1,11 +1,19 @@
 <template>
   <div>
-    <legend class="col-form-label  col-form-label-sm pb-0">PCB</legend>
+    <a
+      :href="pcbData"
+      :download="`${name}.kicad_pcb`"
+      class="btn btn-outline-primary col-form-label pt-0 pb-0 mb-2"
+    >
+      PCB
+    </a>
     <div class="row">
       <ul class="pl-3">
         <li>x: {{ x }}</li>
         <li>y: {{ y }}</li>
         <li>r: {{ rotation }}</li>
+        <input type="file" id="pcb-input" @change="attachFile" />
+        <input :value="inputPcb" />
       </ul>
     </div>
   </div>
@@ -16,8 +24,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
 import MathHelper from "../models/MathHelper";
+import KicadPCB from "@/models/KicadPCB/KicadPCB";
 @Component({})
 export default class PcbCalc extends Vue {
+  inputPcb: any = null;
+
+  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
+  @Getter("name", { namespace: "layout" }) name: any;
   @Prop() private theKey!: Key;
   pcbPosition() {
     const {
@@ -42,6 +55,40 @@ export default class PcbCalc extends Vue {
     );
   }
 
+  attachFile(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      const component = this;
+      reader.onload = function(evt: any) {
+        component.inputPcb = evt.target.result;
+      };
+    } else {
+      this.inputPcb = null;
+    }
+  }
+
+  get pcbData() {
+    var text = this.pcbRender;
+    var data = new Blob([text], { type: "application/octet-stream" });
+    return window.URL.createObjectURL(data);
+  }
+
+  get pcbRender() {
+    if (this.inputPcb !== null) {
+      const kicadPcb = new KicadPCB(this.inputPcb);
+    }
+    return "1";
+  }
+
+  get schematicUpload() {
+    // var file = document.getElementById("schematicUpload").files[0];
+    // if() {
+
+    // }
+    return "none";
+  }
   get rotation() {
     return MathHelper.roundResult(this.pcbPosition().rotation);
   }
