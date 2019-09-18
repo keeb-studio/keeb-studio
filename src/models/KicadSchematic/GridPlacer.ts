@@ -1,20 +1,27 @@
-import { IGridRotated, ISchematicKey } from "../KeysetLayout/IGrid";
+import { IGridRotated, IKey, ISchematicKey } from "../KeysetLayout/IGrid";
+import MathHelper from "../MathHelper";
 
 export default class GridPlacer {
   public static pad(
-    keys: Array<IGridRotated>,
+    keys: Array<IKey>,
     reset: boolean = true
   ): Array<IGridRotated> {
     const allRows = [] as any;
     const rowIndex = {} as any;
 
-    keys.forEach((key: IGridRotated, index: number) => {
+    keys.forEach((key: IKey, index: number) => {
       if (rowIndex[key.y] === undefined) {
-        rowIndex[key.y] = [key];
+        rowIndex[key.y] = [{ ...key, normalX: 0, normalY: 0 }];
         allRows.push(rowIndex[key.y]);
       } else {
-        rowIndex[key.y].push(key);
+        rowIndex[key.y].push({ ...key, normalX: 0, normalY: 0 });
       }
+    });
+
+    allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
+      row.sort((a, b) => {
+        return a.x > b.x ? 1 : -1;
+      });
     });
 
     let maxRow = 0;
@@ -24,11 +31,39 @@ export default class GridPlacer {
         maxRow = row.length;
       }
       row.forEach((key: ISchematicKey, newX: number) => {
-        if (reset) {
-          key.x = newX;
-          key.y = newY;
-        }
+        key.normalX = newX;
+        key.normalY = newY;
         key.index = newIndex++;
+
+        const {
+          x,
+          y,
+          width,
+          height,
+          rotation_x,
+          rotation_y,
+          rotation_angle
+        } = key;
+
+        const pcbCoreds = MathHelper.rotatedKicad(
+          x,
+          y,
+          width || 1,
+          height || 1,
+          0,
+          0,
+          rotation_x || 0,
+          rotation_y || 0,
+          rotation_angle || 0
+        );
+
+        const { x: pcbRawX, y: pcbRawY, rotation: pcbRotation } = pcbCoreds;
+        const pcbX = MathHelper.roundResult(pcbRawX);
+        const pcbY = MathHelper.roundResult(pcbRawY);
+
+        key.pcbX = pcbX;
+        key.pcbY = pcbY;
+        key.pcbRotation = pcbRotation;
       });
     });
 
@@ -36,10 +71,11 @@ export default class GridPlacer {
       if (row.length < maxRow && reset) {
         const pad = Math.floor((maxRow - row.length) / 2);
         row.forEach((key: ISchematicKey) => {
-          key.x = key.x + pad;
+          key.normalX = key.normalX + pad;
         });
       }
     });
+
     return allRows.flatMap((x: any) => x);
   }
 }

@@ -93,7 +93,7 @@ export default class SchematicMeta extends Vue {
     });
 
     const result = GridPlacer.pad(schematicCords);
-
+    // TODO GridPlacer refactor to use normalX and normalY
     const foo = new KicadSchematic(`EESchema Schematic File Version 4
 LIBS:1U-cache
 EELAYER 29 0
