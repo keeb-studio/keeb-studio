@@ -2,7 +2,7 @@ import cryptoRandomString from "crypto-random-string";
 import { writeFileSync } from "fs";
 import { IDimension } from "../interfaces/iDimension";
 import { IPoint } from "../interfaces/iPoint";
-import { IGridRotated } from "../KeysetLayout/IGrid";
+import { ISchematicKey } from "../KeysetLayout/IGrid";
 import { KeebKey } from "../KeysetLayout/KeebKey";
 import { kleJSON } from "../KLE/kleJSON";
 import KLEParser from "../KLE/KLEParser";
@@ -128,15 +128,15 @@ export default class KicadSchematic {
     };
   }
 
-  public getWithKeeb(keys: Array<IGridRotated>) {
+  public getWithKeeb(keys: Array<ISchematicKey>) {
     this.removeCompAndWires();
     const closing = this.sections.pop();
 
     const fixed = GridPlacer.pad(keys);
-    fixed.forEach((key: IGridRotated, index: number) => {
+    fixed.forEach((key: ISchematicKey, index: number) => {
       const label = (index + 1).toString();
-      const x = key.x;
-      const y = key.y;
+      const x = key.normalX;
+      const y = key.normalY;
       const mxSwitch = this.getSwitch({ x, y }, label);
       this.sections.push({
         type: "comp",
@@ -155,7 +155,6 @@ export default class KicadSchematic {
         const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
         this.sections.push({ type: "wire", component: wire });
       });
-      // }
     });
 
     this.sections.push(closing);

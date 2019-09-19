@@ -1,11 +1,11 @@
-import { IGridRotated, IKey, ISchematicKey } from "../KeysetLayout/IGrid";
+import { IKey, ISchematicKey } from "../KeysetLayout/IGrid";
 import MathHelper from "../MathHelper";
 
 export default class GridPlacer {
   public static pad(
     keys: Array<IKey>,
     reset: boolean = true
-  ): Array<IGridRotated> {
+  ): Array<ISchematicKey> {
     const allRows = [] as any;
     const rowIndex = {} as any;
 
