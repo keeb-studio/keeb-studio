@@ -850,10 +850,11 @@
     supports-color "^5.5.0"
     tslib "^1.9.3"
 
-"@ijprest/kle-serial@https://github.com/ctrlShiftBryan/kle-serial/tarball/913a6f42f3ee03586d1cb0665f5d24ffe5bf5b68":
+"@ijprest/kle-serial@https://github.com/ctrlShiftBryan/kle-serial/tarball/2995736f7c4f5d9ad40d20b3ceda3f0b515b1f79":
   version "0.15.1"
-  resolved "https://github.com/ctrlShiftBryan/kle-serial/tarball/913a6f42f3ee03586d1cb0665f5d24ffe5bf5b68#fa79d36a3f1490444c65c203e2790c7ce956fbb7"
+  resolved "https://github.com/ctrlShiftBryan/kle-serial/tarball/2995736f7c4f5d9ad40d20b3ceda3f0b515b1f79#6f23d26171bf8f39be9e6d82d352e0a2c20b33a2"
   dependencies:
+    "@types/json5" "0.0.30"
     json5 "^2.1.0"
 
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
@@ -1434,6 +1435,11 @@
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
+
+"@types/json5@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.30.tgz#44cb52f32a809734ca562e685c6473b5754a7818"
+  integrity sha512-sqm9g7mHlPY/43fcSNrCYfOeX9zkTTK+euO5E6+CVijSMm5tTjkVdwdqRkY3ljjIAf8679vps5jKUoJBCLsMDA==
 
 "@types/keygrip@*":
   version "1.0.1"

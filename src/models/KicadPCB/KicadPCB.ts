@@ -30,8 +30,8 @@ export default class KicadPCB {
     const mxInit = this.findByName("MX0");
     const diodeInit = this.findByName("D0");
 
-    console.log(diodeInit);
-    console.log(diodeInit.render());
+    // console.log(diodeInit);
+    // console.log(diodeInit.render());
     this.xDiodeDiff = diodeInit.x - mxInit.x;
     this.yDiodeDiff = diodeInit.y - mxInit.y;
   }
