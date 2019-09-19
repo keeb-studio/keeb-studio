@@ -6,7 +6,7 @@ describe("Module", () => {
       `(module Keebio-Parts:MX_PCB_100H (layer F.Cu) (tedit 549A0505) (tstamp 5D61E4E6)`,
       `    (at 43.144201 39.0872)`,
       `    (path /5D5FEB52)`,
-      `    (fp_text reference MX1 (at 0 3.175) (layer F.SilkS)`,
+      `    (fp_text reference MX0 (at 0 3.175) (layer F.SilkS)`,
       `      (effects (font (size 1.27 1.524) (thickness 0.2032)))`,
       `    )`,
       `    (fp_text value MX-NoLED (at 0 5.08) (layer F.SilkS) hide`,
@@ -39,9 +39,9 @@ describe("Module", () => {
       `    (pad HOLE np_thru_hole circle (at -5.08 0) (size 1.8 1.8) (drill 1.8) (layers *.Cu))`,
       `    (pad HOLE np_thru_hole circle (at 0 0) (size 3.9878 3.9878) (drill 3.9878) (layers *.Cu))`,
       `    (pad 2 thru_hole circle (at -3.81 -2.54) (size 2.286 2.286) (drill 1.4986) (layers *.Cu *.SilkS *.Mask)`,
-      `      (net 3 "Net-(MX1-Pad2)"))`,
+      `      (net 3 "Net-(MX0-Pad2)"))`,
       `    (pad 1 thru_hole circle (at 2.54 -5.08) (size 2.286 2.286) (drill 1.4986) (layers *.Cu *.SilkS *.Mask)`,
-      `      (net 4 "Net-(MX1-Pad1)"))`,
+      `      (net 4 "Net-(MX0-Pad1)"))`,
       `  )`
     ];
 
@@ -58,7 +58,7 @@ describe("Module", () => {
 
     it("parses name", () => {
       const module = new Module(lines);
-      expect(module.name).toEqual("MX1");
+      expect(module.name).toEqual("MX0");
     });
 
     it("renders with updated position", () => {

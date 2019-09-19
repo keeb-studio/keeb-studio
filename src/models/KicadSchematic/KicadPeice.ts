@@ -70,8 +70,8 @@ export class KicadPeice {
 
         // the label
         newLabel = original
-          // .replace("MX1", this.labelHolder)
-          .replace("MX1", `MX${this.labelHolder}`)
+          // .replace("MX0", this.labelHolder)
+          .replace("MX0", `MX${this.labelHolder}`)
           .replace("D?", `D${this.labelHolder}`);
       }
       if (!ignore) {
@@ -91,8 +91,8 @@ export class KicadPeice {
       let newLabel = original;
       // the label
       newLabel = original
-        // .replace("MX1", this.labelHolder)
-        .replace("MX1", `MX${this.labelHolder}`)
+        // .replace("MX0", this.labelHolder)
+        .replace("MX0", `MX${this.labelHolder}`)
         .replace("D?", `D${this.labelHolder}`);
       this.template = newLabel;
       this.hasLabel = true;

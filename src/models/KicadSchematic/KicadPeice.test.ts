@@ -20,7 +20,7 @@ describe("KicadPeice", () => {
 
   it("updates label properly", () => {
     const testPeice = new KicadPeice(
-      "L MX_Alps_Hybrid:MX-NoLED MX1",
+      "L MX_Alps_Hybrid:MX-NoLED MX0",
       { x: 1276, y: 1051 },
       "2",
       "uid2",
