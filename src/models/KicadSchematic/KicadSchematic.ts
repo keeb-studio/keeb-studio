@@ -134,7 +134,7 @@ export default class KicadSchematic {
 
     const fixed = GridPlacer.pad(keys);
     fixed.forEach((key: ISchematicKey, index: number) => {
-      const label = (index + 1).toString();
+      const label = index.toString();
       const x = key.normalX;
       const y = key.normalY;
       const mxSwitch = this.getSwitch({ x, y }, label);

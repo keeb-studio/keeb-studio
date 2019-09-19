@@ -40,8 +40,7 @@
             :key="'schematic_index'"
             type="text"
             :name="'schematic_index'"
-            :value="theKey['schematic_index']"
-            @input="x => changeValue(x, 'schematic_index')"
+            :value="pcbPosition.index"
             :placeholder="'schematic_index'"
             class="form-control"
           />
@@ -56,6 +55,7 @@ import { Getter, Mutation, Action } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
+import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 const SCHEMA_TEMPLATE = `EESchema Schematic File Version 4
 LIBS:1U-cache
 EELAYER 29 0
@@ -140,6 +140,14 @@ export default class SchematicMeta extends Vue {
       property,
       value: x.target.value
     });
+  }
+
+  get pcbPosition() {
+    const positions = this.calculatedPositions as ISchematicKey[];
+    const thisPosition = positions.find(
+      (key: ISchematicKey) => key.id === this.theKey.id
+    );
+    return thisPosition;
   }
 
   get schData() {

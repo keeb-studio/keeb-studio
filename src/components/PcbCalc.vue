@@ -25,34 +25,23 @@ import { Getter, Mutation } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
 import MathHelper from "../models/MathHelper";
 import KicadPCB from "@/models/KicadPCB/KicadPCB";
+import { ISchematicKey } from "../models/KeysetLayout/IGrid";
 @Component({})
 export default class PcbCalc extends Vue {
   inputPcb: any = null;
 
+  @Getter("calculatedPositions", { namespace: "layout" })
+  calculatedPositions: any;
   @Getter("allKeys", { namespace: "layout" }) allKeys: any;
   @Getter("name", { namespace: "layout" }) name: any;
   @Prop() private theKey!: Key;
-  pcbPosition() {
-    const {
-      x,
-      y,
-      width,
-      height,
-      rotation_angle,
-      rotation_x,
-      rotation_y
-    } = this.theKey;
-    return MathHelper.rotatedKicad(
-      x,
-      y,
-      width,
-      height,
-      0,
-      0,
-      rotation_x,
-      rotation_y,
-      rotation_angle
+
+  get pcbPosition() {
+    const positions = this.calculatedPositions as ISchematicKey[];
+    const thisPosition = positions.find(
+      (key: ISchematicKey) => key.id === this.theKey.id
     );
+    return thisPosition;
   }
 
   attachFile(event: any) {
@@ -77,9 +66,15 @@ export default class PcbCalc extends Vue {
 
   get pcbRender() {
     if (this.inputPcb !== null) {
-      const kicadPcb = new KicadPCB(this.inputPcb);
+      const pcb = new KicadPCB({ raw: this.inputPcb } as any);
+
+      const positions = this.calculatedPositions as ISchematicKey[];
+      positions.forEach((key: ISchematicKey) =>
+        pcb.position(key.index, key.pcbX, key.pcbY)
+      );
+      return pcb.render();
     }
-    return "1";
+    return "nope";
   }
 
   get schematicUpload() {
@@ -90,15 +85,17 @@ export default class PcbCalc extends Vue {
     return "none";
   }
   get rotation() {
-    return MathHelper.roundResult(this.pcbPosition().rotation);
+    return MathHelper.roundResult(
+      this.pcbPosition ? this.pcbPosition.pcbRotation : 0
+    );
   }
 
   get x() {
-    return MathHelper.roundResult(this.pcbPosition().x);
+    return MathHelper.roundResult(this.pcbPosition ? this.pcbPosition.pcbX : 0);
   }
 
   get y() {
-    return MathHelper.roundResult(this.pcbPosition().y);
+    return MathHelper.roundResult(this.pcbPosition ? this.pcbPosition.pcbY : 0);
   }
 }
 </script>

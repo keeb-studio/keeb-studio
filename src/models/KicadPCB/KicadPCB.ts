@@ -27,9 +27,11 @@ export default class KicadPCB {
       );
       this.sections = sections;
     }
-    const mxInit = this.findByName("MX1");
-    const diodeInit = this.findByName("D1");
+    const mxInit = this.findByName("MX0");
+    const diodeInit = this.findByName("D0");
 
+    console.log(diodeInit);
+    console.log(diodeInit.render());
     this.xDiodeDiff = diodeInit.x - mxInit.x;
     this.yDiodeDiff = diodeInit.y - mxInit.y;
   }
@@ -42,6 +44,15 @@ export default class KicadPCB {
       return found;
     }
     throw new Error(`${name} Not Found`);
+  }
+
+  public position(mxIndex: number, gridX: number, gridY: number) {
+    const mx = this.findByName(`MX${mxIndex}`);
+    const diode = this.findByName(`D${mxIndex}`);
+    mx.x = gridX;
+    mx.y = gridY;
+    diode.x = mx.x + this.xDiodeDiff;
+    diode.y = mx.y + this.yDiodeDiff;
   }
 
   public positionSwitch(mxIndex: number, gridX: number, gridY: number) {
