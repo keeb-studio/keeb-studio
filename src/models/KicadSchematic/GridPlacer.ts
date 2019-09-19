@@ -10,17 +10,19 @@ export default class GridPlacer {
     const rowIndex = {} as any;
 
     keys.forEach((key: IKey, index: number) => {
-      if (rowIndex[key.y] === undefined) {
-        rowIndex[key.y] = [{ ...key, normalX: 0, normalY: 0 }];
-        allRows.push(rowIndex[key.y]);
+      const { schematic_y } = key;
+
+      if (rowIndex[schematic_y] === undefined) {
+        rowIndex[schematic_y] = [{ ...key, normalX: 0, normalY: 0 }];
+        allRows.push(rowIndex[schematic_y]);
       } else {
-        rowIndex[key.y].push({ ...key, normalX: 0, normalY: 0 });
+        rowIndex[schematic_y].push({ ...key, normalX: 0, normalY: 0 });
       }
     });
 
     allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       row.sort((a, b) => {
-        return a.x > b.x ? 1 : -1;
+        return a.schematic_x > b.schematic_x ? 1 : -1;
       });
     });
 

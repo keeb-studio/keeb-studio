@@ -56,45 +56,7 @@ import { Getter, Mutation, Action } from "vuex-class";
 import { Key } from "@/models/KeysetLayout/Key";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
-@Component({})
-export default class SchematicMeta extends Vue {
-  @Action("changeKeyValue", { namespace: "layout" })
-  changeKeyValue: any;
-
-  @Getter("allKeys", { namespace: "layout" })
-  allKeys: any;
-
-  @Getter("name", { namespace: "layout" })
-  name: any;
-
-  @Prop()
-  private theKey!: Key;
-  changeValue(x: any, property: string) {
-    this.changeKeyValue({
-      id: this.theKey.id,
-      property,
-      value: x.target.value
-    });
-  }
-
-  get schData() {
-    var text = this.schematicRender;
-    var data = new Blob([text], { type: "application/octet-stream" });
-    return window.URL.createObjectURL(data);
-  }
-
-  get schematicRender() {
-    const schematicCords = this.allKeys.map((a: Key) => {
-      return {
-        x: a.schematic_x,
-        y: a.schematic_y,
-        rotation: 0
-      };
-    });
-
-    const result = GridPlacer.pad(schematicCords);
-    // TODO GridPlacer refactor to use normalX and normalY
-    const foo = new KicadSchematic(`EESchema Schematic File Version 4
+const SCHEMA_TEMPLATE = `EESchema Schematic File Version 4
 LIBS:1U-cache
 EELAYER 29 0
 EELAYER END
@@ -154,8 +116,42 @@ Wire Wire Line
 Wire Wire Line
 	1125 1150 1125 1700
 $EndSCHEMATC
-`);
-    return foo.getWithKeeb(schematicCords);
+`;
+
+@Component({})
+export default class SchematicMeta extends Vue {
+  @Action("changeKeyValue", { namespace: "layout" })
+  changeKeyValue: any;
+
+  @Getter("allKeys", { namespace: "layout" })
+  allKeys: any;
+
+  @Getter("name", { namespace: "layout" })
+  name: any;
+
+  @Getter("calculatedPositions", { namespace: "layout" })
+  calculatedPositions: any;
+
+  @Prop()
+  private theKey!: Key;
+  changeValue(x: any, property: string) {
+    this.changeKeyValue({
+      id: this.theKey.id,
+      property,
+      value: x.target.value
+    });
+  }
+
+  get schData() {
+    var text = this.schematicRender;
+    var data = new Blob([text], { type: "application/octet-stream" });
+    return window.URL.createObjectURL(data);
+  }
+
+  get schematicRender() {
+    return new KicadSchematic(SCHEMA_TEMPLATE).getWithKeeb(
+      this.calculatedPositions
+    );
   }
 }
 </script>

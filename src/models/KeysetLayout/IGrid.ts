@@ -21,6 +21,10 @@ export interface IKey {
   width: number;
   x: number;
   y: number;
+
+  schematic_x: number;
+  schematic_y: number;
+  schematic_index: number;
 }
 
 export interface ISchematicKey {
@@ -38,4 +42,8 @@ export interface ISchematicKey {
   pcbX: number;
   pcbY: number;
   pcbRotation: number;
+
+  schematic_x: number;
+  schematic_y: number;
+  schematic_index: number;
 }

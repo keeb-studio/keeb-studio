@@ -8,7 +8,8 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "test": "vue-cli-service test:unit --coverage"
+    "test": "vue-cli-service test:unit --coverage",
+    "west": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@ijprest/kle-serial": "https://github.com/ctrlShiftBryan/kle-serial/tarball/913a6f42f3ee03586d1cb0665f5d24ffe5bf5b68",

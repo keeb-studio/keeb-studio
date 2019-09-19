@@ -1,44 +1,31 @@
+import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 import { Key } from "@/models/KeysetLayout/Key";
+import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import { GetterTree } from "vuex";
 import { LayoutState } from ".";
 import { RootState } from "../RootState";
 
-export const getters: GetterTree<LayoutState, RootState> = {
-  allKeys,
-  gridMode,
-  hasChanges,
-  isSelectedGetter,
-  lastSelectedKey,
-  multiSelect,
-  name,
-  selectedKeys,
-  singleKey,
-  timeSinceChanged,
-  unSelectedKeys
-};
+const allKeys = (state: LayoutState): Array<Key> => state.allkeys;
+const gridMode = (state: LayoutState): boolean => state.gridMode;
+const hasChanges = (state: LayoutState): boolean => state.hasChanges;
+const multiSelect = (state: LayoutState): boolean => state.multiSelect;
+const name = (state: LayoutState): string => state.name;
+const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
+const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 
-function allKeys(state: LayoutState): Array<Key> {
-  return state.allkeys;
+function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
+  const schematicKeys = state.allkeys.map((key: Key) => {
+    return {
+      ...key,
+      index: -1
+    };
+  });
+
+  return GridPlacer.pad(schematicKeys);
 }
 
-function timeSinceChanged(state: LayoutState): number {
-  return state.timeSinceChange;
-}
-
-function multiSelect(state: LayoutState): boolean {
-  return state.multiSelect;
-}
-
-function gridMode(state: LayoutState): boolean {
-  return state.gridMode;
-}
-
-function name(state: LayoutState): string {
-  return state.name;
-}
-
-function hasChanges(state: LayoutState): boolean {
-  return state.hasChanges;
+function unSelectedKeys(state: LayoutState): Array<Key> {
+  return state.allkeys.filter((x: Key) => !state.selected.includes(x.id));
 }
 
 function isSelectedGetter(state: LayoutState): Function {
@@ -58,10 +45,17 @@ function selectedKeys(state: LayoutState): Array<Key> {
     .filter((x: Key) => x.id !== "");
 }
 
-function singleKey(state: LayoutState): boolean {
-  return state.selected.length === 1;
-}
-
-function unSelectedKeys(state: LayoutState): Array<Key> {
-  return state.allkeys.filter((x: Key) => !state.selected.includes(x.id));
-}
+export const getters: GetterTree<LayoutState, RootState> = {
+  allKeys,
+  calculatedPositions,
+  gridMode,
+  hasChanges,
+  isSelectedGetter,
+  lastSelectedKey,
+  multiSelect,
+  name,
+  selectedKeys,
+  singleKey,
+  timeSinceChanged,
+  unSelectedKeys
+};
