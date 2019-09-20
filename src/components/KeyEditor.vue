@@ -36,7 +36,7 @@
         </div>
         <input
           :key="'y'"
-          type="text"
+          type="number"
           :name="'y'"
           :value="theKey['y']"
           @input="x => changeValue(x, 'y')"
@@ -51,7 +51,7 @@
         </div>
         <input
           :key="'width'"
-          type="text"
+          type="number"
           :name="'width'"
           :value="theKey['width']"
           @input="x => changeValue(x, 'width')"
@@ -63,7 +63,7 @@
         </div>
         <input
           :key="'height'"
-          type="text"
+          type="number"
           :name="'height'"
           :value="theKey['height']"
           @input="x => changeValue(x, 'height')"
@@ -81,7 +81,7 @@
         </div>
         <input
           :key="'rotation_angle'"
-          type="text"
+          type="number"
           :name="'rotation_angle'"
           :value="theKey['rotation_angle']"
           @input="x => changeValue(x, 'rotation_angle')"
@@ -106,7 +106,7 @@
         </div>
         <input
           :key="'rotation_y'"
-          type="text"
+          type="number"
           :name="'rotation_y'"
           :value="theKey['rotation_y']"
           @input="x => changeValue(x, 'rotation_y')"
@@ -128,10 +128,14 @@ export default class KeyEditor extends Vue {
   @Prop() private theKey!: Key;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   changeValue(x: any, property: string) {
+    let value = x.target.value;
+    if (x.target.type === "number") {
+      value = parseInt(value);
+    }
     this.changeKeyValue({
       id: this.theKey.id,
       property,
-      value: x.target.value
+      value
     });
   }
 }
