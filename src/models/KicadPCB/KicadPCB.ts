@@ -14,6 +14,7 @@ export default class KicadPCB {
   public sections: any[] = [];
   public xDiodeDiff: number;
   public yDiodeDiff: number;
+  public initialDiodeRotation: number = 0;
 
   constructor(params: IKicadPCBConstructorParams) {
     const { raw, path } = params;
@@ -30,8 +31,7 @@ export default class KicadPCB {
     const mxInit = this.findByName("MX0");
     const diodeInit = this.findByName("D0");
 
-    // console.log(diodeInit);
-    // console.log(diodeInit.render());
+    this.initialDiodeRotation = diodeInit.rotation;
     this.xDiodeDiff = diodeInit.x - mxInit.x;
     this.yDiodeDiff = diodeInit.y - mxInit.y;
   }
@@ -53,6 +53,7 @@ export default class KicadPCB {
     mx.y = gridY;
     diode.x = mx.x + this.xDiodeDiff;
     diode.y = mx.y + this.yDiodeDiff;
+    diode.changeRotation(this.initialDiodeRotation);
   }
 
   public positionSwitch(mxIndex: number, gridX: number, gridY: number) {

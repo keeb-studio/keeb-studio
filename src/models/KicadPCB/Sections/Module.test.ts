@@ -4,7 +4,7 @@ describe("Module", () => {
   describe("init", () => {
     const lines = [
       `(module Keebio-Parts:MX_PCB_100H (layer F.Cu) (tedit 549A0505) (tstamp 5D61E4E6)`,
-      `    (at 43.144201 39.0872)`,
+      `    (at 43.144201 39.0872 180)`,
       `    (path /5D5FEB52)`,
       `    (fp_text reference MX0 (at 0 3.175) (layer F.SilkS)`,
       `      (effects (font (size 1.27 1.524) (thickness 0.2032)))`,
@@ -45,27 +45,26 @@ describe("Module", () => {
       `  )`
     ];
 
+    const module = new Module(lines);
+
     it("parses position", () => {
-      const module = new Module(lines);
       expect(module.x).toEqual(43.144201);
       expect(module.y).toEqual(39.0872);
     });
 
     it("parses type", () => {
-      const module = new Module(lines);
       expect(module.type).toEqual("MX-NoLED");
     });
 
     it("parses name", () => {
-      const module = new Module(lines);
       expect(module.name).toEqual("MX0");
     });
 
     it("renders with updated position", () => {
-      const module = new Module(lines);
       module.x = 1.2345;
       module.y = 6.789;
-      expect(module.render()).toContain("(at 1.23 6.79)");
+      module.rotation = 90;
+      expect(module.render()).toContain("(at 1.23 6.79 90)");
     });
   });
 });

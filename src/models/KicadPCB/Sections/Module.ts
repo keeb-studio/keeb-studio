@@ -11,7 +11,6 @@ export class Module extends Section {
   public positionIndex: number;
   constructor(lines: string[]) {
     super(lines);
-
     const nameLine = lines.find((line: string) => {
       return line.indexOf("fp_text reference") > -1;
     });
@@ -67,6 +66,15 @@ export class Module extends Section {
     }
     this.originalX = this.x;
     this.originalY = this.y;
+    if (this.rotation > 0) {
+      this.lines[this.positionIndex] = "    (at xPos yPos rotation)";
+    } else {
+      this.lines[this.positionIndex] = "    (at xPos yPos)";
+    }
+  }
+
+  public changeRotation(newRotation: number): void {
+    this.rotation = newRotation;
     if (this.rotation > 0) {
       this.lines[this.positionIndex] = "    (at xPos yPos rotation)";
     } else {
