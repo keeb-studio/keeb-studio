@@ -1,5 +1,5 @@
-import { Key, Serial } from "@ijprest/kle-serial";
 // import "core-js/fn/array/flat-map";
+import { Key, Serial } from "@/LocalKleSerial";
 import { Grid } from "../KeysetLayout/Grid";
 import { KeebKey } from "../KeysetLayout/KeebKey";
 import { kleJSON } from "../KLE/kleJSON";

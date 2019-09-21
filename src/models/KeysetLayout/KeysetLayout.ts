@@ -1,4 +1,4 @@
-import { Key, Serial } from "@ijprest/kle-serial";
+import { Key, Serial } from "@/LocalKleSerial";
 import { kleJSON } from "../KLE/kleJSON";
 import { Grid } from "./Grid";
 import { KeebKey } from "./KeebKey";

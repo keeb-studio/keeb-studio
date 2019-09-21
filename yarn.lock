@@ -850,9 +850,9 @@
     supports-color "^5.5.0"
     tslib "^1.9.3"
 
-"@ijprest/kle-serial@https://github.com/ctrlShiftBryan/kle-serial/tarball/2995736f7c4f5d9ad40d20b3ceda3f0b515b1f79":
+"@ijprest/kle-serial@https://github.com/ctrlShiftBryan/kle-serial/tarball/5816676c71e3e995887aaabed1aeeee46cc6b53b":
   version "0.15.1"
-  resolved "https://github.com/ctrlShiftBryan/kle-serial/tarball/2995736f7c4f5d9ad40d20b3ceda3f0b515b1f79#6f23d26171bf8f39be9e6d82d352e0a2c20b33a2"
+  resolved "https://github.com/ctrlShiftBryan/kle-serial/tarball/5816676c71e3e995887aaabed1aeeee46cc6b53b#715ab7a294ebeee9492cbff89a96e090e1c46996"
   dependencies:
     "@types/json5" "0.0.30"
     json5 "^2.1.0"

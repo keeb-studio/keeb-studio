@@ -1,4 +1,4 @@
-import { Key } from "@ijprest/kle-serial";
+import { Key } from "@/LocalKleSerial";
 import { Grid } from "./Grid";
 export class KeebKey {
   public label: string;

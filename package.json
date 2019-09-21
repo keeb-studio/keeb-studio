@@ -12,7 +12,7 @@
     "west": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
-    "@ijprest/kle-serial": "https://github.com/ctrlShiftBryan/kle-serial/tarball/2995736f7c4f5d9ad40d20b3ceda3f0b515b1f79",
+    "@ijprest/kle-serial": "https://github.com/ctrlShiftBryan/kle-serial/tarball/5816676c71e3e995887aaabed1aeeee46cc6b53b",
     "@types/color": "^3.0.0",
     "@types/node": "^12.7.4",
     "axios": "^0.19.0",
