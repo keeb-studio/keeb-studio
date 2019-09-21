@@ -3,7 +3,7 @@ describe("KicadPeice", () => {
   it("updates position properly", () => {
     const testPeice = new KicadPeice(
       "P 1276 1051",
-      { x: 1276, y: 1051 },
+      { x: 1276, y: 1051, rotation: 0 },
       "1",
       "uid1",
       "uid1"
@@ -21,7 +21,7 @@ describe("KicadPeice", () => {
   it("updates label properly", () => {
     const testPeice = new KicadPeice(
       "L MX_Alps_Hybrid:MX-NoLED MX0",
-      { x: 1276, y: 1051 },
+      { x: 1276, y: 1051, rotation: 0 },
       "2",
       "uid2",
       "uid2"

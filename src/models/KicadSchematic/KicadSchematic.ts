@@ -86,7 +86,7 @@ export default class KicadSchematic {
     const mx = new KicadComponent(
       this.switchTemplate.rawLines,
       label,
-      { x: -1, y: -1 }, // using defaults todo refactor to named
+      { x: -1, y: -1, rotation: 0 }, // using defaults todo refactor to named
       { width: 1, height: 1 },
       this.hexPrefix
     );
@@ -104,7 +104,7 @@ export default class KicadSchematic {
     const mx = new KicadComponent(
       this.diodeTemplate.rawLines,
       label,
-      { x: -1, y: -1 }, // using defaults todo refactor to named
+      { x: -1, y: -1, rotation: 0 }, // using defaults todo refactor to named
       { width: 1, height: 1 },
       this.hexPrefix
     );
