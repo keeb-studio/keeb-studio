@@ -1,9 +1,10 @@
-import { IPoint } from "../interfaces/iPoint";
+import { IPointRotated } from "../interfaces/iPoint";
 export class KicadPeice {
   public original: string = "";
-  public templateOriginPosition: IPoint = { x: 0, y: 0 };
+  public templateOriginPosition: IPointRotated = { x: 0, y: 0, rotation: 0 };
   public x: number = 0;
   public y: number = 0;
+  public rotation: number = 0;
   public xOffset: number = 0;
   public yOffset: number = 0;
   public template: string = "";
@@ -16,7 +17,7 @@ export class KicadPeice {
   public uid: string;
   constructor(
     original: string,
-    templateOriginPosition: IPoint,
+    templateOriginPosition: IPointRotated,
     label: string,
     uid: string,
     newUid: string
@@ -27,7 +28,8 @@ export class KicadPeice {
     this.original = original;
     this.templateOriginPosition = {
       x: templateOriginPosition.x,
-      y: templateOriginPosition.y
+      y: templateOriginPosition.y,
+      rotation: templateOriginPosition.rotation
     };
 
     const digitsRegex = / \d+/g;
@@ -80,12 +82,21 @@ export class KicadPeice {
         this.x = intDigits[xIndex];
         this.y = intDigits[xIndex + 1];
 
+        if (intDigits.length === 3) {
+          this.rotation = intDigits[xIndex + 2];
+        }
         this.xOffset = this.x - templateOriginPosition.x;
         this.yOffset = this.y - templateOriginPosition.y;
 
-        this.template = newLabel
-          .replace(`${this.x}`, "templateX")
-          .replace(`${this.y}`, "templateY");
+        this.template =
+          this.rotation === 0
+            ? newLabel
+                .replace(`${this.x}`, "templateX")
+                .replace(`${this.y}`, "templateY")
+            : newLabel
+                .replace(`${this.x}`, "templateX")
+                .replace(`${this.y}`, "templateY")
+                .replace(`${this.rotation}`, "templateRotation");
       }
     } else if (partType === "L") {
       let newLabel = original;
@@ -108,18 +119,26 @@ export class KicadPeice {
 
     newY = parseInt((this.y + this.yOffset).toFixed(0), 10);
 
-    let foo = this.template;
+    let template = this.template;
     if (this.hasLabel) {
-      foo = foo.replace(this.labelHolder, this.label);
+      template = template.replace(this.labelHolder, this.label);
       if (!this.hasDigits) {
-        return foo;
+        return template;
       }
     }
 
-    return this.hasDigits
-      ? foo
+    if (!this.hasDigits) {
+      return this.original.replace(this.uid, this.newUid);
+    }
+
+    return this.rotation === 0
+      ? template
           .replace("templateX", newX.toString())
           .replace("templateY", newY.toString())
-      : this.original.replace(this.uid, this.newUid);
+          .replace("templateRotation", "")
+      : template
+          .replace("templateX", newX.toString())
+          .replace("templateY", newY.toString())
+          .replace("templateRotation", this.rotation.toString());
   }
 }

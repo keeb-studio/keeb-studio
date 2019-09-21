@@ -22,9 +22,6 @@ export default class KicadSchematic {
   public hexPrefix: string;
   constructor(rawFile: string = "") {
     this.hexPrefix = cryptoRandomString({ length: 4 });
-
-    // this.path = path;
-    // console.log(path);
     this.rawFile = rawFile;
     this.switchTemplate = new KicadComponent();
     this.switchTemplate2 = new KicadComponent();
