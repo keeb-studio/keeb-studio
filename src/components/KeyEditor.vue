@@ -130,7 +130,11 @@ export default class KeyEditor extends Vue {
   changeValue(x: any, property: string) {
     let value = x.target.value;
     if (x.target.type === "number") {
-      value = parseInt(value);
+      if (value.indexOf(".") > -1) {
+        value = parseFloat(value);
+      } else {
+        value = parseInt(value);
+      }
     }
     this.changeKeyValue({
       id: this.theKey.id,
