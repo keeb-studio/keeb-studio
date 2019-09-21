@@ -13,12 +13,12 @@ export class Key {
     } else {
       this.id = params.id;
     }
-
   }
 
   public schematic_x: number = -1;
   public schematic_y: number = -1;
   public schematic_index: number = -1;
+  public optionFor: Key | null = null;
 
   public text: string = "";
   public meta: object = {};
@@ -37,7 +37,7 @@ export class Key {
   public rotation_x: number = 0;
   public rotation_y: number = 0;
 
-  public color: string = "";
+  public color: string = "#cccccc";
   public textColor: string[] = [];
 
   public t1: string = "";
@@ -50,7 +50,7 @@ export class Key {
   public t8: string = "";
   public t9: string = "";
 
-  public backgroundHex: string = "";
+  public backgroundHex: string = "#cccccc";
   public legendHex: string = "";
 
   public width: number = 1;

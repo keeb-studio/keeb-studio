@@ -67,18 +67,9 @@ export const mutations: MutationTree<LayoutState> = {
     state.error = true;
     state.raw = "{}";
   },
-  selectKey(state, selectedKey: string) {
-    if (state.multiSelect) {
-      const { selected } = state;
-      if (selected.includes(selectedKey)) {
-        state.selected = selected.filter((id: string) => selectedKey !== id);
-      } else {
-        selected.push(selectedKey);
-      }
-    }
-    else {
-      state.selected = [selectedKey];
-    }
+  pickKey(state: LayoutState, key: Key) {
+    state.cursor = "crosshair";
+    state.pickingFor = key;
   }
 };
 

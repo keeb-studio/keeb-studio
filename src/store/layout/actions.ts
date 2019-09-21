@@ -4,8 +4,60 @@ import { LayoutState } from ".";
 import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 export const actions: ActionTree<LayoutState, RootState> = {
-  changeKeyValue
+  selectKey,
+  changeKeyValue,
+  addMxSwitch
 };
+
+async function selectKey(
+  store: ActionContext<LayoutState, RootState>,
+  selectedKey: string
+) {
+  const state = store.state;
+  if (state.pickingFor !== null) {
+    if (selectedKey !== state.pickingFor.id) {
+      const theKey =
+        state.allkeys.find((key: Key) => key.id === selectedKey) || null;
+      await changeKeyValue(store, {
+        id: state.pickingFor.id,
+        property: "optionFor",
+        value: theKey
+      });
+      state.cursor = "default";
+      state.pickingFor = null;
+    }
+  } else {
+    if (state.multiSelect) {
+      const { selected } = state;
+      if (selected.includes(selectedKey)) {
+        state.selected = selected.filter((id: string) => selectedKey !== id);
+      } else {
+        selected.push(selectedKey);
+      }
+    } else {
+      state.selected = [selectedKey];
+    }
+  }
+}
+
+async function addMxSwitch(
+  store: ActionContext<LayoutState, RootState>,
+  params: any
+) {
+  // const keysToChange = store.state.multiSelect ? store.state.selected : [id];
+  // keysToChange.forEach((id: string) => {
+  //   const key = store.state.allkeys.find((k: Key) => k.id === id) as any;
+  //   key[property] = value;
+  // });
+  const key = new Key(params);
+  store.state.allkeys.push(key);
+  store.state.hasChanges = true;
+  store.state.timeSinceChange = 0;
+  if (store.state.timer === null) {
+    store.state.timer = await countDownTimer(store);
+  }
+  // writeKeys(state);
+}
 
 async function changeKeyValue(
   store: ActionContext<LayoutState, RootState>,

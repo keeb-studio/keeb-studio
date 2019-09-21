@@ -108,11 +108,11 @@
 import { Key } from "@/models/KeysetLayout/Key";
 import { Component, Mixins, Vue, Prop } from "vue-property-decorator";
 import Color from "color";
-import { Mutation } from "vuex-class";
+import { Mutation, Action } from "vuex-class";
 
 @Component({})
 export default class KeyCap extends Vue {
-  @Mutation("selectKey", { namespace: "layout" }) selectKey: any;
+  @Action("selectKey", { namespace: "layout" }) selectKey: any;
   @Prop({ required: true })
   public modelKey!: Key;
   public selected: boolean = false;

@@ -9,18 +9,37 @@ export default class GridPlacer {
     const allRows = [] as any;
     const rowIndex = {} as any;
 
+    const allOptionRows = [] as any;
+    const rowOptionIndex = {} as any;
+
     keys.forEach((key: IKey, index: number) => {
       const { schematic_y } = key;
 
-      if (rowIndex[schematic_y] === undefined) {
-        rowIndex[schematic_y] = [{ ...key, normalX: 0, normalY: 0 }];
-        allRows.push(rowIndex[schematic_y]);
+      if (!key.optionFor) {
+        if (rowIndex[schematic_y] === undefined) {
+          rowIndex[schematic_y] = [{ ...key, normalX: 0, normalY: 0 }];
+          allRows.push(rowIndex[schematic_y]);
+        } else {
+          rowIndex[schematic_y].push({ ...key, normalX: 0, normalY: 0 });
+        }
       } else {
-        rowIndex[schematic_y].push({ ...key, normalX: 0, normalY: 0 });
+        if (rowOptionIndex[schematic_y] === undefined) {
+          rowOptionIndex[schematic_y] = [{ ...key, normalX: 0, normalY: 0 }];
+          allOptionRows.push(rowOptionIndex[schematic_y]);
+        } else {
+          rowOptionIndex[schematic_y].push({ ...key, normalX: 0, normalY: 0 });
+        }
       }
     });
 
+    // sort
     allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
+      row.sort((a, b) => {
+        return a.schematic_x > b.schematic_x ? 1 : -1;
+      });
+    });
+
+    allOptionRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       row.sort((a, b) => {
         return a.schematic_x > b.schematic_x ? 1 : -1;
       });
@@ -35,7 +54,11 @@ export default class GridPlacer {
       row.forEach((key: ISchematicKey, newX: number) => {
         key.normalX = newX;
         key.normalY = newY;
-        key.index = newIndex++;
+        if (!key.optionFor) {
+          key.index = newIndex++;
+        } else {
+          key.index = -1;
+        }
 
         const {
           x,
@@ -44,7 +67,8 @@ export default class GridPlacer {
           height,
           rotation_x,
           rotation_y,
-          rotation_angle
+          rotation_angle,
+          optionFor
         } = key;
 
         const pcbCoreds = MathHelper.rotatedKicad(
@@ -63,9 +87,83 @@ export default class GridPlacer {
         const pcbX = MathHelper.roundResult(pcbRawX);
         const pcbY = MathHelper.roundResult(pcbRawY);
 
+        // if (!key.optionFor) {
         key.pcbX = pcbX;
         key.pcbY = pcbY;
         key.pcbRotation = pcbRotation;
+        // } else {
+        //   const {
+        //     x,
+        //     y,
+        //     width,
+        //     height,
+        //     rotation_x,
+        //     rotation_y,
+        //     rotation_angle
+        //   } = key.optionFor;
+
+        //   const pcbCoreds = MathHelper.rotatedKicad(
+        //     x,
+        //     y,
+        //     width || 1,
+        //     height || 1,
+        //     0,
+        //     0,
+        //     rotation_x || 0,
+        //     rotation_y || 0,
+        //     rotation_angle || 0
+        //   );
+        //   const { x: pcbRawX, y: pcbRawY, rotation: pcbRotation } = pcbCoreds;
+        //   const pcbX = MathHelper.roundResult(pcbRawX);
+        //   const pcbY = MathHelper.roundResult(pcbRawY);
+        //   key.pcbX = pcbX;
+        //   key.pcbY = pcbY;
+        //   key.pcbRotation = pcbRotation;
+        // }
+        // TODO remove when jack is finished or converted
+        key.optionFor = optionFor || null;
+      });
+    });
+
+    allOptionRows.forEach((row: Array<ISchematicKey>, newY: number) => {
+      if (row.length > maxRow) {
+        maxRow = row.length;
+      }
+      row.forEach((key: ISchematicKey, newX: number) => {
+        key.normalX = newX;
+        key.normalY = newY + maxRow + 1;
+        key.index = newIndex++;
+
+        const {
+          x,
+          y,
+          width,
+          height,
+          rotation_x,
+          rotation_y,
+          rotation_angle
+        } = key.optionFor as any;
+
+        const pcbCoreds = MathHelper.rotatedKicad(
+          x,
+          y,
+          width || 1,
+          height || 1,
+          0,
+          0,
+          rotation_x || 0,
+          rotation_y || 0,
+          rotation_angle || 0
+        );
+        const { x: pcbRawX, y: pcbRawY, rotation: pcbRotation } = pcbCoreds;
+        const pcbX = MathHelper.roundResult(pcbRawX);
+        const pcbY = MathHelper.roundResult(pcbRawY);
+        key.pcbX = pcbX;
+        key.pcbY = pcbY;
+        key.pcbRotation = pcbRotation;
+
+        // TODO remove when jack is finished or converted
+        // key.optionFor = optionFor || null;
       });
     });
 
@@ -78,6 +176,9 @@ export default class GridPlacer {
       }
     });
 
-    return allRows.flatMap((x: any) => x);
+    return [
+      ...allRows.flatMap((x: any) => x),
+      ...allOptionRows.flatMap((x: any) => x)
+    ];
   }
 }

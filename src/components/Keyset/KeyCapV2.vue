@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Getter, Mutation } from "vuex-class";
+import { Getter, Mutation, Action } from "vuex-class";
 
 const BASEUNIT = 54;
 @Component({})
@@ -55,7 +55,7 @@ export default class KeyCapV2 extends Vue {
   @Prop() private id!: string;
   @Prop() private default!: IDefaultText;
 
-  @Mutation("selectKey", { namespace: "layout" })
+  @Action("selectKey", { namespace: "layout" })
   selectKey: any;
 
   @Getter("isSelectedGetter", { namespace: "layout" })

@@ -9,6 +9,11 @@
       <router-link class="navbar-brand" to="/">Keeb Studio</router-link>
       <router-link to="/saved">Saved</router-link>
       <!-- <router-link to="/about">About</router-link> -->
+
+      <button type="button" class="btn btn-outline-primary" @click="addMx">
+        Add
+      </button>
+
       <button
         type="button"
         class="btn btn-outline-primary"
@@ -31,7 +36,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import WriteGist from "./SavedGists/WriteGist.vue";
-import { Getter, Mutation } from "vuex-class";
+import { Getter, Mutation, Action } from "vuex-class";
+import { Key } from "@/models/KeysetLayout/Key";
 @Component({ components: { WriteGist } })
 export default class Nav extends Vue {
   @Getter("multiSelect", { namespace: "layout" })
@@ -45,6 +51,19 @@ export default class Nav extends Vue {
 
   @Mutation("toggleGridMode", { namespace: "layout" })
   toggleGridMode: any;
+
+  @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
+
+  @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<Key>;
+  addMx() {
+    const maxY =
+      this.allKeys.reduce((previosKey: Key, key: Key) => {
+        const biggerKey = key.y > previosKey.y ? key : previosKey;
+        return biggerKey;
+      }).y + 1;
+
+    this.addMxSwitch({ x: 0, y: maxY });
+  }
 }
 </script>
 <style lang="scss" scoped></style>

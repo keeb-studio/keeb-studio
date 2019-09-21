@@ -10,13 +10,15 @@ export interface LayoutState {
   error: boolean;
   selected: string[];
   allkeys: Key[];
- name: string;
+  name: string;
   hasChanges: boolean;
   timeSinceChange: number;
   timer: any;
   keebGistId: string | null;
   multiSelect: boolean;
   gridMode: boolean;
+  pickingFor: Key | null;
+  cursor: string;
 }
 
 export const state: LayoutState = {
@@ -30,7 +32,9 @@ export const state: LayoutState = {
   timer: null,
   timeSinceChange: -1,
   multiSelect: false,
-  gridMode: false
+  gridMode: false,
+  pickingFor: null,
+  cursor: "default"
 };
 
 const namespaced: boolean = true;

@@ -115,6 +115,54 @@
         />
       </div>
     </div>
+
+    <legend class="col-form-label  col-form-label-sm pb-0">Color</legend>
+    <div class="row m-1">
+      <div class="input-group-prepend">
+        <div class="input-group-text p-1 tiny-t">color</div>
+      </div>
+      <input
+        :key="'color'"
+        :name="'color'"
+        :value="theKey['color']"
+        @input="x => changeValue(x, 'color')"
+        :placeholder="'color'"
+        class="form-control"
+      />
+      <div class="input-group-prepend">
+        <div class="input-group-text p-1 tiny-t">text color</div>
+      </div>
+      <input
+        :value="theKey['default'].textColor"
+        @input="x => changeValue(x, 'color')"
+        placeholder="text"
+        class="form-control"
+      />
+    </div>
+    <legend class="col-form-label  col-form-label-sm pb-0">Option For</legend>
+    <div class="row m-1">
+      <input
+        readonly
+        :key="'optionFor'"
+        :name="'optionFor'"
+        :value="
+          theKey['optionFor']
+            ? getHumanLabelForKey(theKey['optionFor'])
+            : 'none'
+        "
+        :placeholder="'optionFor'"
+        class="form-control"
+        @click="setOption"
+      />
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        @click="clearOption"
+      >
+        Clear
+      </button>
+    </div>
   </form>
 </template>
 
@@ -125,8 +173,42 @@ import { Key } from "@/models/KeysetLayout/Key";
 @Component({})
 export default class KeyEditor extends Vue {
   @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
+  @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
   @Prop() private theKey!: Key;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
+
+  created() {
+    // TODO refactor out 'default' from kle
+    const f = this.theKey as any;
+    if (!f.default) {
+      f.default = { textColor: "#000000" };
+    }
+  }
+
+  clearOption() {
+    this.changeKeyValue({
+      id: this.theKey.id,
+      property: "optionFor",
+      value: null
+    });
+  }
+  getHumanLabelForKey(key: Key) {
+    if (key.t1) return key.t1;
+    if (key.t2) return key.t2;
+    if (key.t3) return key.t3;
+    if (key.t4) return key.t4;
+    if (key.t5) return key.t5;
+    if (key.t6) return key.t6;
+    if (key.t7) return key.t7;
+    if (key.t8) return key.t8;
+    if (key.t9) return key.t9;
+    if (key.schematic_x > -1 && key.schematic_y > -1) {
+      return `${key.schematic_x}, ${key.schematic_y}`;
+    } else {
+      return `${key.x}, ${key.y}`;
+    }
+  }
+
   changeValue(x: any, property: string) {
     let value = x.target.value;
     if (x.target.type === "number") {
@@ -141,6 +223,9 @@ export default class KeyEditor extends Vue {
       property,
       value
     });
+  }
+  setOption() {
+    this.pickKey(this.theKey);
   }
 }
 </script>

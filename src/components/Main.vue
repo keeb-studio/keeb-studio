@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bind:style="{ cursor: cursor }">
     <Keyset />
   </div>
 </template>
@@ -11,6 +11,7 @@ import Keyset from "./Keyset.vue";
 @Component({ components: { Keyset } })
 export default class Main extends Vue {
   @Getter("keyset", { namespace: "layout" }) keyset: any;
+  @Getter("cursor", { namespace: "layout" }) cursor!: string;
 }
 </script>
 

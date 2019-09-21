@@ -6,6 +6,7 @@ import { LayoutState } from ".";
 import { RootState } from "../RootState";
 
 const allKeys = (state: LayoutState): Array<Key> => state.allkeys;
+const cursor = (state: LayoutState): string => state.cursor;
 const gridMode = (state: LayoutState): boolean => state.gridMode;
 const hasChanges = (state: LayoutState): boolean => state.hasChanges;
 const multiSelect = (state: LayoutState): boolean => state.multiSelect;
@@ -47,6 +48,7 @@ function selectedKeys(state: LayoutState): Array<Key> {
 
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
+  cursor,
   calculatedPositions,
   gridMode,
   hasChanges,

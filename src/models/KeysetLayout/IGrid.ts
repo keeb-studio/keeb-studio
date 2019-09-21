@@ -25,6 +25,7 @@ export interface IKey {
   schematic_x: number;
   schematic_y: number;
   schematic_index: number;
+  optionFor: IKey | null;
 }
 
 export interface ISchematicKey {
@@ -46,4 +47,6 @@ export interface ISchematicKey {
   schematic_x: number;
   schematic_y: number;
   schematic_index: number;
+
+  optionFor: IKey | null;
 }

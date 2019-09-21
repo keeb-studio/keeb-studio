@@ -48,6 +48,7 @@
       </div>
     </div>
     <div class="row">
+      {{ allKeys.length }}
       <!-- {{ schematicRender }} -->
     </div>
   </div>
