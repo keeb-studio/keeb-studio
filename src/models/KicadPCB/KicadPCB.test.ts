@@ -136,25 +136,29 @@ describe("KicadPCB", () => {
 )
 `;
 
-    const pcb = new KicadPCB({ raw, path: "" });
     it("renders properly", () => {
+      const pcb = new KicadPCB({ raw, path: "" });
       expect(pcb.render()).toEqual(raw);
     });
 
     it("has the proper sections", () => {
       //
+
+      const pcb = new KicadPCB({ raw, path: "" });
       const firstSection = pcb.sections[0];
       expect(firstSection instanceof General).toBe(true);
     });
 
     describe("findByName", () => {
       it("can find the module", () => {
+        const pcb = new KicadPCB({ raw, path: "" });
         expect(pcb.findByName("MX0").render()).toContain(
           "fp_text reference MX0 "
         );
       });
 
       it("throws not found exception", () => {
+        const pcb = new KicadPCB({ raw, path: "" });
         expect(() => {
           pcb.findByName("MX2");
         }).toThrowError("MX2 Not Found");
@@ -162,38 +166,52 @@ describe("KicadPCB", () => {
     });
 
     it("it determines diff between mx and diode", () => {
+      const pcb = new KicadPCB({ raw, path: "" });
       expect(pcb.xDiodeDiff).toEqual(-10);
       expect(pcb.yDiodeDiff).toEqual(-15);
     });
 
     describe("position", () => {
       it("places the first mx module properly when rendered", () => {
-        pcb.position(0, 19.05, 19.05);
+        const pcb = new KicadPCB({ raw, path: "" });
+        pcb.position(0, 19.05, 19.05, 0);
         const result = pcb.render().split("\n");
         expect(result[11]).toEqual("    (at 19.05 19.05)");
       });
 
       it("places the first diode module properly when rendered", () => {
-        pcb.position(0, 19.05, 19.05);
+        const pcb = new KicadPCB({ raw, path: "" });
+        pcb.position(0, 19.05, 19.05, 0);
         const result = pcb.render().split("\n");
         expect(result[28]).toEqual("    (at 9.05 4.05 270)");
       });
 
       it("used the first diode rotation for all diodes", () => {
-        pcb.position(1, 39.05, 39.05);
+        const pcb = new KicadPCB({ raw, path: "" });
+        pcb.position(1, 39.05, 39.05, 0);
         const result = pcb.render().split("\n");
         expect(result[88]).toEqual("    (at 29.05 24.05 270)");
+      });
+
+      it("can rotate a switch", () => {
+        const pcb = new KicadPCB({ raw, path: "" });
+        pcb.position(0, 19.05, 19.05, 90);
+        const result = pcb.render().split("\n");
+        expect(result[11]).toEqual("    (at 19.05 19.05 90)");
+        // expect(result[28]).toEqual("    (at 9.05 4.05 270)");
       });
     });
 
     describe("positionSwitch", () => {
       it("places the mx module properly when rendered", () => {
+        const pcb = new KicadPCB({ raw, path: "" });
         pcb.positionSwitch(0, 1, 1);
         const result = pcb.render().split("\n");
         expect(result[11]).toEqual("    (at 19.05 19.05)");
       });
 
       it("places the diode module properly when rendered", () => {
+        const pcb = new KicadPCB({ raw, path: "" });
         pcb.positionSwitch(0, 1, 1);
         const result = pcb.render().split("\n");
         expect(result[28]).toEqual("    (at 9.05 4.05 270)");

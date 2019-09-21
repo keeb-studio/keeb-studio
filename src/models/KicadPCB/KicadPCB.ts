@@ -46,14 +46,21 @@ export default class KicadPCB {
     throw new Error(`${name} Not Found`);
   }
 
-  public position(mxIndex: number, gridX: number, gridY: number) {
+  public position(
+    mxIndex: number,
+    gridX: number,
+    gridY: number,
+    rotation: number
+  ) {
     const mx = this.findByName(`MX${mxIndex}`);
     const diode = this.findByName(`D${mxIndex}`);
     mx.x = gridX;
     mx.y = gridY;
+    mx.changeRotation(rotation);
     diode.x = mx.x + this.xDiodeDiff;
     diode.y = mx.y + this.yDiodeDiff;
-    diode.changeRotation(this.initialDiodeRotation);
+    const diodeRotation = (this.initialDiodeRotation + rotation) % 360;
+    diode.changeRotation(diodeRotation);
   }
 
   public positionSwitch(mxIndex: number, gridX: number, gridY: number) {

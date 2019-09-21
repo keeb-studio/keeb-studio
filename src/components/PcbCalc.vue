@@ -70,7 +70,7 @@ export default class PcbCalc extends Vue {
 
       const positions = this.calculatedPositions as ISchematicKey[];
       positions.forEach((key: ISchematicKey) =>
-        pcb.position(key.index, key.pcbX, key.pcbY)
+        pcb.position(key.index, key.pcbX, key.pcbY, key.pcbRotation)
       );
       return pcb.render();
     }
