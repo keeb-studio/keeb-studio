@@ -61,16 +61,25 @@ export default class GridPlacer {
           key.index = -1;
         }
 
-        const {
-          x,
-          y,
+        let {
           width,
           height,
+          x,
+          y,
           rotation_x,
           rotation_y,
           rotation_angle,
           optionFor
         } = key;
+
+        // TODO determine if strings are still making it in
+        width = parseFloat(width as any);
+        height = parseFloat(height as any);
+        x = parseFloat(x as any);
+        y = parseFloat(y as any);
+        rotation_x = parseFloat(rotation_x as any);
+        rotation_y = parseFloat(rotation_y as any);
+        rotation_angle = parseFloat(rotation_angle as any);
 
         const pcbCoreds = MathHelper.rotatedKicad(
           x,
