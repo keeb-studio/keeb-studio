@@ -14,6 +14,7 @@
         <li>r: {{ rotation }}</li>
         <input type="file" id="pcb-input" @change="attachFile" />
         <input :value="inputPcb" />
+        <textarea v-model="calcString"> </textarea>
       </ul>
     </div>
   </div>
@@ -36,6 +37,9 @@ export default class PcbCalc extends Vue {
   @Getter("name", { namespace: "layout" }) name: any;
   @Prop() private theKey!: Key;
 
+  get calcString() {
+    return JSON.stringify(this.calculatedPositions);
+  }
   get pcbPosition() {
     const positions = this.calculatedPositions as ISchematicKey[];
     const thisPosition = positions.find(

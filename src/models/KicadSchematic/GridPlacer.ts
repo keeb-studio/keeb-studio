@@ -46,6 +46,7 @@ export default class GridPlacer {
     });
 
     let maxRow = 0;
+    let maxCol = 0;
     let newIndex = 0;
     allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       if (row.length > maxRow) {
@@ -86,40 +87,9 @@ export default class GridPlacer {
         const { x: pcbRawX, y: pcbRawY, rotation: pcbRotation } = pcbCoreds;
         const pcbX = MathHelper.roundResult(pcbRawX);
         const pcbY = MathHelper.roundResult(pcbRawY);
-
-        // if (!key.optionFor) {
         key.pcbX = pcbX;
         key.pcbY = pcbY;
         key.pcbRotation = pcbRotation;
-        // } else {
-        //   const {
-        //     x,
-        //     y,
-        //     width,
-        //     height,
-        //     rotation_x,
-        //     rotation_y,
-        //     rotation_angle
-        //   } = key.optionFor;
-
-        //   const pcbCoreds = MathHelper.rotatedKicad(
-        //     x,
-        //     y,
-        //     width || 1,
-        //     height || 1,
-        //     0,
-        //     0,
-        //     rotation_x || 0,
-        //     rotation_y || 0,
-        //     rotation_angle || 0
-        //   );
-        //   const { x: pcbRawX, y: pcbRawY, rotation: pcbRotation } = pcbCoreds;
-        //   const pcbX = MathHelper.roundResult(pcbRawX);
-        //   const pcbY = MathHelper.roundResult(pcbRawY);
-        //   key.pcbX = pcbX;
-        //   key.pcbY = pcbY;
-        //   key.pcbRotation = pcbRotation;
-        // }
         // TODO remove when jack is finished or converted
         key.optionFor = optionFor || null;
       });
@@ -147,8 +117,8 @@ export default class GridPlacer {
         const pcbCoreds = MathHelper.rotatedKicad(
           x,
           y,
-          width || 1,
-          height || 1,
+          key.width || 1,
+          key.height || 1,
           0,
           0,
           rotation_x || 0,

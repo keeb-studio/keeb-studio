@@ -16,8 +16,27 @@ const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 
 function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
   const schematicKeys = state.allkeys.map((key: Key) => {
+    const iSchematicKey = {
+      height: key.height,
+      id: key.id,
+      rotation_angle: key.rotation_angle,
+      rotation_x: key.rotation_x,
+      rotation_y: key.rotation_y,
+      width: key.width,
+      x: key.x,
+      y: key.y,
+      // normalX: key.normalX,
+      // normalY: key.normalY,
+      // pcbX: key.pcbX,
+      // pcbY: key.pcbY,
+      // pcbRotation: key.pcbRotation,
+      schematic_x: key.schematic_x,
+      schematic_y: key.schematic_y,
+      schematic_index: key.schematic_index,
+      optionFor: key.optionFor
+    } as any;
     return {
-      ...key,
+      ...iSchematicKey,
       index: -1
     };
   });

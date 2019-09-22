@@ -6,9 +6,14 @@ import { ISchematicKey } from "../KeysetLayout/IGrid";
 import { KeebKey } from "../KeysetLayout/KeebKey";
 import { kleJSON } from "../KLE/kleJSON";
 import KLEParser from "../KLE/KLEParser";
+import { GLabel } from "./GLabel";
 import GridPlacer from "./GridPlacer";
 import { KicadComponent } from "./KicadComponent";
 import { KicadWire } from "./KicadWire";
+
+// Text GLabel 1125 7200 3    50   Input ~ 0
+// col0
+
 export default class KicadSchematic {
   // public path: string;
   public rawFile: string;
@@ -34,7 +39,7 @@ export default class KicadSchematic {
     // have to add back a newline
     return [
       ...flatMap(this.sections, (s: any) => {
-        return s.component === null
+        return s.component === null || s.component === undefined
           ? s.lines
           : s.component.lines.map((l: any) => {
               return l.updatedLine();
@@ -130,6 +135,45 @@ export default class KicadSchematic {
     const closing = this.sections.pop();
 
     const fixed = GridPlacer.pad(keys);
+    const maxCallback = (acc: any, cur: any) => {
+      const intcur = parseInt(cur);
+
+      // console.log(acc, intcur);
+      return Math.max(acc, intcur);
+    };
+    // console.log(fixed);
+    // console.log(
+    //   fixed
+    //     .filter((x: ISchematicKey) => x.schematic_index > -1)
+    //     .map((z: any) => {
+    //       return {
+    //         // ...z
+    //         schematic_x: z.schematic_x,
+    //         schematic_y: z.schematic_y,
+    //         schematic_index: z.schematic_index
+    //       };
+    //     })
+    // );
+    const maxX =
+      fixed
+        .filter((x: ISchematicKey) => x.schematic_index > -1)
+        .map((key: ISchematicKey) => key.schematic_x)
+        .reduce(maxCallback) - 1;
+
+    const maxY = fixed
+      .filter((x: ISchematicKey) => x.schematic_index > -1)
+      .map((key: ISchematicKey) => key.schematic_y)
+      .reduce(maxCallback);
+
+    const rowLabels = [...Array(maxX + 1)].map((row: number, index: number) => {
+      return `${index}-${maxY}`;
+    });
+
+    const colLabels = [...Array(maxY + 1)].map((col: number, index: number) => {
+      return `${maxX}-${index}`;
+    });
+
+    console.log(rowLabels, colLabels);
     fixed.forEach((key: ISchematicKey, index: number) => {
       const label = index.toString();
       const x = key.normalX;
@@ -148,10 +192,32 @@ export default class KicadSchematic {
         lines: diode.lines
       });
 
+      const thisWires = [] as any;
       this.wireTemplates.forEach((wireTemplate: any) => {
         const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
-        this.sections.push({ type: "wire", component: wire });
+
+        const section = { type: "wire", component: wire };
+        thisWires.push(section);
+        this.sections.push(section);
       });
+
+      const labelTarget = `${x}-${y}`;
+      if (rowLabels.includes(labelTarget)) {
+        const label = new GLabel(true, x, thisWires[4].component.position2);
+        console.log("row", labelTarget);
+        // const section = { type: "glabel", component: label };
+        this.sections.push(label);
+      }
+
+      if (colLabels.includes(labelTarget)) {
+        const label = new GLabel(false, y, thisWires[3].component.position2);
+
+        console.log("col", labelTarget);
+        // const section = { type: "glabel", component: label };
+        this.sections.push(label);
+      } else {
+        // console.log(labelTarget, "not found col", colLabels);
+      }
     });
 
     this.sections.push(closing);
