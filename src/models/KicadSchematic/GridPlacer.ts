@@ -12,7 +12,9 @@ export default class GridPlacer {
     const allOptionRows = [] as any;
     const rowOptionIndex = {} as any;
 
-    keys.forEach((key: IKey, index: number) => {
+    keys.forEach((key: any, index: number) => {
+      key.schematic_x = parseFloat(key.schematic_x);
+      key.schematic_y = parseFloat(key.schematic_y);
       const { schematic_y } = key;
 
       if (!key.optionFor) {
@@ -46,8 +48,8 @@ export default class GridPlacer {
     });
 
     let maxRow = 0;
-    let maxCol = 0;
     let newIndex = 0;
+    // place regular
     allRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       if (row.length > maxRow) {
         maxRow = row.length;
@@ -104,14 +106,24 @@ export default class GridPlacer {
       });
     });
 
-    allOptionRows.forEach((row: Array<ISchematicKey>, newY: number) => {
-      if (row.length > maxRow) {
-        maxRow = row.length;
+    //pad
+    allRows.forEach((row: Array<ISchematicKey>) => {
+      if (row.length < maxRow && reset) {
+        const pad = Math.floor((maxRow - row.length) / 2);
+        row.forEach((key: ISchematicKey) => {
+          key.normalX = key.normalX + pad;
+        });
       }
+    });
+    allOptionRows.forEach((row: Array<ISchematicKey>, newY: number) => {
+      // if (row.length > maxRow) {
+      //   maxRow = row.length;
+      // }
       row.forEach((key: ISchematicKey, newX: number) => {
-        key.normalX = newX;
-        key.normalY = newY + maxRow + 1;
-        key.index = newIndex++;
+        const option = key.optionFor as any;
+        const optionKey = allRows
+          .flatMap((x: any) => x)
+          .find((x: ISchematicKey) => x.id === option.id);
 
         const {
           x,
@@ -120,9 +132,22 @@ export default class GridPlacer {
           height,
           rotation_x,
           rotation_y,
-          rotation_angle
-        } = key.optionFor as any;
+          rotation_angle,
+          normalX,
+          normalY
+        } = optionKey;
 
+        console.log(
+          x,
+          y,
+          width,
+          height,
+          rotation_x,
+          rotation_y,
+          rotation_angle,
+          normalX,
+          normalY
+        );
         const pcbCoreds = MathHelper.rotatedKicad(
           x,
           y,
@@ -140,19 +165,12 @@ export default class GridPlacer {
         key.pcbX = pcbX;
         key.pcbY = pcbY;
         key.pcbRotation = pcbRotation;
-
+        key.normalX = normalX;
+        key.normalY = normalY;
+        key.index = newIndex++;
         // TODO remove when jack is finished or converted
         // key.optionFor = optionFor || null;
       });
-    });
-
-    allRows.forEach((row: Array<ISchematicKey>) => {
-      if (row.length < maxRow && reset) {
-        const pad = Math.floor((maxRow - row.length) / 2);
-        row.forEach((key: ISchematicKey) => {
-          key.normalX = key.normalX + pad;
-        });
-      }
     });
 
     return [

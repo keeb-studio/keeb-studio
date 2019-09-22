@@ -15,7 +15,9 @@ const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
 const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 
 function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
-  const schematicKeys = state.allkeys.map((key: Key) => {
+  const schematicKeys = state.allkeys.map((key: any) => {
+    key.schematic_x = parseFloat(key.schematic_x);
+    key.schematic_y = parseFloat(key.schematic_y);
     const iSchematicKey = {
       height: key.height,
       id: key.id,

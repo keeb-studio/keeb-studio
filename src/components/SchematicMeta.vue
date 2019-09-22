@@ -13,7 +13,7 @@
           column:
           <input
             :key="'schematic_x'"
-            type="text"
+            type="number"
             :name="'schematic_x'"
             :value="theKey['schematic_x']"
             @input="x => changeValue(x, 'schematic_x')"
@@ -25,7 +25,7 @@
           row:
           <input
             :key="'schematic_y'"
-            type="text"
+            type="number"
             :name="'schematic_y'"
             :value="theKey['schematic_y']"
             @input="x => changeValue(x, 'schematic_y')"
@@ -38,7 +38,7 @@
           <input
             readonly
             :key="'schematic_index'"
-            type="text"
+            type="number"
             :name="'schematic_index'"
             :value="pcbPosition.index"
             :placeholder="'schematic_index'"
@@ -135,10 +135,18 @@ export default class SchematicMeta extends Vue {
   @Prop()
   private theKey!: Key;
   changeValue(x: any, property: string) {
+    let value = x.target.value;
+    if (x.target.type === "number") {
+      if (value.indexOf(".") > -1) {
+        value = parseFloat(value);
+      } else {
+        value = parseInt(value);
+      }
+    }
     this.changeKeyValue({
       id: this.theKey.id,
       property,
-      value: x.target.value
+      value
     });
   }
 
