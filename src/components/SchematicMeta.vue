@@ -45,6 +45,15 @@
             class="form-control"
           />
         </li>
+
+        <li>
+          foot print type:
+          <select v-model="footPrintType" class="form-control">
+            <option>MX_PCB_XXXH</option>
+            <option>Hybrid_PCB_XXXH</option>
+          </select>
+        </li>
+        <!-- MX_PCB_100H -->
       </ul>
     </div>
   </div>
@@ -89,7 +98,7 @@ U 1 1 5D5FEB52
 P 1275 1100
 F 0 "MX0" H 1200 800 60  0000 C CNN
 F 1 "MX-NoLED" H 1200 850 20  0000 C CNN
-F 2 "Keebio-Parts:Hybrid_PCB_100H" H 650 1075 60  0001 C CNN
+F 2 "Keebio-Parts:SCHEMAFOOTPRINT" H 650 1075 60  0001 C CNN
 F 3 "" H 650 1075 60  0001 C CNN
 	1    1275 1100
 	-1   0    0    1
@@ -120,6 +129,7 @@ $EndSCHEMATC
 
 @Component({})
 export default class SchematicMeta extends Vue {
+  footPrintType: string = "MX_PCB_XXXH";
   @Action("changeKeyValue", { namespace: "layout" })
   changeKeyValue: any;
 
@@ -134,6 +144,11 @@ export default class SchematicMeta extends Vue {
 
   @Prop()
   private theKey!: Key;
+
+  get schemaFootPrint() {
+    return this.footPrintType.replace("XXX", this.theKey.width.toString());
+  }
+
   changeValue(x: any, property: string) {
     let value = x.target.value;
     if (x.target.type === "number") {
@@ -165,9 +180,12 @@ export default class SchematicMeta extends Vue {
   }
 
   get schematicRender() {
-    return new KicadSchematic(SCHEMA_TEMPLATE).getWithKeeb(
-      this.calculatedPositions
-    );
+    const widthNumber = parseInt(
+      (this.theKey.width * 100).toString()
+    ).toString();
+    const fp = this.footPrintType.replace("XXX", "XMXFOOTPRINTX");
+    const schema = SCHEMA_TEMPLATE.replace("SCHEMAFOOTPRINT", fp);
+    return new KicadSchematic(schema).getWithKeeb(this.calculatedPositions);
   }
 }
 </script>

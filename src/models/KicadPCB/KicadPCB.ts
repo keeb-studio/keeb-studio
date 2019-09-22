@@ -50,17 +50,21 @@ export default class KicadPCB {
     mxIndex: number,
     gridX: number,
     gridY: number,
-    rotation: number
+    rotation: number,
+    includeDiode: boolean = true
   ) {
     const mx = this.findByName(`MX${mxIndex}`);
-    const diode = this.findByName(`D${mxIndex}`);
     mx.x = gridX;
     mx.y = gridY;
     mx.changeRotation(rotation);
-    diode.x = mx.x + this.xDiodeDiff;
-    diode.y = mx.y + this.yDiodeDiff;
-    const diodeRotation = (this.initialDiodeRotation + rotation) % 360;
-    diode.changeRotation(diodeRotation);
+
+    if (includeDiode) {
+      const diode = this.findByName(`D${mxIndex}`);
+      diode.x = mx.x + this.xDiodeDiff;
+      diode.y = mx.y + this.yDiodeDiff;
+      const diodeRotation = (this.initialDiodeRotation + rotation) % 360;
+      diode.changeRotation(diodeRotation);
+    }
   }
 
   public positionSwitch(mxIndex: number, gridX: number, gridY: number) {

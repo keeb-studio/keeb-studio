@@ -1,11 +1,7 @@
 import cryptoRandomString from "crypto-random-string";
-import { writeFileSync } from "fs";
 import { IDimension } from "../interfaces/iDimension";
 import { IPoint } from "../interfaces/iPoint";
 import { ISchematicKey } from "../KeysetLayout/IGrid";
-import { KeebKey } from "../KeysetLayout/KeebKey";
-import { kleJSON } from "../KLE/kleJSON";
-import KLEParser from "../KLE/KLEParser";
 import { GLabel } from "./GLabel";
 import GridPlacer from "./GridPlacer";
 import { KicadComponent } from "./KicadComponent";
@@ -87,13 +83,14 @@ export default class KicadSchematic {
     return new KicadWire(null, mxWirePos, diodeWirePos);
   }
 
-  public getSwitch(location: IPoint, label: string) {
+  public getSwitch(location: IPoint, label: string, width: number) {
     const mx = new KicadComponent(
       this.switchTemplate.rawLines,
       label,
       { x: -1, y: -1, rotation: 0 }, // using defaults todo refactor to named
       { width: 1, height: 1 },
-      this.hexPrefix
+      this.hexPrefix,
+      width
     );
     const grid = this.getGridDimensions();
 
@@ -111,7 +108,8 @@ export default class KicadSchematic {
       label,
       { x: -1, y: -1, rotation: 0 }, // using defaults todo refactor to named
       { width: 1, height: 1 },
-      this.hexPrefix
+      this.hexPrefix,
+      1
     );
     const grid = this.getGridDimensions();
 
@@ -161,32 +159,34 @@ export default class KicadSchematic {
       const label = index.toString();
       const x = key.normalX;
       const y = key.normalY;
-      const mxSwitch = this.getSwitch({ x, y }, label);
+      const mxSwitch = this.getSwitch({ x, y }, label, key.width);
       this.sections.push({
         type: "comp",
         component: mxSwitch,
         lines: mxSwitch.lines
       });
 
-      const diode = this.getDiode({ x, y }, label);
-      this.sections.push({
-        type: "comp",
-        component: diode,
-        lines: diode.lines
-      });
+      if (key.optionFor === null) {
+        const diode = this.getDiode({ x, y }, label);
+        this.sections.push({
+          type: "comp",
+          component: diode,
+          lines: diode.lines
+        });
 
-      const thisWires = [] as any;
-      this.wireTemplates.forEach((wireTemplate: any) => {
-        const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+        const thisWires = [] as any;
+        this.wireTemplates.forEach((wireTemplate: any) => {
+          const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
 
-        const section = { type: "wire", component: wire };
-        thisWires.push(section);
-        this.sections.push(section);
-      });
+          const section = { type: "wire", component: wire };
+          thisWires.push(section);
+          this.sections.push(section);
+        });
+      }
     });
 
-    colLabels.forEach((key: IPoint) => {
-      const tempSwith = this.getSwitch(key, "");
+    colLabels.forEach((key: any) => {
+      const tempSwith = this.getSwitch(key, "", key.width);
       const tempDiode = this.getDiode(key, "");
       const wires = this.wireTemplates.map((wireTemplate: any) => {
         return this.getConnectingWire(tempSwith, tempDiode, wireTemplate);
@@ -196,8 +196,8 @@ export default class KicadSchematic {
       this.sections.push(label);
     });
 
-    rowLabels.forEach((key: IPoint) => {
-      const tempSwith = this.getSwitch(key, "");
+    rowLabels.forEach((key: any) => {
+      const tempSwith = this.getSwitch(key, "", key.width);
       const tempDiode = this.getDiode(key, "");
       const wires = this.wireTemplates.map((wireTemplate: any) => {
         return this.getConnectingWire(tempSwith, tempDiode, wireTemplate);
@@ -211,45 +211,45 @@ export default class KicadSchematic {
     return this.render();
   }
 
-  public getWithKLE(kle: kleJSON) {
-    this.removeCompAndWires();
-    const keys = new KLEParser(kle).keebParse();
-    const closing = this.sections.pop();
+  // public getWithKLE(kle: kleJSON) {
+  //   this.removeCompAndWires();
+  //   const keys = new KLEParser(kle).keebParse();
+  //   const closing = this.sections.pop();
 
-    keys.forEach((keebKey: KeebKey, index: number) => {
-      if (keebKey.isSpacer === false) {
-        const label = (index + 1).toString();
-        const x = keebKey.gridIndex.col; // x
-        const y = keebKey.gridIndex.row; // y
-        const mxSwitch = this.getSwitch({ x, y }, label);
-        this.sections.push({
-          type: "comp",
-          component: mxSwitch,
-          lines: mxSwitch.lines
-        });
+  //   keys.forEach((keebKey: KeebKey, index: number) => {
+  //     if (keebKey.isSpacer === false) {
+  //       const label = (index + 1).toString();
+  //       const x = keebKey.gridIndex.col; // x
+  //       const y = keebKey.gridIndex.row; // y
+  //       const mxSwitch = this.getSwitch({ x, y }, label, 0);
+  //       this.sections.push({
+  //         type: "comp",
+  //         component: mxSwitch,
+  //         lines: mxSwitch.lines
+  //       });
 
-        const diode = this.getDiode({ x, y }, label);
-        this.sections.push({
-          type: "comp",
-          component: diode,
-          lines: diode.lines
-        });
+  //       const diode = this.getDiode({ x, y }, label);
+  //       this.sections.push({
+  //         type: "comp",
+  //         component: diode,
+  //         lines: diode.lines
+  //       });
 
-        this.wireTemplates.forEach((wireTemplate: any) => {
-          const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
-          this.sections.push({ type: "wire", component: wire });
-        });
-      }
-    });
+  //       this.wireTemplates.forEach((wireTemplate: any) => {
+  //         const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
+  //         this.sections.push({ type: "wire", component: wire });
+  //       });
+  //     }
+  //   });
 
-    this.sections.push(closing);
-    return this.render();
-  }
+  //   this.sections.push(closing);
+  //   return this.render();
+  // }
 
-  public writeFile(kle: kleJSON, path: string) {
-    const content = this.getWithKLE(kle);
-    writeFileSync(path, content);
-  }
+  // public writeFile(kle: kleJSON, path: string) {
+  //   const content = this.getWithKLE(kle);
+  //   writeFileSync(path, content);
+  // }
 
   public getEmpty() {
     this.removeCompAndWires();

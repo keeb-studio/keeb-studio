@@ -370,7 +370,7 @@ describe("GridPlacer", () => {
       expect(result[2]).toEqual({
         ...input[1],
         normalX: 0,
-        normalY: 2,
+        normalY: 0,
         id: "id2",
         index: 2,
         pcbX: 63.8725,

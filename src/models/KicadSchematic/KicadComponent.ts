@@ -10,13 +10,16 @@ export class KicadComponent {
   public position: IPointRotated = { x: 0, y: 0, rotation: 0 };
   public rawLines: any;
   public hexPrefix: string;
+  private keyWidth: number;
   constructor(
     rawlines: any = null,
     label: string = "1",
     position: IPointRotated = { x: -1, y: -1, rotation: 0 },
     gridSize: IDimension = { width: 1, height: 1 },
-    uidPrefix: string = ""
+    uidPrefix: string = "",
+    keyWidth: number = 1
   ) {
+    this.keyWidth = keyWidth;
     this.hexPrefix = cryptoRandomString({ length: 4 });
     this.rawLines = rawlines;
     if (this.rawLines) {
@@ -46,7 +49,9 @@ export class KicadComponent {
           this.position,
           label,
           this.uid,
-          this.newUid
+          this.newUid,
+          gridSize,
+          this.keyWidth
         );
       });
     }

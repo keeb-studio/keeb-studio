@@ -30,9 +30,14 @@ describe("KicadComponent", () => {
 
       component.lines.map((x: any) => (x.newUid = "somestaticuid"));
       expect(component.lines[1]).toEqual({
+        gridSize: {
+          height: 1,
+          width: 1
+        },
         hasDigits: false,
         hasLabel: true,
         hasPosition: false,
+        keyWidth: 1,
         label: "1",
         labelHolder: "TEMPLATE_LABEL",
         newUid: "somestaticuid",
@@ -52,8 +57,13 @@ describe("KicadComponent", () => {
       });
 
       expect(component.lines[4]).toEqual({
+        gridSize: {
+          height: 1,
+          width: 1
+        },
         hasLabel: true,
         hasPosition: true,
+        keyWidth: 1,
         label: "1",
         labelHolder: "TEMPLATE_LABEL",
         newUid: "somestaticuid",
@@ -74,10 +84,15 @@ describe("KicadComponent", () => {
       });
 
       expect(component.lines[3]).toEqual({
+        gridSize: {
+          height: 1,
+          width: 1
+        },
         hasLabel: false,
         labelHolder: "TEMPLATE_LABEL",
         newUid: "somestaticuid",
         hasPosition: true,
+        keyWidth: 1,
         label: "1",
         hasDigits: true,
         original: "P 1375 1100 270",
@@ -105,7 +120,9 @@ describe("KicadComponent", () => {
         templateOriginPosition,
         "1",
         "uid1",
-        "uid1000"
+        "uid1000",
+        { width: 1, height: 1 },
+        1
       );
       testPeice.x = 123;
       testPeice.y = 456;

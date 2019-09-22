@@ -137,17 +137,6 @@ export default class GridPlacer {
           normalY
         } = optionKey;
 
-        console.log(
-          x,
-          y,
-          width,
-          height,
-          rotation_x,
-          rotation_y,
-          rotation_angle,
-          normalX,
-          normalY
-        );
         const pcbCoreds = MathHelper.rotatedKicad(
           x,
           y,

@@ -1,3 +1,4 @@
+import { IDimension } from "../interfaces/iDimension";
 import { IPointRotated } from "../interfaces/iPoint";
 export class KicadPeice {
   public original: string = "";
@@ -15,13 +16,20 @@ export class KicadPeice {
   public label: string;
   public labelHolder: string = "TEMPLATE_LABEL";
   public uid: string;
+
+  public gridSize: IDimension = { width: 1, height: 1 };
+  public keyWidth: number;
   constructor(
     original: string,
     templateOriginPosition: IPointRotated,
     label: string,
     uid: string,
-    newUid: string
+    newUid: string,
+    gridSize: IDimension,
+    keyWidth: number
   ) {
+    this.keyWidth = keyWidth;
+    this.gridSize = gridSize;
     this.uid = uid;
     this.newUid = newUid;
     this.label = label;
@@ -43,6 +51,7 @@ export class KicadPeice {
       // find out if we need to ignore it because
       // it doesn't actually have x & y in it
       let ignore = true;
+      let isMxFootPrint = false;
       let newLabel = original;
       if (["P", "F", "D"].includes(partType)) {
         ignore = false;
@@ -54,10 +63,14 @@ export class KicadPeice {
       ) {
         ignore = false;
       }
+
       // determine which numbers are x and y
       let xIndex = 0;
       if (partType === "F") {
         xIndex = 1;
+        if (original.indexOf("XMXFOOTPRINTX")) {
+          isMxFootPrint = true;
+        }
       }
 
       // if (partType === "U") {
@@ -120,6 +133,11 @@ export class KicadPeice {
     newY = parseInt((this.y + this.yOffset).toFixed(0), 10);
 
     let template = this.template;
+
+    if (template.indexOf("XMXFOOTPRINTX") > -1) {
+      template = template.replace("XMXFOOTPRINTX", getPeiceSize(this.keyWidth));
+    }
+
     if (this.hasLabel) {
       template = template.replace(this.labelHolder, this.label);
       if (!this.hasDigits) {
@@ -141,4 +159,12 @@ export class KicadPeice {
           .replace("templateY", newY.toString())
           .replace("templateRotation", this.rotation.toString());
   }
+}
+
+export function getPeiceSize(width: number): string {
+  const supported = [1.25, 1.5, 1.75, 2, 2.25, 2.75, 6.25, 7];
+  if (supported.includes(width)) {
+    return (width * 100).toString();
+  }
+  return "100";
 }
