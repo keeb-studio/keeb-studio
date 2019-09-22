@@ -285,7 +285,6 @@ describe("KicadSchematic", () => {
       ];
       schematic.getWithKeeb(keys);
       const render = schematic.render();
-      // console.log(render);
 
       expect(render).toContain(`L MX_Alps_Hybrid:MX-NoLED MX0`);
       expect(render).toContain(`L MX_Alps_Hybrid:MX-NoLED MX1`);

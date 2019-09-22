@@ -137,28 +137,12 @@ export default class KicadSchematic {
     const fixed = GridPlacer.pad(keys);
     const maxCallback = (acc: any, cur: any) => {
       const intcur = parseInt(cur);
-
-      // console.log(acc, intcur);
       return Math.max(acc, intcur);
     };
-    // console.log(fixed);
-    // console.log(
-    //   fixed
-    //     .filter((x: ISchematicKey) => x.schematic_index > -1)
-    //     .map((z: any) => {
-    //       return {
-    //         // ...z
-    //         schematic_x: z.schematic_x,
-    //         schematic_y: z.schematic_y,
-    //         schematic_index: z.schematic_index
-    //       };
-    //     })
-    // );
-    const maxX =
-      fixed
-        .filter((x: ISchematicKey) => x.schematic_index > -1)
-        .map((key: ISchematicKey) => key.schematic_x)
-        .reduce(maxCallback) - 1;
+    const maxX = fixed
+      .filter((x: ISchematicKey) => x.schematic_index > -1)
+      .map((key: ISchematicKey) => key.schematic_x)
+      .reduce(maxCallback);
 
     const maxY = fixed
       .filter((x: ISchematicKey) => x.schematic_index > -1)
@@ -166,14 +150,13 @@ export default class KicadSchematic {
       .reduce(maxCallback);
 
     const rowLabels = [...Array(maxX + 1)].map((row: number, index: number) => {
-      return `${index}-${maxY}`;
+      return { x: index, y: maxY };
     });
 
     const colLabels = [...Array(maxY + 1)].map((col: number, index: number) => {
-      return `${maxX}-${index}`;
+      return { x: maxX, y: index };
     });
 
-    console.log(rowLabels, colLabels);
     fixed.forEach((key: ISchematicKey, index: number) => {
       const label = index.toString();
       const x = key.normalX;
@@ -200,24 +183,28 @@ export default class KicadSchematic {
         thisWires.push(section);
         this.sections.push(section);
       });
+    });
 
-      const labelTarget = `${x}-${y}`;
-      if (rowLabels.includes(labelTarget)) {
-        const label = new GLabel(true, x, thisWires[4].component.position2);
-        console.log("row", labelTarget);
-        // const section = { type: "glabel", component: label };
-        this.sections.push(label);
-      }
+    colLabels.forEach((key: IPoint) => {
+      const tempSwith = this.getSwitch(key, "");
+      const tempDiode = this.getDiode(key, "");
+      const wires = this.wireTemplates.map((wireTemplate: any) => {
+        return this.getConnectingWire(tempSwith, tempDiode, wireTemplate);
+      });
 
-      if (colLabels.includes(labelTarget)) {
-        const label = new GLabel(false, y, thisWires[3].component.position2);
+      const label = new GLabel(false, key.y, wires[3].position2);
+      this.sections.push(label);
+    });
 
-        console.log("col", labelTarget);
-        // const section = { type: "glabel", component: label };
-        this.sections.push(label);
-      } else {
-        // console.log(labelTarget, "not found col", colLabels);
-      }
+    rowLabels.forEach((key: IPoint) => {
+      const tempSwith = this.getSwitch(key, "");
+      const tempDiode = this.getDiode(key, "");
+      const wires = this.wireTemplates.map((wireTemplate: any) => {
+        return this.getConnectingWire(tempSwith, tempDiode, wireTemplate);
+      });
+
+      const label = new GLabel(true, key.x, wires[4].position2);
+      this.sections.push(label);
     });
 
     this.sections.push(closing);
