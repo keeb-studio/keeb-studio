@@ -167,7 +167,7 @@ export module Serial {
               current.textSize = [];
             }
             if (item.f2)
-              for (var i = 1; i < 12; ++i) current.textSize[i] = item.f2;
+              for (var i2 = 1; i2 < 12; ++i2) current.textSize[i2] = item.f2;
             if (item.fa) current.textSize = item.fa;
             if (item.p) current.profile = item.p;
             if (item.c) current.color = item.c;
