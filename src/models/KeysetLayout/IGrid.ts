@@ -49,4 +49,5 @@ export interface ISchematicKey {
   schematic_index: number;
 
   optionFor: IKey | null;
+  targetAlign: string;
 }

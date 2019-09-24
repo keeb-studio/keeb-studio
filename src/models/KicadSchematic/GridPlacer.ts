@@ -125,17 +125,24 @@ export default class GridPlacer {
           .flatMap((x: any) => x)
           .find((x: ISchematicKey) => x.id === option.id);
 
+        let { x, y } = optionKey;
+
         const {
-          x,
-          y,
-          width,
-          height,
           rotation_x,
           rotation_y,
           rotation_angle,
           normalX,
           normalY
         } = optionKey;
+
+        const align = key.targetAlign === "right" ? "right" : "left";
+        if (align === "right") {
+          if (optionKey.width > key.width) {
+            x = x + optionKey.width - key.width;
+          } else if (optionKey.width < key.width) {
+            x = x - (key.width - optionKey.width);
+          }
+        }
 
         const pcbCoreds = MathHelper.rotatedKicad(
           x,

@@ -35,7 +35,8 @@ function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
       schematic_x: key.schematic_x,
       schematic_y: key.schematic_y,
       schematic_index: key.schematic_index,
-      optionFor: key.optionFor
+      optionFor: key.optionFor,
+      targetAlign: key.targetAlign
     } as any;
     return {
       ...iSchematicKey,

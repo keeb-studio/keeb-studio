@@ -7,7 +7,6 @@ describe("KicadPeice", () => {
       "1",
       "uid1",
       "uid1",
-
       { width: 1, height: 1 },
       1
     );

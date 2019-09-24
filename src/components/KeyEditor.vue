@@ -162,6 +162,31 @@
       >
         Clear
       </button>
+
+      <div class="form-check ml-4">
+        <label for="one" class="form-check-label">left</label>
+        <input
+          type="radio"
+          id="left"
+          value="left"
+          :checked="'left' === theKey.targetAlign"
+          @change="changeAlign($event.target.value)"
+          class="form-check-input"
+        />
+      </div>
+
+      <div class="form-check ml-2">
+        <label for="two" class="form-check-label">right</label>
+        <input
+          type="radio"
+          id="right"
+          value="right"
+          :checked="'right' === theKey.targetAlign"
+          @change="changeAlign($event.target.value)"
+          class="form-check-input"
+        />
+      </div>
+      <br />
     </div>
   </form>
 </template>
@@ -176,7 +201,6 @@ export default class KeyEditor extends Vue {
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
   @Prop() private theKey!: Key;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
-
   created() {
     // TODO refactor out 'default' from kle
     const f = this.theKey as any;
@@ -190,6 +214,13 @@ export default class KeyEditor extends Vue {
       id: this.theKey.id,
       property: "optionFor",
       value: null
+    });
+  }
+  changeAlign(value: string) {
+    this.changeKeyValue({
+      id: this.theKey.id,
+      property: "targetAlign",
+      value
     });
   }
   getHumanLabelForKey(key: Key) {

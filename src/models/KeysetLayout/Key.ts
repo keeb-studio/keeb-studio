@@ -19,6 +19,7 @@ export class Key {
   public schematic_y: number = -1;
   public schematic_index: number = -1;
   public optionFor: Key | null = null;
+  public targetAlign: string = "left";
 
   public text: string = "";
   public meta: object = {};
