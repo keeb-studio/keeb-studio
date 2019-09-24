@@ -93,13 +93,13 @@ describe("KicadSchematic", () => {
 
   describe("getSwitch", () => {
     it("returns the correct switch for 0,0", () => {
-      expect(schematic.getSwitch({ x: 0, y: 0 }, "1").position).toEqual(
+      expect(schematic.getSwitch({ x: 0, y: 0 }, "1", 1).position).toEqual(
         schematic.switchTemplate.position
       );
     });
 
     it("returns the correct switch for 1,1", () => {
-      expect(schematic.getSwitch({ x: 1, y: 1 }, "1").position).toEqual({
+      expect(schematic.getSwitch({ x: 1, y: 1 }, "1", 1).position).toEqual({
         ...schematic.switchTemplate2.position,
         rotation: 0
       });
@@ -127,7 +127,7 @@ describe("KicadSchematic", () => {
     it("works with wires", () => {
       expect(
         schematic.getConnectingWire(
-          schematic.getSwitch({ x: 0, y: 1 }, "1"),
+          schematic.getSwitch({ x: 0, y: 1 }, "1", 1),
           schematic.getDiode({ x: 0, y: 1 }, "1"),
           schematic.wireTemplate
         ).position
@@ -135,7 +135,7 @@ describe("KicadSchematic", () => {
 
       expect(
         schematic.getConnectingWire(
-          schematic.getSwitch({ x: 1, y: 0 }, "1"),
+          schematic.getSwitch({ x: 1, y: 0 }, "1", 1),
           schematic.getDiode({ x: 1, y: 0 }, "1"),
           schematic.wireTemplate
         ).position2
