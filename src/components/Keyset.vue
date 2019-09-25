@@ -89,7 +89,7 @@ import KeyCap from "./Keyset/KeyCapV2.vue";
 import KeyEditor from "./KeyEditor.vue";
 import PcbCalc from "./PcbCalc.vue";
 import SchematicMeta from "./SchematicMeta.vue";
-import { SimpleKey } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
 import MathHelper from "../models/MathHelper";

@@ -37,7 +37,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import WriteGist from "./SavedGists/WriteGist.vue";
 import { Getter, Mutation, Action } from "vuex-class";
-import { SimpleKey } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({ components: { WriteGist } })
 export default class Nav extends Vue {
   @Getter("multiSelect", { namespace: "layout" })

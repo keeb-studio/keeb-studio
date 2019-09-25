@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
-import { SimpleKey } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import MathHelper from "../models/MathHelper";
 import KicadPCB from "@/models/KicadPCB/KicadPCB";
 import { ISchematicKey } from "../models/KeysetLayout/IGrid";
