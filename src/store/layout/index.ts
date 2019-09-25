@@ -1,4 +1,4 @@
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { Module } from "vuex";
 import { RootState } from "../RootState";
 import { actions } from "./actions";
@@ -9,7 +9,7 @@ export interface LayoutState {
   raw: string;
   error: boolean;
   selected: string[];
-  allkeys: Key[];
+  allkeys: SimpleKey[];
   name: string;
   hasChanges: boolean;
   timeSinceChange: number;
@@ -17,7 +17,7 @@ export interface LayoutState {
   keebGistId: string | null;
   multiSelect: boolean;
   gridMode: boolean;
-  pickingFor: Key | null;
+  pickingFor: SimpleKey | null;
   cursor: string;
   mouseX: number;
   mouseY: number;

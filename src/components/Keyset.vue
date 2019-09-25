@@ -89,7 +89,7 @@ import KeyCap from "./Keyset/KeyCapV2.vue";
 import KeyEditor from "./KeyEditor.vue";
 import PcbCalc from "./PcbCalc.vue";
 import SchematicMeta from "./SchematicMeta.vue";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/Key";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
 import MathHelper from "../models/MathHelper";
@@ -121,7 +121,7 @@ export default class Keyset extends Vue {
   }
 
   get axisPoint() {
-    const key = this.lastSelectedKey as Key;
+    const key = this.lastSelectedKey as SimpleKey;
     const x = key.rotation_x * 54;
     const y = key.rotation_y * 54;
     return { x, y };

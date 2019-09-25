@@ -1,4 +1,4 @@
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import MathHelper from "@/models/MathHelper";
 import { ActionContext, ActionTree } from "vuex";
 import { LayoutState } from ".";
@@ -19,7 +19,7 @@ async function selectKey(
   if (state.pickingFor !== null) {
     if (selectedKey !== state.pickingFor.id) {
       const theKey =
-        state.allkeys.find((key: Key) => key.id === selectedKey) || null;
+        state.allkeys.find((key: SimpleKey) => key.id === selectedKey) || null;
       await changeKeyValue(store, {
         id: state.pickingFor.id,
         property: "optionFor",
@@ -46,7 +46,7 @@ async function addMxSwitch(
   store: ActionContext<LayoutState, RootState>,
   params: any
 ) {
-  const key = new Key(params);
+  const key = new SimpleKey(params);
   store.state.allkeys.push(key);
   store.state.hasChanges = true;
   store.state.timeSinceChange = 0;
@@ -60,8 +60,8 @@ async function rotateKeys(store: ActionContext<LayoutState, RootState>) {
   const selected = store.state.selected;
   selected.forEach((keyId: string) => {
     const theKey = store.state.allkeys.find(
-      (key: Key) => key.id === keyId
-    ) as Key;
+      (key: SimpleKey) => key.id === keyId
+    ) as SimpleKey;
     const {
       x,
       y,
@@ -98,7 +98,7 @@ async function changeKeyValue(
 ) {
   const keysToChange = store.state.multiSelect ? store.state.selected : [id];
   keysToChange.forEach((id: string) => {
-    const key = store.state.allkeys.find((k: Key) => k.id === id) as any;
+    const key = store.state.allkeys.find((k: SimpleKey) => k.id === id) as any;
     key[property] = value;
   });
 

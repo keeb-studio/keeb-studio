@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/Key";
 import MathHelper from "../models/MathHelper";
 import KicadPCB from "@/models/KicadPCB/KicadPCB";
 import { ISchematicKey } from "../models/KeysetLayout/IGrid";
@@ -35,7 +35,7 @@ export default class PcbCalc extends Vue {
   calculatedPositions: any;
   @Getter("allKeys", { namespace: "layout" }) allKeys: any;
   @Getter("name", { namespace: "layout" }) name: any;
-  @Prop() private theKey!: Key;
+  @Prop() private theKey!: SimpleKey;
 
   get calcString() {
     return JSON.stringify(this.calculatedPositions);

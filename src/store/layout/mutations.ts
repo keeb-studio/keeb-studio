@@ -1,6 +1,5 @@
-import { KeebKey } from "@/models/KeysetLayout/KeebKey";
-import { Key } from "@/models/KeysetLayout/Key";
 import KeysetLayout from "@/models/KeysetLayout/KeysetLayout";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { MutationTree } from "vuex";
 import { LayoutState } from "./index";
 
@@ -25,36 +24,7 @@ export const mutations: MutationTree<LayoutState> = {
     state.error = false;
     state.hasChanges = false;
     state.name = name;
-    state.allkeys = new KeysetLayout({ raw }).allRows.flatMap((k: KeebKey[]) =>
-      k.map((k2: KeebKey, index: number) => {
-        const params = {
-          ...k2,
-          ...k2.kleKey,
-          x: k2.x,
-          y: k2.y,
-          schematic_index: index,
-          schematic_x: k2.gridIndex.col,
-          schematic_y: k2.gridIndex.row,
-          width: k2.kleKey.width,
-          height: k2.kleKey.height,
-          rotation_angle: k2.kleKey.rotation_angle,
-          rotation_x: k2.kleKey.rotation_x,
-          rotation_y: k2.kleKey.rotation_y,
-          t1: k2.kleKey.labels[0] || "",
-          t2: k2.kleKey.labels[1] || "",
-          t3: k2.kleKey.labels[2] || "",
-          t4: k2.kleKey.labels[3] || "",
-          t5: k2.kleKey.labels[4] || "",
-          t6: k2.kleKey.labels[5] || "",
-          t7: k2.kleKey.labels[6] || "",
-          t8: k2.kleKey.labels[7] || "",
-          t9: k2.kleKey.labels[8] || "",
-          backgroundHex: k2.kleKey.color
-        };
-        return new Key(params);
-      })
-    );
-    // writeKeys(state);
+    state.allkeys = KeysetLayout.getAll(raw);
   },
   loadFromStorage(state: LayoutState, name) {
     const parsed = JSON.parse(localStorage[name]);
@@ -67,7 +37,7 @@ export const mutations: MutationTree<LayoutState> = {
     state.error = true;
     state.raw = "{}";
   },
-  pickKey(state: LayoutState, key: Key) {
+  pickKey(state: LayoutState, key: SimpleKey) {
     state.cursor = "crosshair";
     state.pickingFor = key;
   },

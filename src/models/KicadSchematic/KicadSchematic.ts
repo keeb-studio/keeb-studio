@@ -211,46 +211,6 @@ export default class KicadSchematic {
     return this.render();
   }
 
-  // public getWithKLE(kle: kleJSON) {
-  //   this.removeCompAndWires();
-  //   const keys = new KLEParser(kle).keebParse();
-  //   const closing = this.sections.pop();
-
-  //   keys.forEach((keebKey: KeebKey, index: number) => {
-  //     if (keebKey.isSpacer === false) {
-  //       const label = (index + 1).toString();
-  //       const x = keebKey.gridIndex.col; // x
-  //       const y = keebKey.gridIndex.row; // y
-  //       const mxSwitch = this.getSwitch({ x, y }, label, 0);
-  //       this.sections.push({
-  //         type: "comp",
-  //         component: mxSwitch,
-  //         lines: mxSwitch.lines
-  //       });
-
-  //       const diode = this.getDiode({ x, y }, label);
-  //       this.sections.push({
-  //         type: "comp",
-  //         component: diode,
-  //         lines: diode.lines
-  //       });
-
-  //       this.wireTemplates.forEach((wireTemplate: any) => {
-  //         const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
-  //         this.sections.push({ type: "wire", component: wire });
-  //       });
-  //     }
-  //   });
-
-  //   this.sections.push(closing);
-  //   return this.render();
-  // }
-
-  // public writeFile(kle: kleJSON, path: string) {
-  //   const content = this.getWithKLE(kle);
-  //   writeFileSync(path, content);
-  // }
-
   public getEmpty() {
     this.removeCompAndWires();
     return [
@@ -264,6 +224,7 @@ export default class KicadSchematic {
       ""
     ].join("\n");
   }
+
   /// private
   private parseLines() {
     const lines = this.rawFile.split(/\r?\n/);

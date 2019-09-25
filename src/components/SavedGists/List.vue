@@ -14,8 +14,13 @@
           />
         </div>
       </form>
-      <div v-for="file of filteredFiles" :key="file.id">
-        <a @click="selectGist(file)">{{ file.name }}</a>
+      <div v-for="file of filteredFiles" :key="file.id" class="m-1">
+        <button class="btn btn-outline-primary" @click="selectGist(file)">
+          {{ file.name }}
+        </button>
+        <button class="btn btn-danger btn-sm m-1" v-if="isKeeb">
+          <Octicon name="trashcan"></Octicon>
+        </button>
       </div>
     </div>
   </div>
@@ -27,10 +32,13 @@ import "vue-apollo";
 import Gist from "./Gist.vue";
 import GISTS from "../../graphql/Gists.gql";
 import { Mutation, Getter } from "vuex-class";
+import "vue-octicon/icons";
+import Octicon from "vue-octicon/components/Octicon.vue";
 const namespace = "layout";
 @Component({
   components: {
-    Gist
+    Gist,
+    Octicon
   },
   apollo: {
     viewer: {
@@ -58,9 +66,14 @@ export default class Saved extends Vue {
     this.searchTerm = event.target.value;
   }
 
+  get isKeeb() {
+    return this.gistType === "load";
+  }
+
   get extension() {
     return this.gistType === "load" ? ".keeb.json" : ".kbd.json";
   }
+
   get filteredFiles() {
     return this.files.filter((file: IGist) =>
       this.searchTerm.length > 0
@@ -68,6 +81,7 @@ export default class Saved extends Vue {
         : true
     );
   }
+
   get files() {
     if (this.viewer) {
       return this.viewer.gists.edges

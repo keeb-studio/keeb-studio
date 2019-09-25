@@ -37,7 +37,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import WriteGist from "./SavedGists/WriteGist.vue";
 import { Getter, Mutation, Action } from "vuex-class";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/Key";
 @Component({ components: { WriteGist } })
 export default class Nav extends Vue {
   @Getter("multiSelect", { namespace: "layout" })
@@ -54,10 +54,10 @@ export default class Nav extends Vue {
 
   @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
 
-  @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<Key>;
+  @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<SimpleKey>;
   addMx() {
     const maxY =
-      this.allKeys.reduce((previosKey: Key, key: Key) => {
+      this.allKeys.reduce((previosKey: SimpleKey, key: SimpleKey) => {
         const biggerKey = key.y > previosKey.y ? key : previosKey;
         return biggerKey;
       }).y + 1;

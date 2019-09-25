@@ -128,7 +128,7 @@
       <input
         :key="'color'"
         :name="'color'"
-        :value="theKey['color']"
+        :value="theKey['kColor']"
         @input="x => changeValue(x, 'color')"
         :placeholder="'color'"
         class="form-control"
@@ -137,7 +137,7 @@
         <div class="input-group-text p-1 tiny-t">text color</div>
       </div>
       <input
-        :value="theKey['default'].textColor"
+        :value="theKey['kTextColor']"
         @input="x => changeValue(x, 'color')"
         placeholder="text"
         class="form-control"
@@ -246,21 +246,21 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation, Action } from "vuex-class";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({})
 export default class KeyEditor extends Vue {
   @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
-  @Prop() private theKey!: Key;
+  @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;
-  created() {
-    // TODO refactor out 'default' from kle
-    const f = this.theKey as any;
-    if (!f.default) {
-      f.default = { textColor: "#000000" };
-    }
-  }
+  // created() {
+  //   // TODO refactor out 'default' from kle
+  //   // const f = this.theKey as any;
+  //   // if (!f.default) {
+  //   //   f.default = { textColor: "#000000" };
+  //   // }
+  // }
 
   clearOption() {
     this.changeKeyValue({
@@ -276,7 +276,7 @@ export default class KeyEditor extends Vue {
       value
     });
   }
-  getHumanLabelForKey(key: Key) {
+  getHumanLabelForKey(key: SimpleKey) {
     if (key.t1) return key.t1;
     if (key.t2) return key.t2;
     if (key.t3) return key.t3;

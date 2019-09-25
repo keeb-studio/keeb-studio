@@ -61,7 +61,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation, Action } from "vuex-class";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
 import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
@@ -143,7 +143,7 @@ export default class SchematicMeta extends Vue {
   calculatedPositions: any;
 
   @Prop()
-  private theKey!: Key;
+  private theKey!: SimpleKey;
 
   get schemaFootPrint() {
     return this.footPrintType.replace("XXX", this.theKey.width.toString());
@@ -170,7 +170,7 @@ export default class SchematicMeta extends Vue {
     const thisPosition = positions.find(
       (key: ISchematicKey) => key.id === this.theKey.id
     );
-    return thisPosition;
+    return thisPosition || { index: 0 };
   }
 
   get schData() {

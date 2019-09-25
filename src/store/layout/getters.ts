@@ -1,12 +1,12 @@
 import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
-import { Key } from "@/models/KeysetLayout/Key";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
 import { LayoutState } from ".";
 import { RootState } from "../RootState";
 
-const allKeys = (state: LayoutState): Array<Key> => state.allkeys;
+const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
 const cursor = (state: LayoutState): string => state.cursor;
 const gridMode = (state: LayoutState): boolean => state.gridMode;
 const hasChanges = (state: LayoutState): boolean => state.hasChanges;
@@ -48,8 +48,8 @@ function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
   return GridPlacer.pad(schematicKeys);
 }
 
-function unSelectedKeys(state: LayoutState): Array<Key> {
-  return state.allkeys.filter((x: Key) => !state.selected.includes(x.id));
+function unSelectedKeys(state: LayoutState): Array<SimpleKey> {
+  return state.allkeys.filter((x: SimpleKey) => !state.selected.includes(x.id));
 }
 
 function isSelectedGetter(state: LayoutState): Function {
@@ -58,7 +58,7 @@ function isSelectedGetter(state: LayoutState): Function {
   };
 }
 
-function lastSelectedKey(state: LayoutState): Key {
+function lastSelectedKey(state: LayoutState): SimpleKey {
   const selected = selectedKeys(state);
   return selected[selected.length - 1];
 }
@@ -93,10 +93,12 @@ function thePoints(state: LayoutState): any {
   };
 }
 
-function selectedKeys(state: LayoutState): Array<Key> {
+function selectedKeys(state: LayoutState): Array<SimpleKey> {
   return state.selected
-    .map((id: string) => state.allkeys.find(x => x.id === id) || new Key())
-    .filter((x: Key) => x.id !== "");
+    .map(
+      (id: string) => state.allkeys.find(x => x.id === id) || new SimpleKey()
+    )
+    .filter((x: SimpleKey) => x.id !== "");
 }
 
 function mouseInfo(state: LayoutState): Object {

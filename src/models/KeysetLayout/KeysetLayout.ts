@@ -2,10 +2,11 @@ import { Key, Serial } from "@/LocalKleSerial";
 import { kleJSON } from "../KLE/kleJSON";
 import { Grid } from "./Grid";
 import { KeebKey } from "./KeebKey";
+import { SimpleKey } from "./SimpleKey";
 
 export default class KeysetLayout {
-  public kleParsed: kleJSON;
-  public allRows: KeebKey[][] = [];
+  private kleParsed: kleJSON;
+  private allRows: KeebKey[][] = [];
   constructor(params: IKeysetLayout) {
     const { raw } = params;
     this.kleParsed = JSON.parse(raw);
@@ -52,25 +53,6 @@ export default class KeysetLayout {
     });
   }
 
-  public keys() {
-    return this.allRows.flatMap((row: KeebKey[]) =>
-      row.map((key: KeebKey) => key)
-    );
-  }
-
-  public positions() {
-    return this.allRows.flatMap((row: KeebKey[]) =>
-      row.map((key: KeebKey) => {
-        return {
-          x: key.x,
-          y: key.y,
-          index: key.index,
-          label: key.label
-        };
-      })
-    );
-  }
-
   public findKey(index: number, allRows: KeebKey[][]) {
     let x = -1;
     let found = new KeebKey("", { row: 0, col: 0 }, 0);
@@ -83,6 +65,42 @@ export default class KeysetLayout {
       });
     });
     return found;
+  }
+
+  public static getAll(raw: string): Array<SimpleKey> {
+    return new KeysetLayout({ raw }).allRows.flatMap((k: KeebKey[]) =>
+      k.map((k2: KeebKey, index: number) => {
+        const params = {
+          // ...k2,
+          // ...k2.kleKey,
+          x: k2.x,
+          y: k2.y,
+          schematic_index: index,
+          schematic_x: k2.gridIndex.col,
+          schematic_y: k2.gridIndex.row,
+          width: k2.kleKey.width,
+          height: k2.kleKey.height,
+          rotation_angle: k2.kleKey.rotation_angle,
+          rotation_x: k2.kleKey.rotation_x,
+          rotation_y: k2.kleKey.rotation_y,
+          t1: k2.kleKey.labels[0] || "",
+          t2: k2.kleKey.labels[1] || "",
+          t3: k2.kleKey.labels[2] || "",
+          t4: k2.kleKey.labels[3] || "",
+          t5: k2.kleKey.labels[4] || "",
+          t6: k2.kleKey.labels[5] || "",
+          t7: k2.kleKey.labels[6] || "",
+          t8: k2.kleKey.labels[7] || "",
+          t9: k2.kleKey.labels[8] || "",
+          // color: k2.kleKey.default.textColor,
+          backgroundHex: k2.kleKey.color,
+          kColor: k2.kleKey.color,
+          kTextColor: k2.kleKey.default.textColor,
+          kTextSize: k2.kleKey.default.textSize
+        };
+        return new SimpleKey(params);
+      })
+    );
   }
 }
 

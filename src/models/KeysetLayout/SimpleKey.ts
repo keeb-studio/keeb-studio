@@ -1,6 +1,6 @@
 import { Guid } from "guid-typescript";
 
-export class Key {
+export class SimpleKey {
   constructor(params: any = {}) {
     // init any params passed in
     for (const [k, v] of Object.entries(params)) {
@@ -18,7 +18,7 @@ export class Key {
   public schematic_x: number = -1;
   public schematic_y: number = -1;
   public schematic_index: number = -1;
-  public optionFor: Key | null = null;
+  public optionFor: SimpleKey | null = null;
   public targetAlign: string = "left";
 
   public text: string = "";
@@ -56,4 +56,8 @@ export class Key {
 
   public width: number = 1;
   public height: number = 1;
+
+  public kColor: string = "#000000";
+  public kTextColor: string = "#cccccc";
+  public kTextSize: string = "3";
 }
