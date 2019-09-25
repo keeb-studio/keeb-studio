@@ -19,6 +19,8 @@ export interface LayoutState {
   gridMode: boolean;
   pickingFor: Key | null;
   cursor: string;
+  mouseX: number;
+  mouseY: number;
 }
 
 export const state: LayoutState = {
@@ -34,7 +36,9 @@ export const state: LayoutState = {
   multiSelect: false,
   gridMode: false,
   pickingFor: null,
-  cursor: "default"
+  cursor: "default",
+  mouseX: 0,
+  mouseY: 0
 };
 
 const namespaced: boolean = true;

@@ -70,6 +70,10 @@ export const mutations: MutationTree<LayoutState> = {
   pickKey(state: LayoutState, key: Key) {
     state.cursor = "crosshair";
     state.pickingFor = key;
+  },
+  updateMousePos(state: LayoutState, { x, y }) {
+    state.mouseX = x;
+    state.mouseY = y;
   }
 };
 

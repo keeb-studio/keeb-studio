@@ -84,6 +84,44 @@ export default class MathHelper {
     return { x: x + kicadOriginX, y: y + kicadOriginY };
   }
 
+  public static rotateKey(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    rotation_angle: number,
+    rotation_x: number,
+    rotation_y: number
+  ) {
+    const ax = x;
+    const ay = y;
+
+    const bx = x + width;
+    const by = y;
+
+    const cx = x + width;
+    const cy = y + height;
+
+    const dx = x;
+    const dy = y + height;
+
+    const ra = rotation_angle;
+    const rx = rotation_x;
+    const ry = rotation_y;
+
+    const roa = MathHelper.rotatePoint(ax, ay, rx, ry, ra);
+    const rob = MathHelper.rotatePoint(bx, by, rx, ry, ra);
+    const roc = MathHelper.rotatePoint(cx, cy, rx, ry, ra);
+    const rod = MathHelper.rotatePoint(dx, dy, rx, ry, ra);
+
+    return {
+      a: { x: MathHelper.roundResult(roa.x), y: MathHelper.roundResult(roa.y) },
+      b: { x: MathHelper.roundResult(rob.x), y: MathHelper.roundResult(rob.y) },
+      c: { x: MathHelper.roundResult(roc.x), y: MathHelper.roundResult(roc.y) },
+      d: { x: MathHelper.roundResult(rod.x), y: MathHelper.roundResult(rod.y) }
+    };
+  }
+
   public static rotatePoint(
     point_x: number,
     point_y: number,

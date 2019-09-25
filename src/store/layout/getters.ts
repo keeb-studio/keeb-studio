@@ -1,6 +1,7 @@
 import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 import { Key } from "@/models/KeysetLayout/Key";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
+import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
 import { LayoutState } from ".";
 import { RootState } from "../RootState";
@@ -62,10 +63,47 @@ function lastSelectedKey(state: LayoutState): Key {
   return selected[selected.length - 1];
 }
 
+function thePoints(state: LayoutState): any {
+  const lastKey = lastSelectedKey(state);
+  if (lastKey) {
+    const {
+      x,
+      y,
+      width,
+      height,
+      rotation_angle,
+      rotation_x,
+      rotation_y
+    } = lastKey;
+    return MathHelper.rotateKey(
+      x,
+      y,
+      width,
+      height,
+      rotation_angle,
+      rotation_x,
+      rotation_y
+    );
+  }
+  return {
+    a: { x: 0, y: 0 },
+    b: { x: 0, y: 0 },
+    c: { x: 0, y: 0 },
+    d: { x: 0, y: 0 }
+  };
+}
+
 function selectedKeys(state: LayoutState): Array<Key> {
   return state.selected
     .map((id: string) => state.allkeys.find(x => x.id === id) || new Key())
     .filter((x: Key) => x.id !== "");
+}
+
+function mouseInfo(state: LayoutState): Object {
+  return {
+    x: state.mouseX,
+    y: state.mouseY
+  };
 }
 
 export const getters: GetterTree<LayoutState, RootState> = {
@@ -81,5 +119,7 @@ export const getters: GetterTree<LayoutState, RootState> = {
   selectedKeys,
   singleKey,
   timeSinceChanged,
-  unSelectedKeys
+  unSelectedKeys,
+  mouseInfo,
+  thePoints
 };

@@ -1,6 +1,7 @@
 <template>
-  <form action="" class="form-inline">
-    <legend class="col-form-label  col-form-label-sm pb-0">Legends</legend>
+  <form action class="form-inline">
+    <!-- legends -->
+    <legend class="col-form-label col-form-label-sm pb-0">Legends</legend>
     <div class="row m-1">
       <template v-for="t in textInputs">
         <input
@@ -15,7 +16,8 @@
       </template>
     </div>
 
-    <legend class="col-form-label  col-form-label-sm pb-0">Position</legend>
+    <!-- position -->
+    <legend class="col-form-label col-form-label-sm pb-0">Position</legend>
     <div class="row m-1">
       <div class="input-group col-6">
         <div class="input-group-prepend">
@@ -73,7 +75,8 @@
       </div>
     </div>
 
-    <legend class="col-form-label  col-form-label-sm pb-0">Rotation</legend>
+    <!-- rotation -->
+    <legend class="col-form-label col-form-label-sm pb-0">Rotation</legend>
     <div class="row m-1">
       <div class="input-group col">
         <div class="input-group-prepend">
@@ -116,7 +119,8 @@
       </div>
     </div>
 
-    <legend class="col-form-label  col-form-label-sm pb-0">Color</legend>
+    <!-- color -->
+    <legend class="col-form-label col-form-label-sm pb-0">Color</legend>
     <div class="row m-1">
       <div class="input-group-prepend">
         <div class="input-group-text p-1 tiny-t">color</div>
@@ -139,7 +143,9 @@
         class="form-control"
       />
     </div>
-    <legend class="col-form-label  col-form-label-sm pb-0">Option For</legend>
+
+    <!-- option for -->
+    <legend class="col-form-label col-form-label-sm pb-0">Option For</legend>
     <div class="row m-1">
       <input
         readonly
@@ -188,6 +194,52 @@
       </div>
       <br />
     </div>
+
+    <!-- nudge for -->
+    <legend class="col-form-label col-form-label-sm pb-0">Nudge</legend>
+
+    <div class="row">
+      <div class="col-4">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">amount</div>
+          </div>
+          <input type="number" v-model="nudgeAmount" class="form-control" />
+        </div>
+      </div>
+      <div class="col-7">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click="nudge('up')"
+          style="margin-right: 197px; margin-left: 40px;"
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary ml-10"
+          @click="nudge('left')"
+        >
+          ←
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click="nudge('down')"
+        >
+          ↓
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click="nudge('right')"
+        >
+          →
+        </button>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -201,6 +253,7 @@ export default class KeyEditor extends Vue {
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
   @Prop() private theKey!: Key;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
+  nudgeAmount: number = 1;
   created() {
     // TODO refactor out 'default' from kle
     const f = this.theKey as any;
@@ -239,7 +292,56 @@ export default class KeyEditor extends Vue {
       return `${key.x}, ${key.y}`;
     }
   }
+  nudge(direction: string) {
+    const nudge = parseFloat(this.nudgeAmount as any) || 1;
+    if (direction === "up") {
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "rotation_y",
+        value: this.theKey.rotation_y - nudge
+      });
 
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "y",
+        value: this.theKey.y - nudge
+      });
+    } else if (direction === "down") {
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "rotation_y",
+        value: this.theKey.rotation_y + nudge
+      });
+
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "y",
+        value: this.theKey.y + nudge
+      });
+    } else if (direction === "right") {
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "rotation_x",
+        value: this.theKey.rotation_x + nudge
+      });
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "x",
+        value: this.theKey.x + nudge
+      });
+    } else if (direction === "left") {
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "rotation_x",
+        value: this.theKey.rotation_x - nudge
+      });
+      this.changeKeyValue({
+        id: this.theKey.id,
+        property: "x",
+        value: this.theKey.x - nudge
+      });
+    }
+  }
   changeValue(x: any, property: string) {
     let value = x.target.value;
     if (x.target.type === "number") {

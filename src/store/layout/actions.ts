@@ -1,4 +1,5 @@
 import { Key } from "@/models/KeysetLayout/Key";
+import MathHelper from "@/models/MathHelper";
 import { ActionContext, ActionTree } from "vuex";
 import { LayoutState } from ".";
 import { RootState } from "../RootState";
@@ -6,7 +7,8 @@ import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 export const actions: ActionTree<LayoutState, RootState> = {
   selectKey,
   changeKeyValue,
-  addMxSwitch
+  addMxSwitch,
+  rotateKeys
 };
 
 async function selectKey(
@@ -44,11 +46,6 @@ async function addMxSwitch(
   store: ActionContext<LayoutState, RootState>,
   params: any
 ) {
-  // const keysToChange = store.state.multiSelect ? store.state.selected : [id];
-  // keysToChange.forEach((id: string) => {
-  //   const key = store.state.allkeys.find((k: Key) => k.id === id) as any;
-  //   key[property] = value;
-  // });
   const key = new Key(params);
   store.state.allkeys.push(key);
   store.state.hasChanges = true;
@@ -57,6 +54,42 @@ async function addMxSwitch(
     store.state.timer = await countDownTimer(store);
   }
   // writeKeys(state);
+}
+
+async function rotateKeys(store: ActionContext<LayoutState, RootState>) {
+  const selected = store.state.selected;
+  selected.forEach((keyId: string) => {
+    const theKey = store.state.allkeys.find(
+      (key: Key) => key.id === keyId
+    ) as Key;
+    const {
+      x,
+      y,
+      width,
+      height,
+      rotation_angle,
+      rotation_x,
+      rotation_y
+    } = theKey;
+
+    const { d: pointD } = MathHelper.rotateKey(
+      x,
+      y,
+      width,
+      height,
+      rotation_angle,
+      rotation_x,
+      rotation_y
+    );
+
+    theKey.rotation_angle = theKey.rotation_angle - 90;
+    theKey.rotation_x = pointD.x;
+    theKey.x = pointD.x;
+    theKey.rotation_y = pointD.y;
+    theKey.y = pointD.y;
+    theKey.width = height;
+    theKey.height = width;
+  });
 }
 
 async function changeKeyValue(
