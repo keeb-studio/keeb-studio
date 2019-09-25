@@ -1,4 +1,4 @@
-import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey.ts";
 import MathHelper from "@/models/MathHelper";
 import { ActionContext, ActionTree } from "vuex";
 import { LayoutState } from ".";
@@ -156,7 +156,6 @@ async function persist(state: LayoutState): Promise<boolean> {
       state.hasChanges = false;
     }
   }
-
   return new Promise(resolve => {
     return resolve(true);
   });

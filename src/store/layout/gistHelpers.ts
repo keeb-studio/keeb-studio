@@ -1,5 +1,26 @@
 import axios from "axios";
 export const GH_GIST_API = "https://api.github.com/gists";
+
+export async function gistDelete(id: string, token: string): Promise<boolean> {
+  try {
+    axios.defaults.headers.common["authorization"] = `token ${token}`;
+    const url = `${GH_GIST_API}/${id}`;
+    const resp = await axios.delete(url);
+    if (resp.status === 204) {
+      return new Promise(resolve => {
+        return resolve(true);
+      });
+    }
+    return new Promise(resolve => {
+      return resolve(false);
+    });
+  } catch (error) {
+    return new Promise(resolve => {
+      return resolve(false);
+    });
+  }
+}
+
 export async function gistUpdate(
   id: string,
   name: string,

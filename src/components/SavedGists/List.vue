@@ -18,7 +18,11 @@
         <button class="btn btn-outline-primary" @click="selectGist(file)">
           {{ file.name }}
         </button>
-        <button class="btn btn-danger btn-sm m-1" v-if="isKeeb">
+        <button
+          class="btn btn-danger btn-sm m-1"
+          v-if="isKeeb"
+          @click="deleteGist(file.id)"
+        >
           <Octicon name="trashcan"></Octicon>
         </button>
       </div>
@@ -34,6 +38,7 @@ import GISTS from "../../graphql/Gists.gql";
 import { Mutation, Getter } from "vuex-class";
 import "vue-octicon/icons";
 import Octicon from "vue-octicon/components/Octicon.vue";
+import { gistDelete } from "@/store/layout/gistHelpers";
 const namespace = "layout";
 @Component({
   components: {
@@ -56,7 +61,11 @@ export default class Saved extends Vue {
   searchTerm: string = "";
   gistId: string = "";
   selectedFile: any = null;
-  viewer: any = null;
+  viewer: any = {
+    gists: {
+      edges: []
+    }
+  };
 
   selectGist(file: any) {
     this.selectedFile = file;
@@ -66,6 +75,26 @@ export default class Saved extends Vue {
     this.searchTerm = event.target.value;
   }
 
+  async deleteGist(id: string) {
+    const token = localStorage.getItem("token") || "";
+    let theEdge = null;
+    const newList = this.viewer.gists.edges.filter((edge: any) => {
+      if (edge.repository.id === id) {
+        theEdge = edge;
+      }
+      return edge.repository.id !== id;
+    });
+    if (theEdge) {
+      const f = theEdge as any;
+      const gistId = f.repository.name;
+
+      const success = await gistDelete(gistId, token);
+      if (success) {
+        this.viewer.gists.edges = newList;
+      }
+    }
+    // }
+  }
   get isKeeb() {
     return this.gistType === "load";
   }
