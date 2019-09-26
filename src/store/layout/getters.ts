@@ -15,6 +15,49 @@ const name = (state: LayoutState): string => state.name;
 const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
 const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 
+function totalGridKeys(state: LayoutState) {
+  let rowMax = -1;
+  let colMax = -1;
+  let rowTotals = {} as any;
+  let colTotals = {} as any;
+  const totals = state.allkeys
+    .filter((key: SimpleKey) => key.optionFor === null)
+    .map((key: SimpleKey) => {
+      if (rowMax < key.schematic_y) {
+        rowMax = key.schematic_y;
+      }
+
+      if (colMax < key.schematic_x) {
+        colMax = key.schematic_x;
+      }
+
+      if (colTotals[key.schematic_x] === undefined) {
+        colTotals[key.schematic_x] = 1;
+      } else {
+        colTotals[key.schematic_x] = colTotals[key.schematic_x] + 1;
+      }
+
+      if (rowTotals[key.schematic_y] === undefined) {
+        rowTotals[key.schematic_y] = 1;
+      } else {
+        rowTotals[key.schematic_y] = rowTotals[key.schematic_y] + 1;
+      }
+
+      return { row: key.schematic_y, col: key.schematic_x };
+    });
+
+  const rowResults = [];
+  const colResults = [];
+  for (var row in rowTotals) {
+    rowResults.push(`${row}: ${rowTotals[row]} `);
+  }
+
+  for (var col in colTotals) {
+    colResults.push(`${col}: ${colTotals[col]} `);
+  }
+  return { cols: colResults, rows: rowResults };
+}
+
 function calculatedPositions(state: LayoutState): Array<ISchematicKey> {
   const schematicKeys = state.allkeys.map((key: any) => {
     key.schematic_x = parseFloat(key.schematic_x);
@@ -123,5 +166,6 @@ export const getters: GetterTree<LayoutState, RootState> = {
   timeSinceChanged,
   unSelectedKeys,
   mouseInfo,
-  thePoints
+  thePoints,
+  totalGridKeys
 };

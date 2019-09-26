@@ -9,8 +9,38 @@ export const actions: ActionTree<LayoutState, RootState> = {
   changeKeyValue,
   nudge,
   rotateKeys,
-  selectKey
+  selectKey,
+  handleKeydown
 };
+
+function handleKeydown(
+  store: ActionContext<LayoutState, RootState>,
+  keyevent: KeyboardEvent
+) {
+  if (store.state.keebGistId !== null) {
+    if (keyevent.code === "KeyS") {
+      store.commit("toggleMultiSelect");
+    }
+
+    if (store.state.selected.length > 0) {
+      let direction;
+      const up = ["ArrowUp", "KeyK"];
+      const down = ["ArrowDown", "KeyJ"];
+      const left = ["ArrowLeft", "KeyH"];
+      const right = ["ArrowRight", "KeyL"];
+      if (up.includes(keyevent.code)) {
+        direction = "up";
+      } else if (down.includes(keyevent.code)) {
+        direction = "down";
+      } else if (left.includes(keyevent.code)) {
+        direction = "left";
+      } else if (right.includes(keyevent.code)) {
+        direction = "right";
+      }
+      nudge(store, { nudge: 1, direction });
+    }
+  }
+}
 
 async function selectKey(
   store: ActionContext<LayoutState, RootState>,
@@ -157,6 +187,7 @@ async function nudge(
     return resolve(true);
   });
 }
+
 async function persist(state: LayoutState): Promise<boolean> {
   //todo move to vuex
   const token = localStorage.token;

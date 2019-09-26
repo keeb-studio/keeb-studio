@@ -53,7 +53,28 @@
             <option>Hybrid_PCB_XXXH</option>
           </select>
         </li>
+
         <!-- MX_PCB_100H -->
+      </ul>
+      <ul class="col-6">
+        <li>
+          <b>
+            row
+          </b>
+        </li>
+        <li v-for="(info, index) in totalGridKeys.rows" :key="index">
+          {{ info }}
+        </li>
+      </ul>
+      <ul class="col-6">
+        <li>
+          <b>
+            cols
+          </b>
+        </li>
+        <li v-for="(info, index) in totalGridKeys.cols" :key="index">
+          {{ info }}
+        </li>
       </ul>
     </div>
   </div>
@@ -130,20 +151,14 @@ $EndSCHEMATC
 @Component({})
 export default class SchematicMeta extends Vue {
   footPrintType: string = "MX_PCB_XXXH";
-  @Action("changeKeyValue", { namespace: "layout" })
-  changeKeyValue: any;
+  @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
 
-  @Getter("allKeys", { namespace: "layout" })
-  allKeys: any;
-
-  @Getter("name", { namespace: "layout" })
-  name: any;
-
+  @Getter("totalGridKeys", { namespace: "layout" }) totalGridKeys: any;
+  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
+  @Getter("name", { namespace: "layout" }) name: any;
   @Getter("calculatedPositions", { namespace: "layout" })
   calculatedPositions: any;
-
-  @Prop()
-  private theKey!: SimpleKey;
+  @Prop() private theKey!: SimpleKey;
 
   get schemaFootPrint() {
     return this.footPrintType.replace("XXX", this.theKey.width.toString());
