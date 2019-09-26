@@ -5,10 +5,11 @@ import { LayoutState } from ".";
 import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 export const actions: ActionTree<LayoutState, RootState> = {
-  selectKey,
-  changeKeyValue,
   addMxSwitch,
-  rotateKeys
+  changeKeyValue,
+  nudge,
+  rotateKeys,
+  selectKey
 };
 
 async function selectKey(
@@ -126,6 +127,36 @@ async function countDownTimer(store: ActionContext<LayoutState, RootState>) {
   });
 }
 
+async function nudge(
+  store: ActionContext<LayoutState, RootState>,
+  { nudge, direction }: any
+): Promise<boolean> {
+  const keysToChange = store.state.selected;
+
+  keysToChange.forEach((id: string) => {
+    const theKey = store.state.allkeys.find(
+      (k: SimpleKey) => k.id === id
+    ) as any;
+
+    if (direction === "up") {
+      theKey.rotation_y = theKey.rotation_y - nudge;
+      theKey.y = theKey.y - nudge;
+    } else if (direction === "down") {
+      theKey.rotation_y = theKey.rotation_y + nudge;
+      theKey.y = theKey.y + nudge;
+    } else if (direction === "right") {
+      theKey.rotation_x = theKey.rotation_x + nudge;
+      theKey.x = theKey.x + nudge;
+    } else if (direction === "left") {
+      theKey.rotation_x = theKey.rotation_x - nudge;
+      theKey.x = theKey.x - nudge;
+    }
+  });
+
+  return new Promise(resolve => {
+    return resolve(true);
+  });
+}
 async function persist(state: LayoutState): Promise<boolean> {
   //todo move to vuex
   const token = localStorage.token;

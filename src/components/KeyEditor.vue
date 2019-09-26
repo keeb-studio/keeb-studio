@@ -211,7 +211,7 @@
         <button
           type="button"
           class="btn btn-outline-primary"
-          @click="nudge('up')"
+          @click="handleNudge('up')"
           style="margin-right: 197px; margin-left: 40px;"
         >
           ↑
@@ -219,7 +219,7 @@
         <button
           type="button"
           class="btn btn-outline-primary ml-10"
-          @click="nudge('left')"
+          @click="handleNudge('left')"
         >
           ←
         </button>
@@ -227,14 +227,14 @@
         <button
           type="button"
           class="btn btn-outline-primary"
-          @click="nudge('down')"
+          @click="handleNudge('down')"
         >
           ↓
         </button>
         <button
           type="button"
           class="btn btn-outline-primary"
-          @click="nudge('right')"
+          @click="handleNudge('right')"
         >
           →
         </button>
@@ -250,17 +250,11 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({})
 export default class KeyEditor extends Vue {
   @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
+  @Action("nudge", { namespace: "layout" }) nudge: any;
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;
-  // created() {
-  //   // TODO refactor out 'default' from kle
-  //   // const f = this.theKey as any;
-  //   // if (!f.default) {
-  //   //   f.default = { textColor: "#000000" };
-  //   // }
-  // }
 
   clearOption() {
     this.changeKeyValue({
@@ -292,55 +286,9 @@ export default class KeyEditor extends Vue {
       return `${key.x}, ${key.y}`;
     }
   }
-  nudge(direction: string) {
+  handleNudge(direction: string) {
     const nudge = parseFloat(this.nudgeAmount as any) || 1;
-    if (direction === "up") {
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "rotation_y",
-        value: this.theKey.rotation_y - nudge
-      });
-
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "y",
-        value: this.theKey.y - nudge
-      });
-    } else if (direction === "down") {
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "rotation_y",
-        value: this.theKey.rotation_y + nudge
-      });
-
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "y",
-        value: this.theKey.y + nudge
-      });
-    } else if (direction === "right") {
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "rotation_x",
-        value: this.theKey.rotation_x + nudge
-      });
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "x",
-        value: this.theKey.x + nudge
-      });
-    } else if (direction === "left") {
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "rotation_x",
-        value: this.theKey.rotation_x - nudge
-      });
-      this.changeKeyValue({
-        id: this.theKey.id,
-        property: "x",
-        value: this.theKey.x - nudge
-      });
-    }
+    this.nudge({ direction, nudge });
   }
   changeValue(x: any, property: string) {
     let value = x.target.value;
