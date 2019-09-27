@@ -9,7 +9,7 @@ export class GLabel {
   ) {
     this.lines = [
       `Text GLabel ${point.x} ${point.y} ${isCol ? 3 : 2}    50   Input ~ 0 `,
-      `${isCol ? "col" : "row"} ${number}`
+      `${isCol ? "col" : "row"}${number}`
     ];
   }
 

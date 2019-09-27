@@ -55,8 +55,8 @@ export default class GridPlacer {
         maxRow = row.length;
       }
       row.forEach((key: ISchematicKey, newX: number) => {
-        key.normalX = newX;
-        key.normalY = newY;
+        key.normalX = key.schematic_x;
+        key.normalY = key.schematic_y;
         if (!key.optionFor) {
           key.index = newIndex++;
         } else {
@@ -115,6 +115,7 @@ export default class GridPlacer {
         });
       }
     });
+
     allOptionRows.forEach((row: Array<ISchematicKey>, newY: number) => {
       // if (row.length > maxRow) {
       //   maxRow = row.length;
@@ -131,8 +132,8 @@ export default class GridPlacer {
           rotation_x,
           rotation_y,
           rotation_angle,
-          normalX,
-          normalY
+          schematic_x,
+          schematic_y
         } = optionKey;
 
         const align = key.targetAlign === "right" ? "right" : "left";
@@ -161,8 +162,8 @@ export default class GridPlacer {
         key.pcbX = pcbX;
         key.pcbY = pcbY;
         key.pcbRotation = pcbRotation;
-        key.normalX = normalX;
-        key.normalY = normalY;
+        key.normalX = schematic_x;
+        key.normalY = schematic_y;
         key.index = newIndex++;
         // TODO remove when jack is finished or converted
         // key.optionFor = optionFor || null;

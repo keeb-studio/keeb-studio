@@ -8,7 +8,8 @@ describe("KicadPeice", () => {
       "uid1",
       "uid1",
       { width: 1, height: 1 },
-      1
+      1,
+      false
     );
     expect(testPeice.updatedLine()).toEqual("P 1276 1051");
     testPeice.x = 1280;
@@ -28,7 +29,8 @@ describe("KicadPeice", () => {
       "uid2",
       "uid2",
       { width: 1, height: 1 },
-      1
+      1,
+      false
     );
     expect(testPeice.updatedLine()).toEqual("L MX_Alps_Hybrid:MX-NoLED MX2");
   });

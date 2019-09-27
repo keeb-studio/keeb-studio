@@ -18,7 +18,9 @@ export default class KicadSchematic {
   public switchTemplate2: KicadComponent;
   public diodeTemplate: KicadComponent;
   public wireTemplate: KicadWire;
+  public promicroTemplate: KicadComponent;
   public wireTemplates: KicadWire[] = [];
+  public otherComponents: Array<KicadComponent>;
   public wires: any[] = [];
   public hexPrefix: string;
   constructor(rawFile: string = "") {
@@ -27,13 +29,16 @@ export default class KicadSchematic {
     this.switchTemplate = new KicadComponent();
     this.switchTemplate2 = new KicadComponent();
     this.diodeTemplate = new KicadComponent();
+    this.diodeTemplate = new KicadComponent();
+    this.promicroTemplate = new KicadComponent();
     this.wireTemplate = new KicadWire();
+    this.otherComponents = [];
     this.parseLines();
   }
 
   public render() {
     // have to add back a newline
-    return [
+    const raw = [
       ...flatMap(this.sections, (s: any) => {
         return s.component === null || s.component === undefined
           ? s.lines
@@ -43,6 +48,19 @@ export default class KicadSchematic {
       }),
       ""
     ].join("\n");
+    return raw;
+  }
+
+  public findComponentByType(type: string, index: number = 1) {
+    const matching = this.sections.filter((s: any) => {
+      return s.type === type;
+    });
+
+    if (matching.length > 0) {
+      return matching[index - 1].component;
+    }
+
+    throw new Error(`component with type:${type} not found`);
   }
 
   public findComponentById(id: string, index: number = 1) {
@@ -175,7 +193,7 @@ export default class KicadSchematic {
         });
 
         const thisWires = [] as any;
-        this.wireTemplates.forEach((wireTemplate: any) => {
+        this.wireTemplates.forEach((wireTemplate: any, index: number) => {
           const wire = this.getConnectingWire(mxSwitch, diode, wireTemplate);
 
           const section = { type: "wire", component: wire };
@@ -207,6 +225,10 @@ export default class KicadSchematic {
       this.sections.push(label);
     });
 
+    this.otherComponents.forEach((component: KicadComponent) => {
+      component.uid = this.hexPrefix + component.uid;
+      this.sections.push({ type: "component", component });
+    });
     this.sections.push(closing);
     return this.render();
   }
@@ -237,6 +259,7 @@ export default class KicadSchematic {
     let lastWasWire = false;
     let switchTemplate = new KicadComponent();
     let switchTemplate2 = new KicadComponent();
+    let otherComponents = [] as Array<KicadComponent>;
     let diodeTemplate = new KicadComponent();
     lines.forEach((line: any) => {
       closeSection = false;
@@ -302,6 +325,22 @@ export default class KicadSchematic {
           label.indexOf("MX") > -1
         ) {
           switchTemplate2 = new KicadComponent(currentSection);
+        } else if (section === "comp") {
+          otherComponents.push(
+            new KicadComponent(
+              currentSection,
+              "1",
+              {
+                x: -1,
+                y: -1,
+                rotation: 0
+              },
+              { width: 1, height: 1 },
+              "",
+              1,
+              true
+            )
+          );
         }
         if (
           switchTemplate.uid === "" &&
@@ -310,22 +349,24 @@ export default class KicadSchematic {
         ) {
           diodeTemplate = new KicadComponent(currentSection);
         }
+
         currentSection = [];
       }
     });
 
     this.switchTemplate = switchTemplate;
     this.switchTemplate2 = switchTemplate2;
+    this.otherComponents = otherComponents;
     this.diodeTemplate = diodeTemplate;
     this.sections = sections;
 
     this.wireTemplate = this.findComponentById("wire");
     this.wireTemplates = [
-      this.findComponentById("wire"),
-      this.findComponentById("wire", 2),
-      this.findComponentById("wire", 3),
-      this.findComponentById("wire", 4),
-      this.findComponentById("wire", 5)
+      this.findComponentByType("wire"),
+      this.findComponentByType("wire", 2),
+      this.findComponentByType("wire", 3),
+      this.findComponentByType("wire", 4),
+      this.findComponentByType("wire", 5)
     ];
   }
 

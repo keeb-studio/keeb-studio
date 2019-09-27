@@ -16,7 +16,7 @@ export class KicadPeice {
   public label: string;
   public labelHolder: string = "TEMPLATE_LABEL";
   public uid: string;
-
+  public neverReposition: boolean;
   public gridSize: IDimension = { width: 1, height: 1 };
   public keyWidth: number;
   constructor(
@@ -26,7 +26,8 @@ export class KicadPeice {
     uid: string,
     newUid: string,
     gridSize: IDimension,
-    keyWidth: number
+    keyWidth: number,
+    neverReposition: boolean
   ) {
     this.keyWidth = keyWidth;
     this.gridSize = gridSize;
@@ -39,12 +40,13 @@ export class KicadPeice {
       y: templateOriginPosition.y,
       rotation: templateOriginPosition.rotation
     };
+    this.neverReposition = neverReposition;
 
     const digitsRegex = / \d+/g;
     const digits = original.match(digitsRegex);
 
     const partType = original.charAt(0);
-    if (digits) {
+    if (digits && !neverReposition) {
       // convert digitis to ints
       const intDigits = digits.map((d: string) => Number.parseInt(d, 10));
 
@@ -66,7 +68,7 @@ export class KicadPeice {
 
       // determine which numbers are x and y
       let xIndex = 0;
-      if (partType === "F") {
+      if (partType === "F" && !neverReposition) {
         xIndex = 1;
         if (original.indexOf("XMXFOOTPRINTX")) {
           isMxFootPrint = true;
@@ -79,7 +81,8 @@ export class KicadPeice {
       if (
         partType === "F" &&
         original.charAt(1) === " " &&
-        original.charAt(2) === "0"
+        original.charAt(2) === "0" &&
+        !neverReposition
       ) {
         this.hasLabel = true;
 
@@ -89,7 +92,7 @@ export class KicadPeice {
           .replace("MX0", `MX${this.labelHolder}`)
           .replace("D?", `D${this.labelHolder}`);
       }
-      if (!ignore) {
+      if (!ignore && !neverReposition) {
         this.hasDigits = true;
         this.hasPosition = true;
         this.x = intDigits[xIndex];
@@ -111,7 +114,7 @@ export class KicadPeice {
                 .replace(`${this.y}`, "templateY")
                 .replace(`${this.rotation}`, "templateRotation");
       }
-    } else if (partType === "L") {
+    } else if (partType === "L" && !neverReposition) {
       let newLabel = original;
       // the label
       newLabel = original

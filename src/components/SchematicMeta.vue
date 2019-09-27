@@ -135,6 +135,99 @@ F 3 "" H 1525 1625 60  0001 C CNN
 	1    2150 1650
 	1    0    0    -1
 $EndComp
+$Comp
+L keebio:ProMicro U0
+U 1 1 5DA927A7
+P 2100 8600
+F 0 "U0" H 2100 9437 60  0000 C CNN
+F 1 "ProMicro" H 2100 9331 60  0000 C CNN
+F 2 "Keebio-Parts:ArduinoProMicro" V 3150 6100 60  0001 C CNN
+F 3 "" V 3150 6100 60  0001 C CNN
+	1    2100 8600
+	1    0    0    -1  
+$EndComp
+Text GLabel 2800 8450 2    50   Input ~ 0
+col0
+Text GLabel 2800 8550 2    50   Input ~ 0
+col1
+Text GLabel 2800 8650 2    50   Input ~ 0
+col2
+Text GLabel 2800 8750 2    50   Input ~ 0
+col3
+Text GLabel 2800 8850 2    50   Input ~ 0
+col4
+Text GLabel 2800 8950 2    50   Input ~ 0
+col5
+Text GLabel 2800 9050 2    50   Input ~ 0
+col6
+Text GLabel 2800 9150 2    50   Input ~ 0
+col7
+Text GLabel 1400 8950 0    50   Input ~ 0
+row7
+Text GLabel 1400 8850 0    50   Input ~ 0
+row6
+Text GLabel 1400 8750 0    50   Input ~ 0
+row5
+Text GLabel 1400 8650 0    50   Input ~ 0
+row4
+Text GLabel 1400 8550 0    50   Input ~ 0
+row3
+Text GLabel 1400 8450 0    50   Input ~ 0
+row2
+Text GLabel 1400 8050 0    50   Input ~ 0
+row0
+Text GLabel 1400 8150 0    50   Input ~ 0
+row1
+Text GLabel 1400 9050 0    50   Input ~ 0
+row8
+Text GLabel 1400 9150 0    50   Input ~ 0
+row9
+$Comp
+L power:VCC #PWR0101
+U 1 1 5D8F060B
+P 2800 8350
+F 0 "#PWR0101" H 2800 8200 50  0001 C CNN
+F 1 "VCC" V 2817 8478 50  0000 L CNN
+F 2 "" H 2800 8350 50  0001 C CNN
+F 3 "" H 2800 8350 50  0001 C CNN
+	1    2800 8350
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5D909AD2
+P 2800 8150
+F 0 "#PWR0102" H 2800 7900 50  0001 C CNN
+F 1 "GND" V 2805 8022 50  0000 R CNN
+F 2 "" H 2800 8150 50  0001 C CNN
+F 3 "" H 2800 8150 50  0001 C CNN
+	1    2800 8150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5D90A7AE
+P 1400 8250
+F 0 "#PWR0103" H 1400 8000 50  0001 C CNN
+F 1 "GND" V 1405 8122 50  0000 R CNN
+F 2 "" H 1400 8250 50  0001 C CNN
+F 3 "" H 1400 8250 50  0001 C CNN
+	1    1400 8250
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5D90B04A
+P 1400 8350
+F 0 "#PWR0104" H 1400 8100 50  0001 C CNN
+F 1 "GND" V 1405 8222 50  0000 R CNN
+F 2 "" H 1400 8350 50  0001 C CNN
+F 3 "" H 1400 8350 50  0001 C CNN
+	1    1400 8350
+	0    1    1    0   
+$EndComp
+Text GLabel 2800 8250 2    50   Input ~ 0
+RESET
 Wire Wire Line
 	1325  950  950  950
 Wire Wire Line

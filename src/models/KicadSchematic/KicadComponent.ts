@@ -17,7 +17,8 @@ export class KicadComponent {
     position: IPointRotated = { x: -1, y: -1, rotation: 0 },
     gridSize: IDimension = { width: 1, height: 1 },
     uidPrefix: string = "",
-    keyWidth: number = 1
+    keyWidth: number = 1,
+    neverReposition: boolean = false
   ) {
     this.keyWidth = keyWidth;
     this.hexPrefix = cryptoRandomString({ length: 4 });
@@ -28,8 +29,9 @@ export class KicadComponent {
         this.newUid = `${uidPrefix}${cryptoRandomString({ length: 4 })}`;
         this.uid = uidLine.replace(/U 1 1 /, "");
       }
+
       const positionLine = rawlines.find((x: string) => x.match(/P /));
-      if (positionLine) {
+      if (positionLine && neverReposition === false) {
         const rawPostitions = positionLine.replace(/P /, "");
         const positions = rawPostitions.split(/ /);
         this.position.x = Number.parseInt(positions[0], 10);
@@ -39,7 +41,7 @@ export class KicadComponent {
         }
       }
 
-      if (position.x > -1) {
+      if (position.x > -1 && neverReposition === false) {
         this.setPosition(position, gridSize);
       }
 
@@ -51,7 +53,8 @@ export class KicadComponent {
           this.uid,
           this.newUid,
           gridSize,
-          this.keyWidth
+          this.keyWidth,
+          neverReposition
         );
       });
     }

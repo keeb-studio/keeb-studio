@@ -122,7 +122,8 @@ describe("KicadComponent", () => {
         "uid1",
         "uid1000",
         { width: 1, height: 1 },
-        1
+        1,
+        false
       );
       testPeice.x = 123;
       testPeice.y = 456;
