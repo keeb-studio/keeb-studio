@@ -226,8 +226,6 @@ F 3 "" H 1400 8350 50  0001 C CNN
 	1    1400 8350
 	0    1    1    0   
 $EndComp
-Text GLabel 2800 8250 2    50   Input ~ 0
-RESET
 Wire Wire Line
 	1325  950  950  950
 Wire Wire Line
@@ -237,7 +235,10 @@ Wire Wire Line
 Wire Wire Line
 	1825 1275 1825 1150
 Wire Wire Line
-	1125 1150 1125 1700
+  1125 1150 1125 1700
+
+Text GLabel 2800 8250 2    50   Input ~ 0
+RESET
 $EndSCHEMATC
 `;
 

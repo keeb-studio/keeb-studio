@@ -155,24 +155,9 @@ export default class KicadSchematic {
       const intcur = parseInt(cur);
       return Math.max(acc, intcur);
     };
-    const maxX = fixed
-      .filter((x: ISchematicKey) => x.schematic_index > -1)
-      .map((key: ISchematicKey) => key.schematic_x)
-      .reduce(maxCallback);
 
-    const maxY = fixed
-      .filter((x: ISchematicKey) => x.schematic_index > -1)
-      .map((key: ISchematicKey) => key.schematic_y)
-      .reduce(maxCallback);
-
-    const rowLabels = [...Array(maxX + 1)].map((row: number, index: number) => {
-      return { x: index, y: maxY };
-    });
-
-    const colLabels = [...Array(maxY + 1)].map((col: number, index: number) => {
-      return { x: maxX, y: index };
-    });
-
+    const fooX = {} as any;
+    const fooY = {} as any;
     fixed.forEach((key: ISchematicKey, index: number) => {
       const label = index.toString();
       const x = key.normalX;
@@ -185,6 +170,17 @@ export default class KicadSchematic {
       });
 
       if (key.optionFor === null) {
+        if (fooX[x] === undefined) {
+          fooX[x] = y;
+        } else if (fooY[x] < y) {
+          fooX[x] = y;
+        }
+
+        if (fooY[y] === undefined) {
+          fooY[y] = x;
+        } else if (fooY[y] < x) {
+          fooY[y] = x;
+        }
         const diode = this.getDiode({ x, y }, label);
         this.sections.push({
           type: "comp",
@@ -200,8 +196,19 @@ export default class KicadSchematic {
           thisWires.push(section);
           this.sections.push(section);
         });
+        // console.log(thisWires);
       }
     });
+
+    const rowLabels = [];
+    for (var x in fooX) {
+      rowLabels.push({ x: parseInt(x), y: fooX[x] });
+    }
+
+    const colLabels = [];
+    for (var y in fooY) {
+      colLabels.push({ x: fooY[y], y: parseInt(y) });
+    }
 
     colLabels.forEach((key: any) => {
       const tempSwith = this.getSwitch(key, "", key.width);
@@ -325,6 +332,12 @@ export default class KicadSchematic {
           label.indexOf("MX") > -1
         ) {
           switchTemplate2 = new KicadComponent(currentSection);
+        } else if (
+          switchTemplate.uid === "" &&
+          section === "comp" &&
+          label.indexOf("D_Small") > -1
+        ) {
+          diodeTemplate = new KicadComponent(currentSection);
         } else if (section === "comp") {
           otherComponents.push(
             new KicadComponent(
@@ -341,13 +354,6 @@ export default class KicadSchematic {
               true
             )
           );
-        }
-        if (
-          switchTemplate.uid === "" &&
-          section === "comp" &&
-          label.indexOf("D_Small") > -1
-        ) {
-          diodeTemplate = new KicadComponent(currentSection);
         }
 
         currentSection = [];
