@@ -1,6 +1,9 @@
 <template>
   <form action class="form-inline">
     <!-- legends -->
+
+    <legend class="col-form-label col-form-label-sm pb-0">Info</legend>
+    <div class="row m-1">Totat: {{ allKeys.length }}</div>
     <legend class="col-form-label col-form-label-sm pb-0">Legends</legend>
     <div class="row m-1">
       <template v-for="t in textInputs">
@@ -252,6 +255,7 @@ export default class KeyEditor extends Vue {
   @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
   @Action("nudge", { namespace: "layout" }) nudge: any;
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
+  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;

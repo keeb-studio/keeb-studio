@@ -6,6 +6,7 @@ import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 export const actions: ActionTree<LayoutState, RootState> = {
   addMxSwitch,
+  removeMxSwitch,
   changeKeyValue,
   nudge,
   rotateKeys,
@@ -70,6 +71,19 @@ async function selectKey(
     } else {
       state.selected = [selectedKey];
     }
+  }
+}
+
+async function removeMxSwitch(store: ActionContext<LayoutState, RootState>) {
+  const selected = store.state.selected;
+  store.state.allkeys = store.state.allkeys.filter(
+    (key: SimpleKey) => !selected.includes(key.id)
+  );
+  store.state.selected = [];
+  store.state.hasChanges = true;
+  store.state.timeSinceChange = 0;
+  if (store.state.timer === null) {
+    store.state.timer = await countDownTimer(store);
   }
 }
 

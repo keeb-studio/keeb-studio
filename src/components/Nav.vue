@@ -7,11 +7,21 @@
       <router-link to="/about"About</router-link>
     </div> -->
       <router-link class="navbar-brand" to="/">Keeb Studio</router-link>
-      <router-link to="/saved">Saved</router-link>
+      <router-link to="/saved" class="btn btn-outline-primary"
+        >Saved</router-link
+      >
       <!-- <router-link to="/about">About</router-link> -->
 
       <button type="button" class="btn btn-outline-primary" @click="addMx">
         Add
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        @click="removeMxSwitch"
+      >
+        Remove
       </button>
 
       <button type="button" class="btn btn-outline-primary" @click="selectAll">
@@ -60,6 +70,7 @@ export default class Nav extends Vue {
   toggleGridMode: any;
 
   @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
+  @Action("removeMxSwitch", { namespace: "layout" }) removeMxSwitch: any;
 
   @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<SimpleKey>;
   addMx() {
