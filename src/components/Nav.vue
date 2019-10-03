@@ -14,6 +14,10 @@
         Add
       </button>
 
+      <button type="button" class="btn btn-outline-primary" @click="selectAll">
+        Select All
+      </button>
+
       <button
         type="button"
         class="btn btn-outline-primary"
@@ -45,6 +49,9 @@ export default class Nav extends Vue {
 
   @Getter("gridMode", { namespace: "layout" })
   gridMode: any;
+
+  @Mutation("selectAll", { namespace: "layout" })
+  selectAll: any;
 
   @Mutation("toggleMultiSelect", { namespace: "layout" })
   toggleMultiSelect: any;

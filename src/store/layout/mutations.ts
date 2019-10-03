@@ -4,6 +4,11 @@ import { MutationTree } from "vuex";
 import { LayoutState } from "./index";
 
 export const mutations: MutationTree<LayoutState> = {
+  selectAll(state: LayoutState) {
+    state.multiSelect = true;
+    state.pickingFor = null;
+    state.selected = state.allkeys.map((key: SimpleKey) => key.id);
+  },
   toggleMultiSelect(state: LayoutState) {
     state.multiSelect = !state.multiSelect;
   },
