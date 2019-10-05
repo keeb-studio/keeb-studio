@@ -30,10 +30,10 @@ function handleKeydown(
 
     if (store.state.selected.length > 0) {
       let direction;
-      const up = ["ArrowUp", "KeyK"];
-      const down = ["ArrowDown", "KeyJ"];
-      const left = ["ArrowLeft", "KeyH"];
-      const right = ["ArrowRight", "KeyL"];
+      const up = ["ArrowUp"];
+      const down = ["ArrowDown"];
+      const left = ["ArrowLeft"];
+      const right = ["ArrowRight"];
       if (up.includes(keyevent.code)) {
         direction = "up";
       } else if (down.includes(keyevent.code)) {
