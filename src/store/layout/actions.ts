@@ -11,8 +11,13 @@ export const actions: ActionTree<LayoutState, RootState> = {
   nudge,
   rotateKeys,
   selectKey,
-  handleKeydown
+  handleKeydown,
+  toggleAutoSave
 };
+
+function toggleAutoSave(store: ActionContext<LayoutState, RootState>) {
+  store.state.enableAutoSave = !store.state.enableAutoSave;
+}
 
 function handleKeydown(
   store: ActionContext<LayoutState, RootState>,
@@ -159,7 +164,7 @@ async function countDownTimer(store: ActionContext<LayoutState, RootState>) {
   return new Promise(resolve => {
     setTimeout(async () => {
       if (store.state.timeSinceChange > -1) {
-        if (store.state.timeSinceChange > 3) {
+        if (store.state.timeSinceChange > 3 && store.state.enableAutoSave) {
           await persist(store.state);
         } else {
           store.state.timeSinceChange += 1;
@@ -204,6 +209,11 @@ async function nudge(
 
 async function persist(state: LayoutState): Promise<boolean> {
   //todo move to vuex
+  if (!state.enableAutoSave) {
+    return new Promise(resolve => {
+      return resolve(true);
+    });
+  }
   const token = localStorage.token;
   const { keebGistId: id, name: kbdName } = state;
   const name = kbdName.replace(".kbd.json", "").replace(".keeb.json", "");

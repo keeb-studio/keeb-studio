@@ -21,6 +21,7 @@ export interface LayoutState {
   cursor: string;
   mouseX: number;
   mouseY: number;
+  enableAutoSave: boolean;
 }
 
 export const state: LayoutState = {
@@ -38,7 +39,8 @@ export const state: LayoutState = {
   pickingFor: null,
   cursor: "default",
   mouseX: 0,
-  mouseY: 0
+  mouseY: 0,
+  enableAutoSave: false
 };
 
 const namespaced: boolean = true;

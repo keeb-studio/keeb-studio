@@ -14,6 +14,7 @@ const multiSelect = (state: LayoutState): boolean => state.multiSelect;
 const name = (state: LayoutState): string => state.name;
 const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
 const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
+const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 
 function totalGridKeys(state: LayoutState) {
   let rowMax = -1;
@@ -167,5 +168,6 @@ export const getters: GetterTree<LayoutState, RootState> = {
   unSelectedKeys,
   mouseInfo,
   thePoints,
-  totalGridKeys
+  totalGridKeys,
+  enableAutoSave
 };
