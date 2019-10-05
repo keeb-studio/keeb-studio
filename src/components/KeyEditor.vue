@@ -4,8 +4,20 @@
 
     <legend class="col-form-label col-form-label-sm pb-0">Info</legend>
     <div class="row m-1">Totat: {{ allKeys.length }}</div>
-    <legend class="col-form-label col-form-label-sm pb-0">Legends</legend>
-    <div class="row m-1">
+    <legend
+      class="col-form-label col-form-label-sm pb-0"
+      @click="togglePanel('Legends')"
+    >
+      Legends
+      <a v-if="isPanelCollapsed('Legends')">
+        <Octicon name="triangle-right" class="text-primary"></Octicon>
+      </a>
+
+      <a v-else>
+        <Octicon name="triangle-down" class="text-primary"></Octicon>
+      </a>
+    </legend>
+    <div class="row m-1" v-if="!isPanelCollapsed('Legends')">
       <template v-for="t in textInputs">
         <input
           :key="t"
@@ -250,7 +262,9 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation, Action } from "vuex-class";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
-@Component({})
+import "vue-octicon/icons";
+import Octicon from "vue-octicon/components/Octicon.vue";
+@Component({ components: { Octicon } })
 export default class KeyEditor extends Vue {
   @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
   @Action("nudge", { namespace: "layout" }) nudge: any;
@@ -259,7 +273,7 @@ export default class KeyEditor extends Vue {
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;
-
+  collapsedPanels: string[] = ["Legends"];
   clearOption() {
     this.changeKeyValue({
       id: this.theKey.id,
@@ -293,6 +307,18 @@ export default class KeyEditor extends Vue {
   handleNudge(direction: string) {
     const nudge = parseFloat(this.nudgeAmount as any) || 1;
     this.nudge({ direction, nudge });
+  }
+  isPanelCollapsed(panel: string) {
+    return this.collapsedPanels.includes(panel);
+  }
+  togglePanel(panel: string) {
+    if (this.isPanelCollapsed(panel)) {
+      this.collapsedPanels = this.collapsedPanels.filter(
+        (p: string) => p !== panel
+      );
+    } else {
+      this.collapsedPanels.push(panel);
+    }
   }
   changeValue(x: any, property: string) {
     let value = x.target.value;
