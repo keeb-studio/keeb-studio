@@ -12,11 +12,16 @@ export const actions: ActionTree<LayoutState, RootState> = {
   rotateKeys,
   selectKey,
   handleKeydown,
-  toggleAutoSave
+  toggleAutoSave,
+  toggleAxisNudge
 };
 
 function toggleAutoSave(store: ActionContext<LayoutState, RootState>) {
   store.state.enableAutoSave = !store.state.enableAutoSave;
+}
+
+function toggleAxisNudge(store: ActionContext<LayoutState, RootState>) {
+  store.state.enableAxisNudge = !store.state.enableAxisNudge;
 }
 
 function handleKeydown(
@@ -151,13 +156,16 @@ async function changeKeyValue(
     const key = store.state.allkeys.find((k: SimpleKey) => k.id === id) as any;
     key[property] = value;
   });
+  triggerChanges(store);
+}
 
-  store.state.hasChanges = true;
-  store.state.timeSinceChange = 0;
-  if (store.state.timer === null) {
-    store.state.timer = await countDownTimer(store);
+async function triggerChanges(store: ActionContext<LayoutState, RootState>) {
+  const state = store.state;
+  state.hasChanges = true;
+  state.timeSinceChange = 0;
+  if (state.timer === null) {
+    state.timer = await countDownTimer(store);
   }
-  // writeKeys(state);
 }
 
 async function countDownTimer(store: ActionContext<LayoutState, RootState>) {
@@ -181,6 +189,7 @@ async function nudge(
   { nudge, direction }: any
 ): Promise<boolean> {
   const keysToChange = store.state.selected;
+  const includeAxis = store.state.enableAxisNudge;
 
   keysToChange.forEach((id: string) => {
     const theKey = store.state.allkeys.find(
@@ -188,20 +197,21 @@ async function nudge(
     ) as any;
 
     if (direction === "up") {
-      theKey.rotation_y = theKey.rotation_y - nudge;
+      if (includeAxis) theKey.rotation_y = theKey.rotation_y - nudge;
       theKey.y = theKey.y - nudge;
     } else if (direction === "down") {
-      theKey.rotation_y = theKey.rotation_y + nudge;
+      if (includeAxis) theKey.rotation_y = theKey.rotation_y + nudge;
       theKey.y = theKey.y + nudge;
     } else if (direction === "right") {
-      theKey.rotation_x = theKey.rotation_x + nudge;
+      if (includeAxis) theKey.rotation_x = theKey.rotation_x + nudge;
       theKey.x = theKey.x + nudge;
     } else if (direction === "left") {
-      theKey.rotation_x = theKey.rotation_x - nudge;
+      if (includeAxis) theKey.rotation_x = theKey.rotation_x - nudge;
       theKey.x = theKey.x - nudge;
     }
   });
 
+  triggerChanges(store);
   return new Promise(resolve => {
     return resolve(true);
   });

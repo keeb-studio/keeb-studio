@@ -15,6 +15,7 @@ const name = (state: LayoutState): string => state.name;
 const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
 const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
+const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
 
 function totalGridKeys(state: LayoutState) {
   let rowMax = -1;
@@ -169,5 +170,6 @@ export const getters: GetterTree<LayoutState, RootState> = {
   mouseInfo,
   thePoints,
   totalGridKeys,
-  enableAutoSave
+  enableAutoSave,
+  enableAxisNudge
 };

@@ -22,6 +22,7 @@ export interface LayoutState {
   mouseX: number;
   mouseY: number;
   enableAutoSave: boolean;
+  enableAxisNudge: boolean;
 }
 
 export const state: LayoutState = {
@@ -40,7 +41,8 @@ export const state: LayoutState = {
   cursor: "default",
   mouseX: 0,
   mouseY: 0,
-  enableAutoSave: false
+  enableAutoSave: false,
+  enableAxisNudge: false
 };
 
 const namespaced: boolean = true;

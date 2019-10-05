@@ -220,6 +220,16 @@
             <div class="input-group-text">amount</div>
           </div>
           <input type="number" v-model="nudgeAmount" class="form-control" />
+          <label for="">
+            <span class="p-2">include axis</span>
+            <input
+              type="checkbox"
+              name="axis_nudge"
+              id="axis_nudge"
+              :checked="enableAxisNudge"
+              @change="toggleAxisNudge"
+            />
+          </label>
         </div>
       </div>
       <div class="col-7">
@@ -270,6 +280,10 @@ export default class KeyEditor extends Vue {
   @Action("nudge", { namespace: "layout" }) nudge: any;
   @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
   @Getter("allKeys", { namespace: "layout" }) allKeys: any;
+
+  @Action("toggleAxisNudge", { namespace: "layout" }) toggleAxisNudge: any;
+  @Getter("enableAxisNudge", { namespace: "layout" }) enableAxisNudge: any;
+
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;
