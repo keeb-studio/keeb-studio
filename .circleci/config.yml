@@ -40,13 +40,13 @@ jobs:
 
       - run: yarn build
 
-      # - aws-s3/sync:
-      #           from: dist
-      #           to: 's3://ctrlshiftba.com/dist'
-      #           overwrite: true
-      # - aws-s3/copy:
-      #     from: dist
-      #     to: 's3://ctrlshiftba.com/'
-      #     arguments: '--recursive'
+      - aws-s3/sync:
+                from: dist
+                to: 's3://keeb-studio.com/dist'
+                overwrite: true
+      - aws-s3/copy:
+          from: dist
+          to: 's3://keeb-studio.com/'
+          arguments: '--recursive'
 
-      # - run: aws cloudfront create-invalidation --distribution-id E3952Y3S1ZZ3JE --paths /index.html
+      - run: aws cloudfront create-invalidation --distribution-id E163OEORBGRVUN --paths /index.html
