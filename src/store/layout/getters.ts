@@ -11,7 +11,8 @@ const cursor = (state: LayoutState): string => state.cursor;
 const gridMode = (state: LayoutState): boolean => state.gridMode;
 const hasChanges = (state: LayoutState): boolean => state.hasChanges;
 const multiSelect = (state: LayoutState): boolean => state.multiSelect;
-const name = (state: LayoutState): string => state.name;
+const name = (state: LayoutState): string =>
+  state.name.replace(".keeb.json", "");
 const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
 const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
