@@ -67,7 +67,6 @@ export default class MainViewPlate extends Vue {
     this.svgString = svg.innerHTML;
   }
   get nonOptionKeys(): SimpleKey[] {
-    console.log(this.calculatedPositions);
     return this.calculatedPositions.filter(
       (key: SimpleKey) => key.optionFor === null
     );
