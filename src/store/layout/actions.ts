@@ -1,9 +1,10 @@
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey.ts";
 import MathHelper from "@/models/MathHelper";
+import cryptoRandomString from "crypto-random-string";
 import { ActionContext, ActionTree } from "vuex";
-import { LayoutState } from ".";
 import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
+import { LayoutState } from "./LayoutState";
 export const actions: ActionTree<LayoutState, RootState> = {
   addMxSwitch,
   removeMxSwitch,
@@ -13,8 +14,25 @@ export const actions: ActionTree<LayoutState, RootState> = {
   selectKey,
   handleKeydown,
   toggleAutoSave,
-  toggleAxisNudge
+  toggleAxisNudge,
+  ensureAuthenticated
 };
+
+function ensureAuthenticated(
+  store: ActionContext<LayoutState, RootState>,
+  destination: string
+) {
+  if (localStorage.token === undefined) {
+    const github = "https://github.com/login/oauth/authorize";
+    const client_id = process.env.VUE_APP_GITHUB_CLIENT_ID || "";
+    const scope = "gist";
+    const state = cryptoRandomString({ length: 12 });
+    localStorage["github_state"] = state;
+    localStorage["destinationPage"] = destination;
+    const url = `${github}/?client_id=${client_id}&scope=${scope}&state=${state}`;
+    window.location.assign(url);
+  }
+}
 
 function toggleAutoSave(store: ActionContext<LayoutState, RootState>) {
   store.state.enableAutoSave = !store.state.enableAutoSave;

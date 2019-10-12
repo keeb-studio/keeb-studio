@@ -8,7 +8,7 @@
 import SavedGists from "@/components/SavedGists.vue";
 
 export default {
-  name: "home",
+  name: "Projects",
   components: {
     SavedGists
   }

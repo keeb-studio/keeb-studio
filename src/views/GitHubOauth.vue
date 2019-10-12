@@ -11,6 +11,7 @@ import Keyset from "./Keyset.vue";
 import axios from "axios";
 @Component({})
 export default class GitHubOauth extends Vue {
+  @Mutation("setAuthenticated", { namespace: "layout" }) setAuthenticated: any;
   status: string = "Authenticating...";
   async mounted() {
     const { code, state } = this.$route.query;
@@ -22,8 +23,9 @@ export default class GitHubOauth extends Vue {
       );
       if (resp.status === 200) {
         if (resp.data.access_token) {
+          this.setAuthenticated(true);
           localStorage.token = resp.data.access_token;
-          this.$router.push({ name: "saved" });
+          this.$router.push({ name: localStorage.destinationPage });
           return;
         }
       }

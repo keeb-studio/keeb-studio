@@ -2,6 +2,7 @@
   <div>
     <KeyTabs />
     <MainViewKeys iv v-if="mainView === 'Keys'" />
+    <MainViewKeys iv v-if="mainView === 'Grid'" />
     <MainViewPlate iv v-if="mainView === 'Plate'" />
     <!-- <div class="row">
       {{ allKeys.length }}
@@ -23,7 +24,7 @@ import MainViewPlate from "./MainViewPlate.vue";
   }
 })
 export default class Keyset extends Vue {
-  @Getter("mainView", { namespace: "editor" }) mainView!: string;
+  @Getter("mainView", { namespace: "layout" }) mainView!: string;
 }
 </script>
 

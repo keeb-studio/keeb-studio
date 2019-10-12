@@ -3,20 +3,30 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
-import { LayoutState } from ".";
 import { RootState } from "../RootState";
+import { LayoutState } from "./LayoutState";
 
 const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
+const authenticated = (state: LayoutState): boolean => state.authenticated;
 const cursor = (state: LayoutState): string => state.cursor;
-const gridMode = (state: LayoutState): boolean => state.gridMode;
-const hasChanges = (state: LayoutState): boolean => state.hasChanges;
-const multiSelect = (state: LayoutState): boolean => state.multiSelect;
-const name = (state: LayoutState): string =>
-  state.name.replace(".keeb.json", "");
-const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
-const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
+const gridMode = (state: LayoutState): boolean => state.gridMode;
+const hasChanges = (state: LayoutState): boolean => state.hasChanges;
+const mainView = (state: LayoutState): string => state.mainView;
+const multiSelect = (state: LayoutState): boolean => state.multiSelect;
+const showToolbar = (state: LayoutState) => state.showToolbar;
+const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
+const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
+
+const name = (state: LayoutState): string =>
+  state.name.replace(".keeb.json", "");
+
+const isTabSelected = (state: LayoutState): Function => {
+  return function(tab: string): boolean {
+    return state.mainView === tab;
+  };
+};
 
 function totalGridKeys(state: LayoutState) {
   let rowMax = -1;
@@ -156,6 +166,7 @@ function mouseInfo(state: LayoutState): Object {
 
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
+  authenticated,
   cursor,
   calculatedPositions,
   gridMode,
@@ -172,5 +183,8 @@ export const getters: GetterTree<LayoutState, RootState> = {
   thePoints,
   totalGridKeys,
   enableAutoSave,
-  enableAxisNudge
+  enableAxisNudge,
+  mainView,
+  isTabSelected,
+  showToolbar
 };
