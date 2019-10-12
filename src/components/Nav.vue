@@ -3,57 +3,60 @@
     <div id="nav" class="navbar navbar-dark bg-dark">
       <router-link class="navbar-brand" to="/">Keeb Studio</router-link>
       <router-link to="/saved" class="btn btn-outline-primary"
-        >Load</router-link
+        >File</router-link
       >
       <WriteGist />
     </div>
+    <div class="container">
+      <div
+        class="btn-toolbar justify-content-between m-3"
+        role="toolbar"
+        aria-label="Toolbar with button groups"
+        v-if="showToolbar"
+      >
+        <div class="btn-group" role="group" aria-label="First group">
+          <button type="button" class="btn btn-outline-primary" @click="addMx">
+            Add
+          </button>
 
-    <div
-      class="btn-toolbar justify-content-between m-3"
-      role="toolbar"
-      aria-label="Toolbar with button groups"
-    >
-      <div class="btn-group" role="group" aria-label="First group">
-        <button type="button" class="btn btn-outline-primary" @click="addMx">
-          Add
-        </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary mr-2"
+            @click="removeMxSwitch"
+          >
+            Remove
+          </button>
 
-        <button
-          type="button"
-          class="btn btn-outline-primary mr-2"
-          @click="removeMxSwitch"
-        >
-          Remove
-        </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            @click="selectAll"
+          >
+            Select All
+          </button>
 
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          @click="selectAll"
-        >
-          Select All
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          @click="toggleMultiSelect"
-        >
-          Multi: {{ multiSelect ? "on" : "off" }}
-        </button>
-      </div>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text" id="btnGroupAddon2">@</div>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            @click="toggleMultiSelect"
+          >
+            Multi: {{ multiSelect ? "on" : "off" }}
+          </button>
         </div>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Input group example"
-          aria-label="Input group example"
-          aria-describedby="btnGroupAddon2"
-        />
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text" id="btnGroupAddon2">@</div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Input group example"
+            aria-label="Input group example"
+            aria-describedby="btnGroupAddon2"
+          />
+        </div>
       </div>
+      <div v-else id="spaceholder"><div></div></div>
     </div>
   </header>
 </template>
@@ -64,20 +67,16 @@ import { Getter, Mutation, Action } from "vuex-class";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({ components: { WriteGist } })
 export default class Nav extends Vue {
-  @Getter("multiSelect", { namespace: "layout" })
-  multiSelect: any;
+  @Getter("multiSelect", { namespace: "layout" }) multiSelect: any;
+  @Getter("showToolbar", { namespace: "layout" }) showToolbar: any;
+  @Getter("gridMode", { namespace: "layout" }) gridMode: any;
 
-  @Getter("gridMode", { namespace: "layout" })
-  gridMode: any;
-
-  @Mutation("selectAll", { namespace: "layout" })
-  selectAll: any;
+  @Mutation("selectAll", { namespace: "layout" }) selectAll: any;
 
   @Mutation("toggleMultiSelect", { namespace: "layout" })
   toggleMultiSelect: any;
 
-  @Mutation("toggleGridMode", { namespace: "layout" })
-  toggleGridMode: any;
+  @Mutation("toggleGridMode", { namespace: "layout" }) toggleGridMode: any;
 
   @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
   @Action("removeMxSwitch", { namespace: "layout" }) removeMxSwitch: any;
@@ -94,4 +93,11 @@ export default class Nav extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#spaceholder {
+  margin: 16px;
+  div {
+    height: 38px;
+  }
+}
+</style>

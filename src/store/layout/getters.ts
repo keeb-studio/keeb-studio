@@ -8,22 +8,25 @@ import { LayoutState } from "./LayoutState";
 
 const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
 const cursor = (state: LayoutState): string => state.cursor;
-const gridMode = (state: LayoutState): boolean => state.gridMode;
-const hasChanges = (state: LayoutState): boolean => state.hasChanges;
-const multiSelect = (state: LayoutState): boolean => state.multiSelect;
-const name = (state: LayoutState): string =>
-  state.name.replace(".keeb.json", "");
-const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
-const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
-
+const gridMode = (state: LayoutState): boolean => state.gridMode;
+const hasChanges = (state: LayoutState): boolean => state.hasChanges;
 const mainView = (state: LayoutState): string => state.mainView;
+const multiSelect = (state: LayoutState): boolean => state.multiSelect;
+const showToolbar = (state: LayoutState) => state.showToolbar;
+const singleKey = (state: LayoutState): boolean => state.selected.length === 1;
+const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
+
+const name = (state: LayoutState): string =>
+  state.name.replace(".keeb.json", "");
+
 const isTabSelected = (state: LayoutState): Function => {
   return function(tab: string): boolean {
     return state.mainView === tab;
   };
 };
+
 function totalGridKeys(state: LayoutState) {
   let rowMax = -1;
   let colMax = -1;
@@ -180,5 +183,6 @@ export const getters: GetterTree<LayoutState, RootState> = {
   enableAutoSave,
   enableAxisNudge,
   mainView,
-  isTabSelected
+  isTabSelected,
+  showToolbar
 };

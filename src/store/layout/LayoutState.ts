@@ -20,6 +20,7 @@ export interface LayoutState {
   selected: string[];
   timer: any;
   timeSinceChange: number;
+  showToolbar: boolean;
 }
 
 export const state: LayoutState = {
@@ -40,6 +41,7 @@ export const state: LayoutState = {
   pickingFor: null,
   raw: "[]",
   selected: [],
+  showToolbar: false,
   timer: null,
   timeSinceChange: -1
 };

@@ -1,10 +1,12 @@
 <template>
   <div>
+    <div v-if="$apollo.queries.viewer.loading">Loading...</div>
     <div v-if="selectedFile !== null">
       <Gist :file="selectedFile" :gist-type="gistType" />
     </div>
     <div v-else>
-      <form>
+      <div v-if="filteredFiles.length === 0">Loading...</div>
+      <form v-else>
         <div class="form-group mt-4">
           <input
             class="form-control"
@@ -53,8 +55,6 @@ const namespace = "layout";
   }
 })
 export default class Saved extends Vue {
-  @Mutation("loadFromStorage", { namespace }) loadFromStorage: any;
-
   @Prop({ required: true })
   public gistType!: string;
 
@@ -67,6 +67,9 @@ export default class Saved extends Vue {
     }
   };
 
+  get loading() {
+    return this.$apollo.queries.viewer.loading;
+  }
   selectGist(file: any) {
     this.selectedFile = file;
   }

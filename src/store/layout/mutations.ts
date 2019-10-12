@@ -12,7 +12,9 @@ export const mutations: MutationTree<LayoutState> = {
   toggleMultiSelect(state: LayoutState) {
     state.multiSelect = !state.multiSelect;
   },
-
+  hideToolbar(state: LayoutState) {
+    state.showToolbar = false;
+  },
   toggleGridMode(state: LayoutState) {
     state.gridMode = !state.gridMode;
   },
@@ -52,6 +54,9 @@ export const mutations: MutationTree<LayoutState> = {
   },
 
   setTab(state: LayoutState, tab: string) {
+    console.log(tab, ["Keys"].includes(tab));
+
+    state.showToolbar = ["Keys", "Grid"].includes(tab);
     state.gridMode = tab === "Grid";
     state.mainView = tab;
   }
