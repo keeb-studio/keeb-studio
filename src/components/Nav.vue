@@ -1,49 +1,59 @@
 <template>
   <header>
     <div id="nav" class="navbar navbar-dark bg-dark">
-      <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/saved">Saved</router-link> |
-      <router-link to="/about"About</router-link>
-    </div> -->
       <router-link class="navbar-brand" to="/">Keeb Studio</router-link>
       <router-link to="/saved" class="btn btn-outline-primary"
-        >Saved</router-link
+        >Load</router-link
       >
-      <!-- <router-link to="/about">About</router-link> -->
-
-      <button type="button" class="btn btn-outline-primary" @click="addMx">
-        Add
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="removeMxSwitch"
-      >
-        Remove
-      </button>
-
-      <button type="button" class="btn btn-outline-primary" @click="selectAll">
-        Select All
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="toggleMultiSelect"
-      >
-        Multi: {{ multiSelect ? "on" : "off" }}
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="toggleGridMode"
-      >
-        Grid Mode: {{ gridMode ? "on" : "off" }}
-      </button>
       <WriteGist />
+    </div>
+
+    <div
+      class="btn-toolbar justify-content-between m-3"
+      role="toolbar"
+      aria-label="Toolbar with button groups"
+    >
+      <div class="btn-group" role="group" aria-label="First group">
+        <button type="button" class="btn btn-outline-primary" @click="addMx">
+          Add
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary mr-2"
+          @click="removeMxSwitch"
+        >
+          Remove
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click="selectAll"
+        >
+          Select All
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click="toggleMultiSelect"
+        >
+          Multi: {{ multiSelect ? "on" : "off" }}
+        </button>
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text" id="btnGroupAddon2">@</div>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Input group example"
+          aria-label="Input group example"
+          aria-describedby="btnGroupAddon2"
+        />
+      </div>
     </div>
   </header>
 </template>

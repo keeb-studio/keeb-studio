@@ -3,8 +3,8 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
-import { LayoutState } from ".";
 import { RootState } from "../RootState";
+import { LayoutState } from "./LayoutState";
 
 const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
 const cursor = (state: LayoutState): string => state.cursor;
@@ -18,6 +18,12 @@ const timeSinceChanged = (state: LayoutState): number => state.timeSinceChange;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
 
+const mainView = (state: LayoutState): string => state.mainView;
+const isTabSelected = (state: LayoutState): Function => {
+  return function(tab: string): boolean {
+    return state.mainView === tab;
+  };
+};
 function totalGridKeys(state: LayoutState) {
   let rowMax = -1;
   let colMax = -1;
@@ -172,5 +178,7 @@ export const getters: GetterTree<LayoutState, RootState> = {
   thePoints,
   totalGridKeys,
   enableAutoSave,
-  enableAxisNudge
+  enableAxisNudge,
+  mainView,
+  isTabSelected
 };

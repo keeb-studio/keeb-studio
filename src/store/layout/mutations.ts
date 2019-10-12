@@ -1,7 +1,7 @@
 import KeysetLayout from "@/models/KeysetLayout/KeysetLayout";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { MutationTree } from "vuex";
-import { LayoutState } from "./index";
+import { LayoutState } from "./LayoutState";
 
 export const mutations: MutationTree<LayoutState> = {
   selectAll(state: LayoutState) {
@@ -49,6 +49,11 @@ export const mutations: MutationTree<LayoutState> = {
   updateMousePos(state: LayoutState, { x, y }) {
     state.mouseX = x;
     state.mouseY = y;
+  },
+
+  setTab(state: LayoutState, tab: string) {
+    state.gridMode = tab === "Grid";
+    state.mainView = tab;
   }
 };
 

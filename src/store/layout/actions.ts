@@ -1,9 +1,9 @@
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey.ts";
 import MathHelper from "@/models/MathHelper";
 import { ActionContext, ActionTree } from "vuex";
-import { LayoutState } from ".";
 import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
+import { LayoutState } from "./LayoutState";
 export const actions: ActionTree<LayoutState, RootState> = {
   addMxSwitch,
   removeMxSwitch,

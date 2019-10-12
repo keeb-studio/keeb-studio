@@ -15,11 +15,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation } from "vuex-class";
 @Component({})
 export default class KeyTabs extends Vue {
-  @Getter("mainView", { namespace: "editor" }) mainView!: string;
-  @Mutation("setTab", { namespace: "editor" }) setTab!: void;
+  @Getter("mainView", { namespace: "layout" }) mainView!: string;
+  @Mutation("setTab", { namespace: "layout" }) setTab!: void;
   navLink: string = "nav-link";
   activeClass: string = "active";
-  tabs: string[] = ["Keys", "Plate", "Top"];
+  tabs: string[] = ["Keys", "Grid", "Plate", "Top"];
   isActive(tab: string): boolean {
     return this.mainView === tab;
   }
