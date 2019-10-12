@@ -15,9 +15,10 @@ export default class GitHubOauth extends Vue {
   async mounted() {
     const { code, state } = this.$route.query;
     const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
+    const type = process.env.NODE_ENV;
     if (localStorage["github_state"] === state) {
       const resp = await axios.get(
-        `https://api.keeb-studio.com/auth?code=${code}&clientId=${clientId}&type=dev`
+        `https://api.keeb-studio.com/auth?code=${code}&clientId=${clientId}&type=${type}`
       );
       if (resp.status === 200) {
         if (resp.data.access_token) {
