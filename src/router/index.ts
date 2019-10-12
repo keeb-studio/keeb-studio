@@ -12,13 +12,22 @@ const routes = [
   },
 
   {
+    path: "/github-oauth",
+    name: "githubOauth",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "githubOauth" */ "../views/GitHubOauth.vue")
+  },
+  {
     path: "/saved",
     name: "saved",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Saved.vue")
+      import(/* webpackChunkName: "saved" */ "../views/Saved.vue")
   },
   {
     path: "/about",

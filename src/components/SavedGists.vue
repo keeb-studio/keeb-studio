@@ -41,16 +41,17 @@ export default class Saved extends Vue {
   token: string | null = null;
   inputToken: string = "";
   loadOrImport: string | null = null;
-
   url: string = "https://github.com/login/oauth/authorize";
-  client_id: string = "c76d6316e4f93ac6cdfa";
-  redirect_uri: string = "https://keeb-studio.com/github-oauth";
+  client_id: string = process.env.VUE_APP_GITHUB_CLIENT_ID || "";
+  redirect_uri: string = "http://localhost:8082/github-oauth";
   scope: string = "gist";
   state: string = cryptoRandomString({ length: 12 });
 
   get githubUrl() {
+    localStorage["github_state"] = this.state;
     return `${this.url}/?client_id=${this.client_id}&scope=${this.scope}&state=${this.state}`;
   }
+
   load() {
     this.loadOrImport = "load";
   }
