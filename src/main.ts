@@ -22,6 +22,12 @@ new Vue({
       (this as any).handleKeydown(event);
     }
   },
+  beforeCreate() {
+    this.$store.commit(
+      "layout/setAuthenticated",
+      localStorage.token !== undefined
+    );
+  },
   created: function() {
     document.addEventListener("keydown", this.keydownListener);
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <List gist-type="load" />
+    <List gist-type="open" />
   </div>
 </template>
 

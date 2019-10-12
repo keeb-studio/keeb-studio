@@ -7,6 +7,7 @@ import { RootState } from "../RootState";
 import { LayoutState } from "./LayoutState";
 
 const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
+const authenticated = (state: LayoutState): boolean => state.authenticated;
 const cursor = (state: LayoutState): string => state.cursor;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
@@ -165,6 +166,7 @@ function mouseInfo(state: LayoutState): Object {
 
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
+  authenticated,
   cursor,
   calculatedPositions,
   gridMode,

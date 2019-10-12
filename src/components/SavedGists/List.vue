@@ -37,7 +37,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import "vue-apollo";
 import Gist from "./Gist.vue";
 import GISTS from "../../graphql/Gists.gql";
-import { Mutation, Getter } from "vuex-class";
+import { Mutation, Getter, Action } from "vuex-class";
 import "vue-octicon/icons";
 import Octicon from "vue-octicon/components/Octicon.vue";
 import { gistDelete } from "@/store/layout/gistHelpers";
@@ -58,6 +58,9 @@ export default class Saved extends Vue {
   @Prop({ required: true })
   public gistType!: string;
 
+  @Action("ensureAuthenticated", { namespace: "layout" })
+  ensureAuthenticated: any;
+
   searchTerm: string = "";
   gistId: string = "";
   selectedFile: any = null;
@@ -70,6 +73,11 @@ export default class Saved extends Vue {
   get loading() {
     return this.$apollo.queries.viewer.loading;
   }
+
+  created() {
+    this.ensureAuthenticated(this.gistType);
+  }
+
   selectGist(file: any) {
     this.selectedFile = file;
   }
@@ -96,14 +104,13 @@ export default class Saved extends Vue {
         this.viewer.gists.edges = newList;
       }
     }
-    // }
   }
   get isKeeb() {
-    return this.gistType === "load";
+    return this.gistType === "open";
   }
 
   get extension() {
-    return this.gistType === "load" ? ".keeb.json" : ".kbd.json";
+    return this.gistType === "open" ? ".keeb.json" : ".kbd.json";
   }
 
   get filteredFiles() {

@@ -21,10 +21,12 @@ export interface LayoutState {
   timer: any;
   timeSinceChange: number;
   showToolbar: boolean;
+  authenticated: boolean;
 }
 
 export const state: LayoutState = {
   allkeys: [],
+  authenticated: false,
   cursor: "default",
   enableAutoSave: false,
   enableAxisNudge: false,

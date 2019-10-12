@@ -2,8 +2,8 @@
   <header>
     <div id="nav" class="navbar navbar-dark bg-dark">
       <router-link class="navbar-brand" to="/">Keeb Studio</router-link>
-      <router-link to="/saved" class="btn btn-outline-primary"
-        >File</router-link
+      <router-link to="/projects" class="btn btn-outline-primary"
+        >Projects</router-link
       >
       <WriteGist />
     </div>

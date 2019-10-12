@@ -18,6 +18,10 @@ export const mutations: MutationTree<LayoutState> = {
     state.showToolbar = false;
   },
 
+  setAuthenticated(state: LayoutState, authenticated: boolean) {
+    state.authenticated = authenticated;
+  },
+
   toggleGridMode(state: LayoutState) {
     state.gridMode = !state.gridMode;
   },
