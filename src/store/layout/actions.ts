@@ -193,15 +193,12 @@ async function changeKeyValue(
     const key = store.state.allkeys.find((k: SimpleKey) => k.id === id) as any;
     const currentValue = key[property];
     if (isNaN(currentValue) || currentValue === "") {
-      console.log(currentValue, "is not number");
       key[property] = value;
       atLeastOneChange = true;
     } else {
       if (!isNaN(value)) {
         atLeastOneChange = true;
         key[property] = value;
-      } else {
-        console.error(currentValue, "is number value is not", value);
       }
     }
   });
