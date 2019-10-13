@@ -1,3 +1,4 @@
+import KeysetLayout from "@/models/KeysetLayout/KeysetLayout";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey.ts";
 import MathHelper from "@/models/MathHelper";
 import cryptoRandomString from "crypto-random-string";
@@ -15,7 +16,10 @@ export const actions: ActionTree<LayoutState, RootState> = {
   handleKeydown,
   toggleAutoSave,
   toggleAxisNudge,
-  ensureAuthenticated
+  ensureAuthenticated,
+  loadGist,
+  importKle,
+  loadAllKeys
 };
 
 function ensureAuthenticated(
@@ -104,14 +108,19 @@ async function selectKey(
 
 async function removeMxSwitch(store: ActionContext<LayoutState, RootState>) {
   const selected = store.state.selected;
-  store.state.allkeys = store.state.allkeys.filter(
+  const { state } = store;
+  state.allkeys = state.allkeys.filter(
     (key: SimpleKey) => !selected.includes(key.id)
   );
-  store.state.selected = [];
-  store.state.hasChanges = true;
-  store.state.timeSinceChange = 0;
-  if (store.state.timer === null) {
-    store.state.timer = await countDownTimer(store);
+  changeAllkeys(store, {
+    changeType: "removeMxSwitch",
+    allkeys: state.allkeys
+  });
+  state.selected = [];
+  state.hasChanges = true;
+  state.timeSinceChange = 0;
+  if (state.timer === null) {
+    state.timer = await countDownTimer(store);
   }
 }
 
@@ -119,14 +128,18 @@ async function addMxSwitch(
   store: ActionContext<LayoutState, RootState>,
   params: any
 ) {
+  const { state } = store;
   const key = new SimpleKey(params);
-  store.state.allkeys.push(key);
-  store.state.hasChanges = true;
-  store.state.timeSinceChange = 0;
-  if (store.state.timer === null) {
-    store.state.timer = await countDownTimer(store);
+  state.allkeys.push(key);
+  changeAllkeys(store, {
+    changeType: "addMxSwitch",
+    allkeys: state.allkeys
+  });
+  state.hasChanges = true;
+  state.timeSinceChange = 0;
+  if (state.timer === null) {
+    state.timer = await countDownTimer(store);
   }
-  // writeKeys(state);
 }
 
 async function rotateKeys(store: ActionContext<LayoutState, RootState>) {
@@ -135,6 +148,7 @@ async function rotateKeys(store: ActionContext<LayoutState, RootState>) {
     const theKey = store.state.allkeys.find(
       (key: SimpleKey) => key.id === keyId
     ) as SimpleKey;
+
     const {
       x,
       y,
@@ -163,6 +177,10 @@ async function rotateKeys(store: ActionContext<LayoutState, RootState>) {
     theKey.width = height;
     theKey.height = width;
   });
+  changeAllkeys(store, {
+    changeType: "rotateKeys",
+    allkeys: store.state.allkeys
+  });
 }
 
 async function changeKeyValue(
@@ -170,12 +188,114 @@ async function changeKeyValue(
   { id, property, value }: any
 ) {
   const keysToChange = store.state.multiSelect ? store.state.selected : [id];
+  let atLeastOneChange = false;
   keysToChange.forEach((id: string) => {
     const key = store.state.allkeys.find((k: SimpleKey) => k.id === id) as any;
-    key[property] = value;
+    const currentValue = key[property];
+    if (isNaN(currentValue) || currentValue === "") {
+      console.log(currentValue, "is not number");
+      key[property] = value;
+      atLeastOneChange = true;
+    } else {
+      if (!isNaN(value)) {
+        atLeastOneChange = true;
+        key[property] = value;
+      } else {
+        console.error(currentValue, "is number value is not", value);
+      }
+    }
   });
+
+  if (atLeastOneChange) {
+    changeAllkeys(store, {
+      changeType: `changeKeyValue ${id} - ${property} - ${value}`,
+      allkeys: store.state.allkeys
+    });
+  }
+
   triggerChanges(store);
 }
+
+interface RawNameId {
+  raw: string;
+  name: string;
+  id: string;
+}
+
+interface ThingWithName {
+  name: string;
+}
+interface KeebGist {
+  meta: ThingWithName;
+  content: SimpleKey[];
+}
+function loadGist(
+  store: ActionContext<LayoutState, RootState>,
+  { raw, name, id }: RawNameId
+) {
+  const { state } = store;
+  state.selected = [];
+  state.error = false;
+  state.hasChanges = false;
+  state.name = name;
+  const parsed = JSON.parse(raw) as KeebGist;
+  state.keebGistId = id;
+  state.allkeys = parsed.content;
+
+  changeAllkeys(store, {
+    changeType: "loadGist",
+    allkeys: state.allkeys
+  });
+}
+
+function loadAllKeys(store: ActionContext<LayoutState, RootState>) {
+  const allKeys = localStorage.allKeys || false;
+  if (allKeys) {
+    store.state.allkeys = JSON.parse(allKeys);
+  }
+}
+interface AllKeysChange {
+  changeType: string;
+  allkeys: SimpleKey[];
+}
+
+function changeAllkeys(
+  store: ActionContext<LayoutState, RootState>,
+  changes: AllKeysChange
+) {
+  const { state } = store;
+  // state.done.push(changes);
+  localStorage["allKeys"] = JSON.stringify(state.allkeys);
+}
+
+function importKle(
+  store: ActionContext<LayoutState, RootState>,
+  { raw, name, id }: RawNameId
+) {
+  const { state } = store;
+  state.error = false;
+  state.hasChanges = false;
+  state.name = name;
+  state.allkeys = KeysetLayout.getAll(raw);
+
+  changeAllkeys(store, {
+    changeType: "importKle",
+    allkeys: state.allkeys
+  });
+}
+
+// TODO move to actions
+// function loadFromStorage(
+//   store: ActionContext<LayoutState, RootState>,
+//   name: string
+// ) {
+//   const { state } = store;
+//   const parsed = JSON.parse(localStorage[name]);
+//   state.name = name;
+//   state.allkeys = parsed;
+//   state.hasChanges = false;
+//   state.timeSinceChange = -1;
+// }
 
 async function triggerChanges(store: ActionContext<LayoutState, RootState>) {
   const state = store.state;
@@ -206,13 +326,12 @@ async function nudge(
   store: ActionContext<LayoutState, RootState>,
   { nudge, direction }: any
 ): Promise<boolean> {
-  const keysToChange = store.state.selected;
-  const includeAxis = store.state.enableAxisNudge;
+  const { state } = store;
+  const keysToChange = state.selected;
+  const includeAxis = state.enableAxisNudge;
 
   keysToChange.forEach((id: string) => {
-    const theKey = store.state.allkeys.find(
-      (k: SimpleKey) => k.id === id
-    ) as any;
+    const theKey = state.allkeys.find((k: SimpleKey) => k.id === id) as any;
 
     if (direction === "up") {
       if (includeAxis) theKey.rotation_y = theKey.rotation_y - nudge;
@@ -228,6 +347,13 @@ async function nudge(
       theKey.x = theKey.x - nudge;
     }
   });
+
+  if (direction) {
+    changeAllkeys(store, {
+      changeType: `nudge - ${direction}`,
+      allkeys: state.allkeys
+    });
+  }
 
   triggerChanges(store);
   return new Promise(resolve => {

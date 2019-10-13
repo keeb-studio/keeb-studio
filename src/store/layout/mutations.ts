@@ -1,4 +1,3 @@
-import KeysetLayout from "@/models/KeysetLayout/KeysetLayout";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { MutationTree } from "vuex";
 import { LayoutState } from "./LayoutState";
@@ -24,31 +23,6 @@ export const mutations: MutationTree<LayoutState> = {
 
   toggleGridMode(state: LayoutState) {
     state.gridMode = !state.gridMode;
-  },
-
-  loadGist(state: LayoutState, { raw, name, id }) {
-    state.selected = [];
-    state.error = false;
-    state.hasChanges = false;
-    state.name = name;
-    const parsed = JSON.parse(raw) as any;
-    state.keebGistId = id;
-    state.allkeys = parsed.content;
-  },
-
-  importKle(state: LayoutState, { raw, name }) {
-    state.error = false;
-    state.hasChanges = false;
-    state.name = name;
-    state.allkeys = KeysetLayout.getAll(raw);
-  },
-
-  loadFromStorage(state: LayoutState, name) {
-    const parsed = JSON.parse(localStorage[name]);
-    state.name = name;
-    state.allkeys = parsed;
-    state.hasChanges = false;
-    state.timeSinceChange = -1;
   },
 
   layoutError(state: LayoutState) {

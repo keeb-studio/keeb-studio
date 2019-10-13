@@ -196,7 +196,6 @@ export default class KicadSchematic {
           thisWires.push(section);
           this.sections.push(section);
         });
-        // console.log(thisWires);
       }
     });
 

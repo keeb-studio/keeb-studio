@@ -27,6 +27,7 @@ new Vue({
       "layout/setAuthenticated",
       localStorage.token !== undefined
     );
+    this.$store.dispatch("layout/loadAllKeys");
   },
   created: function() {
     document.addEventListener("keydown", this.keydownListener);

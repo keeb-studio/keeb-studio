@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import "vue-apollo";
 import GIST from "../../graphql/Gist.gql";
 import { mapMutations } from "vuex";
-import { Mutation, Getter } from "vuex-class";
+import { Mutation, Getter, Action } from "vuex-class";
 const namespace = "layout";
 @Component({
   apollo: {
@@ -27,8 +27,8 @@ const namespace = "layout";
   }
 })
 export default class Gist extends Vue {
-  @Mutation("importKle", { namespace }) importKle: any;
-  @Mutation("loadGist", { namespace }) loadGist: any;
+  @Action("importKle", { namespace }) importKle: any;
+  @Action("loadGist", { namespace }) loadGist: any;
 
   @Prop()
   public file!: any;
@@ -48,7 +48,7 @@ export default class Gist extends Vue {
         this.loadGist({ raw, name: this.file.name, id: this.file.id });
         this.$router.push({ name: "home" });
       } else {
-        this.importKle({ raw, name: this.file.name });
+        this.importKle({ raw, name: this.file.name, id: this.file.id });
         this.$router.push({ name: "home" });
       }
       return raw;
