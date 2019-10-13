@@ -6,6 +6,25 @@ import { ActionContext, ActionTree } from "vuex";
 import { RootState } from "../RootState";
 import { gistCreate, gistExists, gistUpdate } from "./gistHelpers";
 import { LayoutState } from "./LayoutState";
+
+export interface AllKeysChange {
+  changeType: string;
+  allkeys: SimpleKey[];
+}
+
+interface RawNameId {
+  raw: string;
+  name: string;
+  id: string;
+}
+
+interface ThingWithName {
+  name: string;
+}
+interface KeebGist {
+  meta: ThingWithName;
+  content: SimpleKey[];
+}
 export const actions: ActionTree<LayoutState, RootState> = {
   addMxSwitch,
   removeMxSwitch,
@@ -19,7 +38,20 @@ export const actions: ActionTree<LayoutState, RootState> = {
   ensureAuthenticated,
   loadGist,
   importKle,
-  loadAllKeys
+  loadAllKeys,
+
+  undo(store: ActionContext<LayoutState, RootState>) {
+    const { state } = store;
+    state.done.pop();
+    // for (let index = 0; index < state.allkeys.length; index++) {
+    //   state.allkeys.pop();
+    // }
+    state.allkeys = [];
+    const currentChanges = state.done.pop();
+    console.log(currentChanges.allkeys);
+    state.done.push(currentChanges);
+    currentChanges.allkeys.forEach((key: SimpleKey) => state.allkeys.push(key));
+  }
 };
 
 function ensureAuthenticated(
@@ -213,19 +245,6 @@ async function changeKeyValue(
   triggerChanges(store);
 }
 
-interface RawNameId {
-  raw: string;
-  name: string;
-  id: string;
-}
-
-interface ThingWithName {
-  name: string;
-}
-interface KeebGist {
-  meta: ThingWithName;
-  content: SimpleKey[];
-}
 function loadGist(
   store: ActionContext<LayoutState, RootState>,
   { raw, name, id }: RawNameId
@@ -238,7 +257,7 @@ function loadGist(
   const parsed = JSON.parse(raw) as KeebGist;
   state.keebGistId = id;
   state.allkeys = parsed.content;
-
+  state.done = [];
   changeAllkeys(store, {
     changeType: "loadGist",
     allkeys: state.allkeys
@@ -250,10 +269,11 @@ function loadAllKeys(store: ActionContext<LayoutState, RootState>) {
   if (allKeys) {
     store.state.allkeys = JSON.parse(allKeys);
   }
-}
-interface AllKeysChange {
-  changeType: string;
-  allkeys: SimpleKey[];
+
+  const done = localStorage.done || false;
+  if (done) {
+    store.state.done = JSON.parse(done);
+  }
 }
 
 function changeAllkeys(
@@ -261,8 +281,17 @@ function changeAllkeys(
   changes: AllKeysChange
 ) {
   const { state } = store;
-  // state.done.push(changes);
+  state.done.push(changes);
+  localStorage["done"] = JSON.stringify(state.done);
   localStorage["allKeys"] = JSON.stringify(state.allkeys);
+}
+
+function undo(store: ActionContext<LayoutState, RootState>) {
+  const { state } = store;
+  state.done.pop();
+  const currentAllKeys = state.done[state.done.length - 1];
+  console.log(currentAllKeys);
+  // state.allkeys = currentAllKeys;
 }
 
 function importKle(

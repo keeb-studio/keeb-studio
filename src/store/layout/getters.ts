@@ -4,11 +4,14 @@ import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
 import { RootState } from "../RootState";
+import { AllKeysChange } from "./actions";
 import { LayoutState } from "./LayoutState";
 
 const allKeys = (state: LayoutState): Array<SimpleKey> => state.allkeys;
 const authenticated = (state: LayoutState): boolean => state.authenticated;
 const cursor = (state: LayoutState): string => state.cursor;
+const done = (state: LayoutState): AllKeysChange[] => state.done;
+const redo = (state: LayoutState): AllKeysChange[] => state.redo;
 const enableAutoSave = (state: LayoutState): boolean => state.enableAutoSave;
 const enableAxisNudge = (state: LayoutState): boolean => state.enableAxisNudge;
 const gridMode = (state: LayoutState): boolean => state.gridMode;
@@ -167,24 +170,26 @@ function mouseInfo(state: LayoutState): Object {
 export const getters: GetterTree<LayoutState, RootState> = {
   allKeys,
   authenticated,
-  cursor,
   calculatedPositions,
+  cursor,
+  done,
+  redo,
+  enableAutoSave,
+  enableAxisNudge,
   gridMode,
   hasChanges,
   isSelectedGetter,
+  isTabSelected,
   lastSelectedKey,
+  mainView,
+  mouseInfo,
   multiSelect,
   name,
   selectedKeys,
+  showToolbar,
   singleKey,
-  timeSinceChanged,
-  unSelectedKeys,
-  mouseInfo,
   thePoints,
+  timeSinceChanged,
   totalGridKeys,
-  enableAutoSave,
-  enableAxisNudge,
-  mainView,
-  isTabSelected,
-  showToolbar
+  unSelectedKeys
 };

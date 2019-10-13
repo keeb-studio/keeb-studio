@@ -23,7 +23,7 @@ export interface LayoutState {
   showToolbar: boolean;
   authenticated: boolean;
   done: any[];
-  undone: any[];
+  redo: any[];
 }
 
 export const state: LayoutState = {
@@ -49,5 +49,5 @@ export const state: LayoutState = {
   timer: null,
   timeSinceChange: -1,
   done: [],
-  undone: []
+  redo: []
 };
