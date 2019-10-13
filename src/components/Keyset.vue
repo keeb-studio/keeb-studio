@@ -69,6 +69,7 @@ import KeyTabs from "./KeyTabs.vue";
 import MainViewKeys from "./MainViewKeys.vue";
 import MainViewPlate from "./MainViewPlate.vue";
 import Kicad from "./Kicad.vue";
+import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({
   components: {
     KeyTabs,
@@ -79,7 +80,6 @@ import Kicad from "./Kicad.vue";
 })
 export default class Keyset extends Vue {
   @Getter("multiSelect", { namespace: "layout" }) multiSelect: any;
-  @Getter("showToolbar", { namespace: "layout" }) showToolbar: any;
   @Getter("gridMode", { namespace: "layout" }) gridMode: any;
 
   @Mutation("toggleMultiSelect", { namespace: "layout" })
@@ -87,8 +87,6 @@ export default class Keyset extends Vue {
 
   @Mutation("toggleGridMode", { namespace: "layout" }) toggleGridMode: any;
 
-  @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
-  @Action("removeMxSwitch", { namespace: "layout" }) removeMxSwitch: any;
   @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
   @Action("removeMxSwitch", { namespace: "layout" }) removeMxSwitch: any;
   @Getter("mainView", { namespace: "layout" }) mainView!: string;
