@@ -19,7 +19,7 @@ export default class KeyTabs extends Vue {
   @Mutation("setTab", { namespace: "layout" }) setTab!: void;
   navLink: string = "nav-link";
   activeClass: string = "active";
-  tabs: string[] = ["Keys", "Grid", "Plate", "Top"];
+  tabs: string[] = ["Keys", "Grid", "Kicad", "Plate", "Top"];
   isActive(tab: string): boolean {
     return this.mainView === tab;
   }

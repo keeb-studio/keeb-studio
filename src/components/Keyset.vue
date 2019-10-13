@@ -55,6 +55,7 @@
     <MainViewKeys iv v-if="mainView === 'Keys'" />
     <MainViewKeys iv v-if="mainView === 'Grid'" />
     <MainViewPlate iv v-if="mainView === 'Plate'" />
+    <Kicad iv v-if="mainView === 'Kicad'" />
     <!-- <div class="row">
       {{ allKeys.length }}
     </div> -->
@@ -67,11 +68,13 @@ import { Action, Getter, Mutation } from "vuex-class";
 import KeyTabs from "./KeyTabs.vue";
 import MainViewKeys from "./MainViewKeys.vue";
 import MainViewPlate from "./MainViewPlate.vue";
+import Kicad from "./Kicad.vue";
 @Component({
   components: {
     KeyTabs,
     MainViewKeys,
-    MainViewPlate
+    MainViewPlate,
+    Kicad
   }
 })
 export default class Keyset extends Vue {
