@@ -117,14 +117,14 @@ export default class MainViewKeys extends Vue {
     const y = key.rotation_y * 54;
     return { x, y };
   }
-  @Action("rotateKeys", { namespace: "layout" }) rotateKeys: any;
-  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
-  @Getter("lastSelectedKey", { namespace: "layout" }) lastSelectedKey: any;
+  @Action("rotateKeys") rotateKeys: any;
+  @Getter("allKeys") allKeys: any;
+  @Getter("lastSelectedKey") lastSelectedKey: any;
   @Getter("mouseInfo", { namespace: "layout" }) mouseInfo: any;
-  @Getter("name", { namespace: "layout" }) name: any;
-  @Getter("selectedKeys", { namespace: "layout" }) selectedKeys: any;
-  @Getter("thePoints", { namespace: "layout" }) thePoints: any;
-  @Getter("unSelectedKeys", { namespace: "layout" }) unSelectedKeys: any;
+  @Getter("name") name: any;
+  @Getter("selectedKeys") selectedKeys: any;
+  @Getter("thePoints") thePoints: any;
+  @Getter("unSelectedKeys") unSelectedKeys: any;
   @Mutation("updateMousePos", { namespace: "layout" }) updateMousePos: any;
 }
 </script>

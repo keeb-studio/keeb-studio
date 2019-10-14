@@ -56,23 +56,23 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Action, Getter, Mutation } from "vuex-class";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
-import { AllKeysChange } from "../store/layout/actions";
+import { AllKeysChange } from "../store/root/actions";
 @Component({})
 export default class Toolbar extends Vue {
   name: string = "Toolbar";
 
-  @Action("addMxSwitch", { namespace: "layout" }) addMxSwitch: any;
-  @Action("removeMxSwitch", { namespace: "layout" }) removeMxSwitch: any;
+  @Action("addMxSwitch") addMxSwitch: any;
+  @Action("removeMxSwitch") removeMxSwitch: any;
   @Action("undo", { namespace: "layout" }) undo: any;
-  @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<SimpleKey>;
+  @Getter("allKeys") allKeys!: Array<SimpleKey>;
   @Getter("done", { namespace: "layout" }) done!: AllKeysChange[];
   @Getter("gridMode", { namespace: "layout" }) gridMode: any;
   @Getter("mainView", { namespace: "layout" }) mainView!: string;
-  @Getter("multiSelect", { namespace: "layout" }) multiSelect: any;
-  @Mutation("selectAll", { namespace: "layout" }) selectAll: any;
+  @Getter("multiSelect") multiSelect: any;
+  @Mutation("selectAll") selectAll: any;
   @Mutation("toggleGridMode", { namespace: "layout" }) toggleGridMode: any;
 
-  @Mutation("toggleMultiSelect", { namespace: "layout" })
+  @Mutation("toggleMultiSelect")
   toggleMultiSelect: any;
 
   get toolbarVisible() {

@@ -276,13 +276,13 @@ import "vue-octicon/icons";
 import Octicon from "vue-octicon/components/Octicon.vue";
 @Component({ components: { Octicon } })
 export default class KeyEditor extends Vue {
-  @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
-  @Action("nudge", { namespace: "layout" }) nudge: any;
-  @Mutation("pickKey", { namespace: "layout" }) pickKey: any;
-  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
+  @Action("changeKeyValue") changeKeyValue: any;
+  @Action("nudge") nudge: any;
+  @Mutation("pickKey") pickKey: any;
+  @Getter("allKeys") allKeys: any;
 
-  @Action("toggleAxisNudge", { namespace: "layout" }) toggleAxisNudge: any;
-  @Getter("enableAxisNudge", { namespace: "layout" }) enableAxisNudge: any;
+  @Action("toggleAxisNudge") toggleAxisNudge: any;
+  @Getter("enableAxisNudge") enableAxisNudge: any;
 
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];

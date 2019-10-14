@@ -66,7 +66,7 @@ import { Getter } from "vuex-class";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 @Component({})
 export default class Kicad extends Vue {
-  @Getter("allKeys", { namespace: "layout" }) allKeys!: Array<SimpleKey>;
+  @Getter("allKeys") allKeys!: Array<SimpleKey>;
   name: string = "Kicad";
   baseHeight: number = 10;
   baseWidth: number = 14;

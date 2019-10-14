@@ -1,52 +1,38 @@
-import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { MutationTree } from "vuex";
 import { LayoutState } from "./LayoutState";
 
 export const mutations: MutationTree<LayoutState> = {
-  selectAll(state: LayoutState) {
-    state.multiSelect = true;
-    state.pickingFor = null;
-    state.selected = state.allkeys.map((key: SimpleKey) => key.id);
-  },
-
-  toggleMultiSelect(state: LayoutState) {
-    state.multiSelect = !state.multiSelect;
-  },
-
+  // skip
   hideToolbar(state: LayoutState) {
     state.showToolbar = false;
   },
 
+  // skip
   setAuthenticated(state: LayoutState, authenticated: boolean) {
     state.authenticated = authenticated;
   },
 
+  // skip
   toggleGridMode(state: LayoutState) {
     state.gridMode = !state.gridMode;
   },
 
+  // skip
   layoutError(state: LayoutState) {
     state.error = true;
     state.raw = "{}";
   },
 
-  pickKey(state: LayoutState, key: SimpleKey) {
-    state.cursor = "crosshair";
-    state.pickingFor = key;
-  },
-
+  // skip
   updateMousePos(state: LayoutState, { x, y }) {
     state.mouseX = x;
     state.mouseY = y;
   },
 
+  // skip
   setTab(state: LayoutState, tab: string) {
     state.showToolbar = ["Keys", "Grid"].includes(tab);
     state.gridMode = tab === "Grid";
     state.mainView = tab;
   }
 };
-
-export function writeKeys(state: LayoutState): any {
-  localStorage[state.name] = JSON.stringify(state.allkeys);
-}
