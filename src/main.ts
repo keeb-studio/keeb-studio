@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Vue from "vue";
 import VueApollo from "vue-apollo";
-import { mapActions } from "vuex";
+import { ActionPayload, mapActions, MutationPayload } from "vuex";
 import getApolloProvider from "./ApolloProvider";
 import App from "./App.vue";
 import router from "./router";
@@ -11,17 +11,16 @@ Vue.config.productionTip = false;
 
 Vue.use(VueApollo);
 
-store.subscribe((mutation: any, state: any) => {
-  if (mutation.type !== "layout/updateMousePos") {
-    // console.log(mutation.type);
-    // console.log(mutation.payload);
-    // console.log(state);
+store.subscribe<MutationPayload>((mutation: MutationPayload) => {
+  if (mutation.type.indexOf("layout/") !== 0) {
+    console.log(mutation);
   }
 });
-store.subscribeAction((action: any, state: any) => {
-  // console.log(action.type);
-  // console.log(action.payload);
-  // console.log(state);
+
+store.subscribeAction<ActionPayload>((action: ActionPayload) => {
+  if (action.type.indexOf("layout/") !== 0) {
+    console.log(action);
+  }
 });
 
 new Vue({
