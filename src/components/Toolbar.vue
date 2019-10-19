@@ -57,6 +57,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Action, Getter, Mutation } from "vuex-class";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import { AllKeysChange } from "../store/root/actions";
+import { MutationActions } from "../store/root/RootState";
 @Component({})
 export default class Toolbar extends Vue {
   name: string = "Toolbar";
@@ -65,7 +66,7 @@ export default class Toolbar extends Vue {
   @Action("removeMxSwitch") removeMxSwitch: any;
   @Action("undo", { namespace: "layout" }) undo: any;
   @Getter("allKeys") allKeys!: Array<SimpleKey>;
-  @Getter("done", { namespace: "layout" }) done!: AllKeysChange[];
+  @Getter("done") done!: MutationActions[];
   @Getter("gridMode", { namespace: "layout" }) gridMode: any;
   @Getter("mainView", { namespace: "layout" }) mainView!: string;
   @Getter("multiSelect") multiSelect: any;

@@ -6,22 +6,30 @@ import getApolloProvider from "./ApolloProvider";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import { RootState } from "./store/root/RootState";
 
 Vue.config.productionTip = false;
 
 Vue.use(VueApollo);
 
-store.subscribe<MutationPayload>((mutation: MutationPayload) => {
-  if (mutation.type.indexOf("layout/") !== 0) {
-    console.log(mutation);
+store.subscribe<MutationPayload>(
+  (mutation: MutationPayload, state: RootState) => {
+    if (
+      mutation.type.indexOf("layout/") !== 0 &&
+      mutation.type !== "emptyState"
+    ) {
+      state.done.push({ type: "mutation", mutationAction: mutation });
+    }
   }
-});
+);
 
-store.subscribeAction<ActionPayload>((action: ActionPayload) => {
-  if (action.type.indexOf("layout/") !== 0) {
-    console.log(action);
+store.subscribeAction<ActionPayload>(
+  (action: ActionPayload, state: RootState) => {
+    if (action.type.indexOf("layout/") !== 0) {
+      state.done.push({ type: "action", mutationAction: action });
+    }
   }
-});
+);
 
 new Vue({
   el: "#app",

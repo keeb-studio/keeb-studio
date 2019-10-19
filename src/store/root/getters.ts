@@ -3,7 +3,7 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 import GridPlacer from "@/models/KicadSchematic/GridPlacer";
 import MathHelper from "@/models/MathHelper";
 import { GetterTree } from "vuex";
-import { RootState } from "./RootState";
+import { MutationActions, RootState } from "./RootState";
 
 function enableAxisNudge(state: RootState): boolean {
   return state.enableAxisNudge;
@@ -11,6 +11,7 @@ function enableAxisNudge(state: RootState): boolean {
 
 const allKeys = (state: RootState): Array<SimpleKey> => state.allkeys;
 const cursor = (state: RootState): string => state.cursor;
+const done = (state: RootState): MutationActions[] => state.done;
 const enableAutoSave = (state: RootState): boolean => state.enableAutoSave;
 const hasChanges = (state: RootState): boolean => state.hasChanges;
 const multiSelect = (state: RootState): boolean => state.multiSelect;
@@ -148,6 +149,7 @@ function thePoints(state: RootState): any {
 export const getters: GetterTree<RootState, RootState> = {
   selectedKeys,
   calculatedPositions,
+  done,
   unSelectedKeys,
   enableAxisNudge,
   allKeys,

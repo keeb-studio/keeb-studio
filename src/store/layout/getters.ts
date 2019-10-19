@@ -4,7 +4,6 @@ import { RootState } from "../root/RootState";
 import { LayoutState } from "./LayoutState";
 
 const authenticated = (state: LayoutState): boolean => state.authenticated;
-const done = (state: LayoutState): AllKeysChange[] => state.done;
 const redo = (state: LayoutState): AllKeysChange[] => state.redo;
 const gridMode = (state: LayoutState): boolean => state.gridMode;
 const mainView = (state: LayoutState): string => state.mainView;
@@ -25,7 +24,6 @@ function mouseInfo(state: LayoutState): Object {
 
 export const getters: GetterTree<LayoutState, RootState> = {
   authenticated,
-  done,
   gridMode,
   isTabSelected,
   mainView,

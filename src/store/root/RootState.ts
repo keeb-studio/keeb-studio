@@ -1,5 +1,10 @@
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
+import { ActionPayload, MutationPayload } from "vuex";
 
+export interface MutationActions {
+  type: string;
+  mutationAction: MutationPayload | ActionPayload;
+}
 export interface RootState {
   allkeys: SimpleKey[];
   cursor: string;
@@ -14,6 +19,7 @@ export interface RootState {
   enableAutoSave: boolean;
   keebGistId: string | null;
   name: string;
+  done: MutationActions[];
 }
 
 export const state: RootState = {
@@ -29,5 +35,6 @@ export const state: RootState = {
   hasChanges: false,
   timer: null,
   timeSinceChange: -1,
-  version: "1.0"
+  version: "1.0",
+  done: []
 };

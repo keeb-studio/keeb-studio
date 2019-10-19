@@ -3,7 +3,7 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey.ts";
 import cryptoRandomString from "crypto-random-string";
 import { ActionContext, ActionTree } from "vuex";
 import { AllKeysChange } from "../root/actions";
-import { RootState } from "../root/RootState";
+import { MutationActions, RootState } from "../root/RootState";
 import { LayoutState } from "./LayoutState";
 
 interface RawNameId {
@@ -22,6 +22,7 @@ interface KeebGist {
 export const actions: ActionTree<LayoutState, RootState> = {
   ensureAuthenticated,
   importKle,
+  loadAllKeysForUndo,
   loadAllKeys,
   loadGist,
   toggleAutoSave,
@@ -54,9 +55,17 @@ function loadGist(
     changeType: "loadGist",
     allkeys: rootState.allkeys
   });
+  localStorage["allKeysForUndo"] = JSON.stringify(rootState.allkeys);
 }
 
 // skip
+function loadAllKeysForUndo(store: ActionContext<LayoutState, RootState>) {
+  const allKeys = localStorage.allKeysForUndo || false;
+  if (allKeys) {
+    store.rootState.allkeys = JSON.parse(allKeys);
+  }
+}
+
 function loadAllKeys(store: ActionContext<LayoutState, RootState>) {
   const allKeys = localStorage.allKeys || false;
   if (allKeys) {
@@ -84,11 +93,35 @@ function importKle(
     changeType: "importKle",
     allkeys: rootState.allkeys
   });
+
+  localStorage["allKeysAllKeysForUndo"] = JSON.stringify(rootState.allkeys);
 }
 
 // skip
 function undo(store: ActionContext<LayoutState, RootState>) {
-  // console.log("undo has been called");
+  store.rootState.done.pop();
+  const replays = [...store.rootState.done];
+  store.commit("emptyState", null, { root: true });
+  store.commit("setAuthenticated", localStorage.token !== undefined);
+  store.dispatch("loadAllKeysForUndo");
+
+  replays.forEach((replay: MutationActions) => {
+    if (replay.type === "mutation") {
+      store.commit(
+        `${replay.mutationAction.type}`,
+        replay.mutationAction.payload,
+        { root: true }
+      );
+    } else {
+      store.dispatch(
+        `${replay.mutationAction.type}`,
+        replay.mutationAction.payload,
+        { root: true }
+      );
+    }
+    // remove the replay from done
+    store.rootState.done.pop();
+  });
 }
 
 // skip
