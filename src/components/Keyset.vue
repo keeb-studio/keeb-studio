@@ -1,6 +1,6 @@
 <template>
   <div>
-    <KeyTabs />
+    <KeyTabs type="Top" :tabs="['Keys', 'Grid', 'Kicad', 'Plate', 'Top']" />
 
     <Toolbar iv v-if="mainView === 'Keys'" />
     <MainViewKeys iv v-if="mainView === 'Keys'" />

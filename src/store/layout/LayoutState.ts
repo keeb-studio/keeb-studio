@@ -3,7 +3,6 @@ import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
 export interface LayoutState {
   error: boolean;
   gridMode: boolean;
-  mainView: string;
   matchingLocation: SimpleKey | null;
   mouseX: number;
   mouseY: number;
@@ -12,18 +11,23 @@ export interface LayoutState {
   authenticated: boolean;
   done: any[];
   redo: any[];
+  activeTabs: TabAndType[];
 }
 
+export interface TabAndType {
+  tab: string;
+  type: string;
+}
 export const state: LayoutState = {
   authenticated: false,
   error: false,
   gridMode: false,
-  mainView: "Keys",
   matchingLocation: null,
   mouseX: 0,
   mouseY: 0,
   raw: "[]",
   showToolbar: false,
   done: [],
-  redo: []
+  redo: [],
+  activeTabs: []
 };

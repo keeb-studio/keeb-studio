@@ -59,8 +59,6 @@
             >
               rotate
             </button>
-            <!-- <ColorPicker id="background-color" name="Background Color" />
-            <ColorPicker id="alpa-color" name="Alpha Color" />-->
           </div>
           <div class="col-4 col-sm-6">
             <SchematicMeta v-if="lastSelectedKey" :the-key="lastSelectedKey" />
