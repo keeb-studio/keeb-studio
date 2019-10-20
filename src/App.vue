@@ -4,16 +4,19 @@
     <div class="container">
       <router-view />
     </div>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Nav from "@/components/Nav.vue"; // @ is an alias to /src
+import Nav from "@/components/Nav.vue";
+import Footer from "@/components/Footer.vue";
 
 @Component({
   components: {
-    Nav
+    Nav,
+    Footer
   }
 })
 export default class App extends Vue {}

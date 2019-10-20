@@ -30,9 +30,9 @@ export const mutations: MutationTree<LayoutState> = {
       state.showToolbar = ["Keys", "Grid"].includes(tab);
       state.gridMode = tab === "Grid";
     }
-    state.activeTabs = state.activeTabs.filter((tab: TabAndType) => {
-      return tab.tab === payload.tab;
-    });
+    state.activeTabs = state.activeTabs.filter(
+      (tab: TabAndType) => tab.type !== payload.type
+    );
     state.activeTabs.push(payload);
   }
 };

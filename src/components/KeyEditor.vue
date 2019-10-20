@@ -280,11 +280,10 @@ export default class KeyEditor extends Vue {
   @Action("nudge") nudge: any;
   @Mutation("pickKey") pickKey: any;
   @Getter("allKeys") allKeys: any;
-
   @Action("toggleAxisNudge") toggleAxisNudge: any;
   @Getter("enableAxisNudge") enableAxisNudge: any;
-
   @Prop() private theKey!: SimpleKey;
+
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   nudgeAmount: number = 1;
   collapsedPanels: string[] = ["Legends"];

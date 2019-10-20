@@ -169,9 +169,15 @@ async function changeKeyValue(
   const keysToChange = store.state.multiSelect ? store.state.selected : [id];
   let atLeastOneChange = false;
   keysToChange.forEach((id: string) => {
-    const key = store.state.allkeys.find((k: SimpleKey) => k.id === id) as any;
+    const key = store.state.allkeys.find((k: SimpleKey) => {
+      return k.id === id;
+    }) as any;
     const currentValue = key[property];
-    if (isNaN(currentValue) || currentValue === "") {
+    if (
+      isNaN(currentValue) ||
+      currentValue === "" ||
+      property === "optionFor"
+    ) {
       key[property] = value;
       atLeastOneChange = true;
     } else {
@@ -181,7 +187,6 @@ async function changeKeyValue(
       }
     }
   });
-
   if (atLeastOneChange) {
     changeAllkeys(store, {
       changeType: `changeKeyValue ${id} - ${property} - ${value}`,

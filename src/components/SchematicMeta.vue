@@ -250,8 +250,7 @@ export default class SchematicMeta extends Vue {
   @Getter("totalGridKeys") totalGridKeys: any;
   @Getter("allKeys") allKeys: any;
   @Getter("name") name: any;
-  @Getter("calculatedPositions")
-  calculatedPositions: any;
+  @Getter("calculatedPositions") calculatedPositions: any;
   @Prop() private theKey!: SimpleKey;
 
   get schemaFootPrint() {

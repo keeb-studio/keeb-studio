@@ -33,47 +33,25 @@
         />
       </svg>
     </div>
-    <div class="row" v-if="lastSelectedKey">
-      <div class="col-sm-6">
-        <KeyEditor v-if="lastSelectedKey" :the-key="lastSelectedKey" />
-      </div>
-      <div class="col-sm-3">
-        <div class="row">
-          <div class="col-8 col-sm-6">
-            <div>x: {{ mouseInfo.x }}</div>
-            <div>y: {{ mouseInfo.y }}</div>
 
-            <div>ax: {{ thePoints.a.x }}</div>
-            <div>ay: {{ thePoints.a.y }}</div>
-            <div>bx: {{ thePoints.b.x }}</div>
-            <div>by: {{ thePoints.b.y }}</div>
-            <div>cx: {{ thePoints.c.x }}</div>
-            <div>cy: {{ thePoints.c.y }}</div>
-            <div>dx: {{ thePoints.d.x }}</div>
-            <div>dy: {{ thePoints.d.y }}</div>
+    <KeyTabs
+      type="Editor"
+      :tabs="['Position', 'Appearence', 'Grid', 'History', 'Old']"
+    />
 
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              @click="rotateKeys"
-            >
-              rotate
-            </button>
-          </div>
-          <div class="col-4 col-sm-6">
-            <SchematicMeta v-if="lastSelectedKey" :the-key="lastSelectedKey" />
-          </div>
-        </div>
+    <OldEditor v-if="isTabSelected('Old', 'Editor')" :the-key="theKey" />
 
-        <div class="row">
-          <div class="col-8 col-sm-6"></div>
-          <div class="col-4 col-sm-6"></div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <PcbCalc v-if="lastSelectedKey" :the-key="lastSelectedKey" />
-      </div>
-    </div>
+    <PositionEditor
+      v-if="isTabSelected('Position', 'Editor')"
+      :the-key="theKey"
+    />
+
+    <AppearanceEditor
+      v-if="isTabSelected('Appearence', 'Editor')"
+      :the-key="theKey"
+    />
+    <GridEditor v-if="isTabSelected('Grid', 'Editor')" :the-key="theKey" />
+    <HistoryEditor v-if="isTabSelected('History', 'Editor')" />
   </div>
 </template>
 
@@ -90,8 +68,20 @@ import KicadSchematic from "@/models/KicadSchematic/KicadSchematic";
 import MathHelper from "../models/MathHelper";
 import KeyTabs from "./KeyTabs.vue";
 
+import AppearanceEditor from "./Editors/AppearanceEditor.vue";
+import GridEditor from "./Editors/GridEditor.vue";
+import HistoryEditor from "./Editors/HistoryEditor.vue";
+import OldEditor from "./Editors/OldEditor.vue";
+import PositionEditor from "./Editors/PositionEditor.vue";
+import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
+
 @Component({
   components: {
+    AppearanceEditor,
+    GridEditor,
+    HistoryEditor,
+    OldEditor,
+    PositionEditor,
     KeyCap,
     KeyEditor,
     PcbCalc,
@@ -115,12 +105,18 @@ export default class MainViewKeys extends Vue {
     const y = key.rotation_y * 54;
     return { x, y };
   }
+
+  get theKey() {
+    return this.lastSelectedKey || new SimpleKey();
+  }
+
   @Action("rotateKeys") rotateKeys: any;
   @Getter("allKeys") allKeys: any;
   @Getter("lastSelectedKey") lastSelectedKey: any;
-  @Getter("mouseInfo", { namespace: "layout" }) mouseInfo: any;
   @Getter("name") name: any;
   @Getter("selectedKeys") selectedKeys: any;
+  @Getter("isTabSelected", { namespace: "layout" }) isTabSelected!: Function;
+  @Getter("mouseInfo", { namespace: "layout" }) mouseInfo: any;
   @Getter("thePoints") thePoints: any;
   @Getter("unSelectedKeys") unSelectedKeys: any;
   @Mutation("updateMousePos", { namespace: "layout" }) updateMousePos: any;
