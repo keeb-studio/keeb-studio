@@ -245,13 +245,12 @@ $EndSCHEMATC
 @Component({})
 export default class SchematicMeta extends Vue {
   footPrintType: string = "MX_PCB_XXXH";
-  @Action("changeKeyValue", { namespace: "layout" }) changeKeyValue: any;
+  @Action("changeKeyValue") changeKeyValue: any;
 
-  @Getter("totalGridKeys", { namespace: "layout" }) totalGridKeys: any;
-  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
-  @Getter("name", { namespace: "layout" }) name: any;
-  @Getter("calculatedPositions", { namespace: "layout" })
-  calculatedPositions: any;
+  @Getter("totalGridKeys") totalGridKeys: any;
+  @Getter("allKeys") allKeys: any;
+  @Getter("name") name: any;
+  @Getter("calculatedPositions") calculatedPositions: any;
   @Prop() private theKey!: SimpleKey;
 
   get schemaFootPrint() {

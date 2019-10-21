@@ -53,12 +53,12 @@ import { SimpleKey } from "../models/KeysetLayout/SimpleKey";
 const multiP = 1;
 @Component({})
 export default class MainViewPlate extends Vue {
-  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
+  @Getter("allKeys") allKeys: any;
 
-  @Getter("calculatedPositions", { namespace: "layout" })
+  @Getter("calculatedPositions")
   calculatedPositions: any;
 
-  @Getter("name", { namespace: "layout" })
+  @Getter("name")
   name: any;
 
   svgString: string = "";

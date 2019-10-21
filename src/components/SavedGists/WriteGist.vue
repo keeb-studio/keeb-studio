@@ -25,9 +25,9 @@ import "vue-octicon/icons";
 import Octicon from "vue-octicon/components/Octicon.vue";
 @Component({ components: { Octicon } })
 export default class WriteGist extends Vue {
-  @Getter("hasChanges", { namespace: "layout" }) hasChanges: any;
-  @Getter("enableAutoSave", { namespace: "layout" }) enableAutoSave: any;
-  @Getter("timeSinceChanged", { namespace: "layout" }) timeSinceChanged: any;
+  @Getter("hasChanges") hasChanges: any;
+  @Getter("enableAutoSave") enableAutoSave: any;
+  @Getter("timeSinceChanged") timeSinceChanged: any;
   @Action("toggleAutoSave", { namespace: "layout" }) toggleAutoSave: any;
 }
 </script>

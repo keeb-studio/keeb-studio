@@ -55,10 +55,9 @@ export default class KeyCapV2 extends Vue {
   @Prop() private id!: string;
   @Prop() private default!: IDefaultText;
 
-  @Action("selectKey", { namespace: "layout" })
-  selectKey: any;
+  @Action("selectKey") selectKey: any;
 
-  @Getter("isSelectedGetter", { namespace: "layout" })
+  @Getter("isSelectedGetter")
   isSelectedGetter: any;
 
   @Getter("gridMode", { namespace: "layout" })

@@ -10,7 +10,7 @@ import { Getter, Mutation } from "vuex-class";
 import Keyset from "./Keyset.vue";
 @Component({ components: { Keyset } })
 export default class Main extends Vue {
-  @Getter("cursor", { namespace: "layout" }) cursor!: string;
+  @Getter("cursor") cursor!: string;
 }
 </script>
 

@@ -31,10 +31,10 @@ import { ISchematicKey } from "../models/KeysetLayout/IGrid";
 export default class PcbCalc extends Vue {
   inputPcb: any = null;
 
-  @Getter("calculatedPositions", { namespace: "layout" })
+  @Getter("calculatedPositions")
   calculatedPositions: any;
-  @Getter("allKeys", { namespace: "layout" }) allKeys: any;
-  @Getter("name", { namespace: "layout" }) name: any;
+  @Getter("allKeys") allKeys: any;
+  @Getter("name") name: any;
   @Prop() private theKey!: SimpleKey;
 
   get calcString() {

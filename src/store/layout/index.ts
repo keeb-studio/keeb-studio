@@ -1,5 +1,5 @@
 import { Module } from "vuex";
-import { RootState } from "../RootState";
+import { RootState } from "../root/RootState";
 import { actions } from "./actions";
 import { getters } from "./getters";
 import { LayoutState, state } from "./LayoutState";
