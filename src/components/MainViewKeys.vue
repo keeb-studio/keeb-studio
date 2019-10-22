@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="row p-3">
+      <!-- <input v-model="svgHeight" type="number" /> -->
       <svg
         ref="theSvg"
         width="1200"
-        height="500"
+        :height="svgHeight"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         v-on:mousemove="updateCoordinates"
@@ -91,6 +92,7 @@ import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
   }
 })
 export default class MainViewKeys extends Vue {
+  svgHeight: number = 650;
   updateCoordinates(event: any) {
     const svg = this.$refs.theSvg as any;
     const box = svg.getBoundingClientRect();

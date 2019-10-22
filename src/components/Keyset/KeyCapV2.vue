@@ -53,6 +53,7 @@ export default class KeyCapV2 extends Vue {
   @Prop() private t8!: string;
   @Prop() private t9!: string;
   @Prop() private id!: string;
+  @Prop() private optionFor!: string;
   @Prop() private default!: IDefaultText;
 
   @Action("selectKey") selectKey: any;
@@ -76,6 +77,11 @@ export default class KeyCapV2 extends Vue {
       }
       return "";
     } else {
+      if (this.optionFor) {
+        const prop = `t${index + 1}` as any;
+        const str = this.optionFor[prop];
+        return str ? `(${str})` : "";
+      }
       const foo = this.texts[index];
       return foo.text;
     }
