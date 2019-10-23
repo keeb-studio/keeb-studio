@@ -47,19 +47,19 @@ export default class KicadPCB {
   }
 
   public position(
-    mxIndex: number,
+    id: any,
     gridX: number,
     gridY: number,
     rotation: number,
     includeDiode: boolean = true
   ) {
-    const mx = this.findByName(`MX${mxIndex}`);
+    const mx = this.findByName(`MX${id}`);
     mx.x = gridX;
     mx.y = gridY;
     mx.changeRotation(rotation);
 
     if (includeDiode) {
-      const diode = this.findByName(`D${mxIndex}`);
+      const diode = this.findByName(`D${id}`);
       diode.x = mx.x + this.xDiodeDiff;
       diode.y = mx.y + this.yDiodeDiff;
       const diodeRotation = (this.initialDiodeRotation + rotation) % 360;

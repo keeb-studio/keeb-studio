@@ -151,15 +151,15 @@ export default class KicadSchematic {
     const closing = this.sections.pop();
 
     const fixed = GridPlacer.pad(keys);
-    const maxCallback = (acc: any, cur: any) => {
-      const intcur = parseInt(cur);
-      return Math.max(acc, intcur);
-    };
+    // const maxCallback = (acc: any, cur: any) => {
+    //   const intcur = parseInt(cur);
+    //   return Math.max(acc, intcur);
+    // };
 
     const fooX = {} as any;
     const fooY = {} as any;
     fixed.forEach((key: ISchematicKey, index: number) => {
-      const label = index.toString();
+      const label = key.id.toString();
       const x = key.normalX;
       const y = key.normalY;
       const mxSwitch = this.getSwitch({ x, y }, label, key.width);

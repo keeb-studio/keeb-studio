@@ -75,13 +75,7 @@ export default class PcbCalc extends Vue {
       const positions = this.calculatedPositions as ISchematicKey[];
       positions.forEach((key: ISchematicKey) => {
         const includeDiode = key.optionFor === null;
-        pcb.position(
-          key.index,
-          key.pcbX,
-          key.pcbY,
-          key.pcbRotation,
-          includeDiode
-        );
+        pcb.position(key.id, key.pcbX, key.pcbY, key.pcbRotation, includeDiode);
       });
       return pcb.render();
     }
