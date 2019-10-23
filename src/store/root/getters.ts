@@ -97,7 +97,8 @@ function calculatedPositions(state: RootState): Array<ISchematicKey> {
 function selectedKeys(state: RootState): Array<SimpleKey> {
   return state.selected
     .map(
-      (id: string) => state.allkeys.find(x => x.id === id) || new SimpleKey()
+      (id: string | number) =>
+        state.allkeys.find(x => x.id === id) || new SimpleKey()
     )
     .filter((x: SimpleKey) => x.id !== "");
 }

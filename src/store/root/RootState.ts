@@ -5,13 +5,14 @@ export interface MutationActions {
   type: string;
   mutationAction: MutationPayload | ActionPayload;
 }
+
 export interface RootState {
   allkeys: SimpleKey[];
   cursor: string;
   enableAxisNudge: boolean;
   multiSelect: boolean;
   pickingFor: SimpleKey | null;
-  selected: string[];
+  selected: Array<string | number>;
   version: string;
   timer: any;
   hasChanges: boolean;

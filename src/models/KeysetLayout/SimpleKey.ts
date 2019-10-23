@@ -29,7 +29,7 @@ export class SimpleKey {
   public fontSize: number = 12;
   public borderRadius: number = 5;
 
-  public id: string;
+  public id: string | number;
   public y: number = 0;
 
   public font: string = "Verdana";

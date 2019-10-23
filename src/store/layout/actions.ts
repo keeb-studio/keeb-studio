@@ -56,6 +56,24 @@ function loadGist(
     allkeys: rootState.allkeys
   });
   localStorage["allKeysForUndo"] = JSON.stringify(rootState.allkeys);
+  let loadedNonInt = false;
+  rootState.allkeys.forEach((key: SimpleKey, index: number) => {
+    if (isNaN(key.id as any)) {
+      loadedNonInt = true;
+      const keysThatReference = rootState.allkeys.filter((okey: SimpleKey) => {
+        if (okey.optionFor !== null) {
+          return okey.optionFor.id === key.id;
+        }
+        return false;
+      });
+      keysThatReference.forEach(
+        (okey: SimpleKey) => ((okey.optionFor as SimpleKey).id = index)
+      );
+      key.id = index;
+    }
+  });
+  console.clear();
+  console.log(loadedNonInt, "loaded a non int");
 }
 
 // skip

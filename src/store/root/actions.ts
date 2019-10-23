@@ -71,7 +71,9 @@ async function selectKey(
     if (state.multiSelect) {
       const { selected } = state;
       if (selected.includes(selectedKey)) {
-        state.selected = selected.filter((id: string) => selectedKey !== id);
+        state.selected = selected.filter(
+          (id: string | number) => selectedKey !== id
+        );
       } else {
         selected.push(selectedKey);
       }
@@ -122,7 +124,7 @@ async function addMxSwitch(
 // include
 async function rotateKeys(store: ActionContext<RootState, RootState>) {
   const selected = store.state.selected;
-  selected.forEach((keyId: string) => {
+  selected.forEach((keyId: string | number) => {
     const theKey = store.state.allkeys.find(
       (key: SimpleKey) => key.id === keyId
     ) as SimpleKey;
@@ -206,7 +208,7 @@ async function nudge(
   const keysToChange = state.selected;
   const includeAxis = state.enableAxisNudge;
 
-  keysToChange.forEach((id: string) => {
+  keysToChange.forEach((id: string | number) => {
     const theKey = state.allkeys.find((k: SimpleKey) => k.id === id) as any;
 
     if (direction === "up") {
