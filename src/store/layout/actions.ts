@@ -72,8 +72,6 @@ function loadGist(
       key.id = index;
     }
   });
-  console.clear();
-  console.log(loadedNonInt, "loaded a non int");
 }
 
 // skip
@@ -105,6 +103,7 @@ function importKle(
   state.error = false;
   rootState.hasChanges = false;
   rootState.name = name;
+  // TODO handle non int ids from kle
   rootState.allkeys = KeysetLayout.getAll(raw);
 
   changeAllkeys(store, {

@@ -98,6 +98,7 @@ export default class KeysetLayout {
           kTextColor: k2.kleKey.default.textColor,
           kTextSize: k2.kleKey.default.textSize
         };
+        //todo set id as int
         return new SimpleKey(params);
       })
     );

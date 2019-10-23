@@ -15,17 +15,21 @@
 
       <span>(mouse x: {{ mouseInfo.x }} </span>
       <span>y: {{ mouseInfo.y }}) </span>
+
+      <span>ID: {{ lastSelectedKey ? lastSelectedKey.id : "" }}</span>
     </div>
   </footer>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
+import { SimpleKey } from "../models/KeysetLayout/SimpleKey";
 @Component({})
 export default class Footer extends Vue {
   name: string = "Footer";
   @Getter("mouseInfo", { namespace: "layout" }) mouseInfo: any;
   @Getter("thePoints") thePoints: any;
+  @Getter("lastSelectedKey") lastSelectedKey!: SimpleKey | undefined;
 }
 </script>
 

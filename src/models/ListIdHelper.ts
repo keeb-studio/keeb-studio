@@ -1,7 +1,7 @@
 interface IHaveId {
-  id: number;
+  id: number | string;
 }
-export function GetNextId(unOrderedList: IHaveId[]): number {
+export function getNextId(unOrderedList: IHaveId[]): number {
   const list = unOrderedList.sort((a: IHaveId, b: IHaveId) => {
     if (a.id > b.id) return 1;
     if (a.id < b.id) return -1;
@@ -20,15 +20,15 @@ export function GetNextId(unOrderedList: IHaveId[]): number {
   });
 
   const firstGap = withPrevious.filter((item: IHaveId, index: number) => {
-    const whatItShould = index + 1;
+    const whatItShould = index;
     if (item.id !== whatItShould) {
       return true;
     }
     return false;
   });
   if (firstGap.length === 0) {
-    return list.length + 1;
+    return list.length;
   }
-  const prevId = firstGap[0].previousId;
-  return prevId ? prevId + 1 : firstGap[0].id - 1;
+  const prevId = firstGap[0].previousId as number;
+  return prevId !== null ? prevId + 1 : (firstGap[0].id as number) - 1;
 }

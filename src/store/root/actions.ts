@@ -1,9 +1,9 @@
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
+import { getNextId } from "@/models/ListIdHelper.ts";
 import MathHelper from "@/models/MathHelper";
 import { ActionContext, ActionTree } from "vuex";
 import { gistCreate, gistExists, gistUpdate } from "../layout/gistHelpers";
 import { RootState } from "./RootState";
-
 //todo make mutation
 export const actions: ActionTree<RootState, RootState> = {
   toggleAxisNudge(store: ActionContext<RootState, RootState>) {
@@ -107,9 +107,14 @@ async function addMxSwitch(
   store: ActionContext<RootState, RootState>,
   params: any
 ) {
+  // todo set id as int
   const { state } = store;
   const key = new SimpleKey(params);
+
+  const nextIntId = getNextId(state.allkeys);
+  key.id = nextIntId;
   state.allkeys.push(key);
+
   changeAllkeys(store, {
     changeType: "addMxSwitch",
     allkeys: state.allkeys
