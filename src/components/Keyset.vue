@@ -1,14 +1,12 @@
 <template>
   <div>
     <KeyTabs type="Top" :tabs="['Keys', 'Grid', 'Kicad', 'Plate', 'Top']" />
-
     <Toolbar iv v-if="mainView === 'Keys'" />
     <MainViewKeys iv v-if="mainView === 'Keys'" />
-
     <Toolbar iv v-if="mainView === 'Grid'" />
     <MainViewKeys iv v-if="mainView === 'Grid'" />
-
-    <MainViewPlate iv v-if="mainView === 'Plate'" />
+    <MainViewPlate iv v-if="mainView === 'Plate'" :top="false" />
+    <MainViewPlate iv v-if="mainView === 'Top'" :top="true" />
     <Kicad iv v-if="mainView === 'Kicad'" />
   </div>
 </template>

@@ -2,25 +2,24 @@
   <div>
     Plate
     <div>
-      <!-- {{ svgWithStyle }} -->
-      <!-- <input type="text" :value="svgWithStyle" /> -->
       <a
         :href="downloadData"
-        :download="`${name}_plate.svg`"
+        :download="downloadName"
         class="btn btn-outline-primary col-form-label pt-0 pb-0 mb-2"
       >
-        {{ name }}_plate.svg
+        {{ downloadName }}
       </a>
     </div>
     <div ref="theSvg" id="svg_holder">
       <svg
         version="1.1"
-        id="plate_svg"
+        :id="divId"
+        class="svg"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0"
         y="0"
-        viewBox="0 0 400 200"
+        viewBox="-2.5 -2.5 400 200"
         width="400mm"
         height="200mm"
         xml:space="preserve"
@@ -28,18 +27,51 @@
         <astyle type="text/css">
           .st0{fill:none;stroke:#000000;stroke-width:0.1417;}
         </astyle>
-        <rect
-          :x="key.pcbX"
-          :y="key.pcbY"
-          class="st0"
-          width="14"
-          height="14"
-          v-for="key in nonOptionKeys"
-          :key="key.id"
-          :transform="calcTransform(key)"
-        />
-        <!-- <rect x="29mm" y="10mm" class="st0" width="14mm" height="14mm" />
-        <rect x="48mm" y="10mm" class="st0" width="14mm" height="14mm" /> -->
+        <template v-if="top">
+          <rect
+            class="st0"
+            :x="plateSize(key).x"
+            :y="plateSize(key).y"
+            :width="plateSize(key).width"
+            :height="plateSize(key).height"
+            v-for="key in nonOptionKeys"
+            :key="`${key.id}-top`"
+            :transform="calcTransform(key)"
+          />
+        </template>
+        <template v-else>
+          <rect
+            :x="key.pcbX"
+            class="st0"
+            :y="key.pcbY"
+            width="14"
+            height="14"
+            v-for="key in nonOptionKeys"
+            :key="`${key.id}-plate`"
+            :transform="calcTransform(key)"
+          />
+
+          <rect
+            :x="plateStab(key, false).x"
+            :y="plateStab(key, false).y"
+            :width="plateStab(key, false).width"
+            :height="plateStab(key, false).height"
+            class="st0"
+            v-for="key in needStabs"
+            :key="`${key.id}-stab1`"
+            :transform="calcTransform(key)"
+          />
+          <rect
+            :x="plateStab(key, true).x"
+            :y="plateStab(key, true).y"
+            :width="plateStab(key, true).width"
+            :height="plateStab(key, true).height"
+            class="st0"
+            v-for="key in needStabs"
+            :key="`${key.id}-stab2`"
+            :transform="calcTransform(key)"
+          />
+        </template>
       </svg>
     </div>
   </div>
@@ -49,10 +81,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter, Mutation, Action } from "vuex-class";
 import { SimpleKey } from "../models/KeysetLayout/SimpleKey";
+import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 
 const multiP = 1;
 @Component({})
 export default class MainViewPlate extends Vue {
+  @Prop({ required: true }) readonly top!: boolean;
+
   @Getter("allKeys") allKeys: any;
 
   @Getter("calculatedPositions")
@@ -62,27 +97,70 @@ export default class MainViewPlate extends Vue {
   name: any;
 
   svgString: string = "";
+
+  get divId() {
+    return this.top ? "top" : "plate";
+  }
+
   updateSvg(): void {
     const svg = this.$refs.theSvg as any;
     this.svgString = svg.innerHTML;
   }
-  get nonOptionKeys(): SimpleKey[] {
-    return this.calculatedPositions.filter(
-      (key: SimpleKey) => key.optionFor === null
-    );
+
+  get downloadName() {
+    return `${this.name}_${this.top ? "top" : "plate"}.svg`;
   }
+
+  get nonOptionKeys(): ISchematicKey[] {
+    return this.calculatedPositions;
+  }
+
+  get needStabs(): ISchematicKey[] {
+    return this.calculatedPositions.filter((key: SimpleKey) => key.width >= 2);
+  }
+
   get svgWithStyle(): string {
     return this.svgString.replace("astyle", "style").replace("astyle", "style");
   }
-  mounted(): void {
+
+  updated(): void {
     this.updateSvg();
   }
-  calcTransform(key: any): string {
+
+  calcTransform(key: ISchematicKey): string {
     const adjustX = 7;
     const adjustY = 7;
     const xx = (key.pcbX + adjustX) * multiP;
     const yy = (key.pcbY + adjustY) * multiP;
-    return `rotate(${key.rotation_angle} ${xx} ${yy})`;
+    const rotation =
+      key.optionFor === null
+        ? key.rotation_angle
+        : key.optionFor.rotation_angle;
+    return `rotate(${rotation} ${xx} ${yy})`;
+  }
+
+  plateStab(key: ISchematicKey, firstStab: boolean): any {
+    const x_adjust = firstStab ? 8.46 : -15.53;
+    const x = key.pcbX - x_adjust;
+    const y = key.pcbY - 1.41;
+    const width = 7.05;
+    const height = 18.69;
+    return { x, y, width, height };
+  }
+
+  plateSize(key: ISchematicKey): any {
+    const extra_w = key.width - 1;
+    const extra_h = key.height - 1;
+    const x_adjust = 2.5025 + 19.05 * extra_w * 0.5;
+    const y_adjust = 2.5025 + 19.05 * extra_h * 0.5;
+    const width = key.width * 19.05;
+    const height = key.height * 19.05;
+    return {
+      x: key.pcbX - x_adjust,
+      y: key.pcbY - y_adjust,
+      width,
+      height
+    };
   }
 
   get downloadData() {
@@ -103,7 +181,7 @@ export default class MainViewPlate extends Vue {
   overflow: hidden;
 }
 
-#plate_svg {
+.svg {
   width: 1000px;
   top: -150px;
   position: relative;
