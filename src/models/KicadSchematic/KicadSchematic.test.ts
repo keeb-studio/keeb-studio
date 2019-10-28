@@ -157,7 +157,7 @@ describe("KicadSchematic", () => {
     });
   });
 
-  describe.only("getWithKeeb", () => {
+  xdescribe("getWithKeeb", () => {
     const schematic = new KicadSchematic(raw);
 
     it("", () => {
