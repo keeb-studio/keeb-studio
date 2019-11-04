@@ -104,6 +104,7 @@ export default class MainViewPlate extends Vue {
 
   updateSvg(): void {
     const svg = this.$refs.theSvg as any;
+    console.log(svg);
     this.svgString = svg.innerHTML;
   }
 
@@ -124,6 +125,7 @@ export default class MainViewPlate extends Vue {
   }
 
   updated(): void {
+    console.log("updated");
     this.updateSvg();
   }
 
@@ -142,9 +144,9 @@ export default class MainViewPlate extends Vue {
   plateStab(key: ISchematicKey, firstStab: boolean): any {
     const x_adjust = firstStab ? 8.46 : -15.53;
     const x = key.pcbX - x_adjust;
-    const y = key.pcbY - 1.41;
+    const y = key.pcbY - 1.41 - 0.59;
     const width = 7.05;
-    const height = 18.69;
+    const height = 18.69 + 0.59 - 1.28;
     return { x, y, width, height };
   }
 
