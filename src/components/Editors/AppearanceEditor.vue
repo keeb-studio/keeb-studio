@@ -65,5 +65,21 @@ export default class AppearanceEditor extends Vue {
   @Prop() private theKey!: SimpleKey;
   textInputs: string[] = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"];
   name: string = "AppearanceEditor";
+
+  changeValue(x: any, property: string) {
+    let value = x.target.value;
+    if (x.target.type === "number") {
+      if (value.indexOf(".") > -1) {
+        value = parseFloat(value);
+      } else {
+        value = parseInt(value);
+      }
+    }
+    this.changeKeyValue({
+      id: this.theKey.id,
+      property,
+      value
+    });
+  }
 }
 </script>

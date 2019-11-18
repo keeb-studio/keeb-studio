@@ -104,7 +104,6 @@ export default class MainViewPlate extends Vue {
 
   updateSvg(): void {
     const svg = this.$refs.theSvg as any;
-    console.log(svg);
     this.svgString = svg.innerHTML;
   }
 
@@ -125,7 +124,6 @@ export default class MainViewPlate extends Vue {
   }
 
   updated(): void {
-    console.log("updated");
     this.updateSvg();
   }
 

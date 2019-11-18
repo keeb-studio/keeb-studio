@@ -70,7 +70,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { SimpleKey } from "@/models/KeysetLayout/SimpleKey";
-import { Getter } from "vuex-class";
+import { Action, Getter } from "vuex-class";
 import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 @Component({})
 export default class GridEditor extends Vue {
@@ -79,6 +79,7 @@ export default class GridEditor extends Vue {
   @Getter("totalGridKeys") totalGridKeys: any;
   @Getter("calculatedPositions") calculatedPositions: any;
   @Prop({ required: true }) readonly theKey!: SimpleKey;
+  @Action("changeKeyValue") changeKeyValue: any;
 
   get pcbPosition() {
     const positions = this.calculatedPositions as ISchematicKey[];
@@ -86,6 +87,22 @@ export default class GridEditor extends Vue {
       (key: ISchematicKey) => key.id === this.theKey.id
     );
     return thisPosition || { index: 0 };
+  }
+
+  changeValue(x: any, property: string) {
+    let value = x.target.value;
+    if (x.target.type === "number") {
+      if (value.indexOf(".") > -1) {
+        value = parseFloat(value);
+      } else {
+        value = parseInt(value);
+      }
+    }
+    this.changeKeyValue({
+      id: this.theKey.id,
+      property,
+      value
+    });
   }
 }
 </script>
