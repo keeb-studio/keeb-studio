@@ -37,7 +37,7 @@
 
     <KeyTabs
       type="Editor"
-      :tabs="['Position', 'Appearence', 'Grid', 'History', 'Old']"
+      :tabs="['Position', 'Appearence', 'Grid', 'History', 'Old', 'Calc']"
     />
 
     <OldEditor v-if="isTabSelected('Old', 'Editor')" :the-key="theKey" />
@@ -53,6 +53,8 @@
     />
     <GridEditor v-if="isTabSelected('Grid', 'Editor')" :the-key="theKey" />
     <HistoryEditor v-if="isTabSelected('History', 'Editor')" />
+
+    <GenericCalc v-if="isTabSelected('Calc', 'Editor')" :the-key="theKey" />
   </div>
 </template>
 
@@ -74,12 +76,14 @@ import GridEditor from "./Editors/GridEditor.vue";
 import HistoryEditor from "./Editors/HistoryEditor.vue";
 import OldEditor from "./Editors/OldEditor.vue";
 import PositionEditor from "./Editors/PositionEditor.vue";
+import GenericCalc from "./Editors/GenericCalc.vue";
 import { ISchematicKey } from "@/models/KeysetLayout/IGrid";
 
 @Component({
   components: {
     AppearanceEditor,
     GridEditor,
+    GenericCalc,
     HistoryEditor,
     OldEditor,
     PositionEditor,
