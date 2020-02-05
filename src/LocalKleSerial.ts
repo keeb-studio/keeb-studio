@@ -58,7 +58,8 @@ export module Serial {
       return result;
     } else {
       var oresult: any = Object.create(Object.getPrototypeOf(o));
-      oresult.constructor();
+
+      new oresult.constructor();
       for (var prop in o) {
         oresult[prop] = copy(o[prop]);
       }
@@ -219,5 +220,53 @@ export module Serial {
 
   export function parse(json: string): Keyboard {
     return deserialize(JSON.parse(json));
+  }
+
+  export function serialize(keyboard: Keyboard) {
+    const results = [] as any;
+    let counter = 0;
+    keyboard.keys.forEach((x: Key) => {
+      if (x.x === counter) {
+        results.push(x.labels);
+      }
+    });
+
+    console.log(results);
+  }
+
+  export function invertLabel(labels: String[]) {
+    let positionString = "|0||6||2||8||9||11||3||5||1||4||7||10|";
+    let iterator = 0;
+
+    // put them into the proper position
+    labels.forEach((char: String) => {
+      positionString = positionString.replace(`|${iterator}|`, `${char}n`);
+      iterator = iterator + 1;
+    });
+
+    // replace those we haven't yet
+    for (var r = 0; r < 12; ++r) {
+      const target = `|${r}|`;
+      positionString = positionString.replace(target, "n");
+    }
+
+    // reverse
+    let reversed = positionString.split("n").reverse();
+
+    //mark empties for removal until we find the first one
+    for (var r2 = 0; r2 < reversed.length; ++r2) {
+      if (reversed[r2] === "") {
+        reversed[r2] = "remove";
+      } else {
+        r2 = reversed.length;
+      }
+    }
+
+    // filter out empties
+    reversed = reversed.filter((x: String) => x !== "remove");
+
+    // reverse them
+    reversed.reverse();
+    return reversed.join("\n");
   }
 }
