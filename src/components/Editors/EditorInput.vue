@@ -17,7 +17,7 @@ import { Action } from "vuex-class";
 export default class EditorInput extends Vue {
   name: string = "EditorInput";
 
-  @Action("changeKeyValue") changeKeyValue: any;
+  @Action("changeKeyValue") changeKeyValue!: Function;
 
   @Prop({ required: true }) readonly type!: string;
   @Prop({ required: true }) readonly property!: string;

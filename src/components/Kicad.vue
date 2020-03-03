@@ -64,7 +64,7 @@ export default class Kicad extends Vue {
   @Getter("name") private name!: string;
   @Getter("lastSelectedKey") lastSelectedKey!: SimpleKey;
   //todo remove any
-  @Getter("calculatedPositions") calculatedPositions: any;
+  @Getter("calculatedPositions") calculatedPositions!: any;
   baseHeight: number = 10;
   baseWidth: number = 14;
   footPrintType: string = "MX_PCB_XXXH";
