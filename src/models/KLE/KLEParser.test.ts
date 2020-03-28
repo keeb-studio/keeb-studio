@@ -127,8 +127,6 @@ describe("KLEParser", () => {
         "Right"
       ]
     ];
-    //
-    //
 
     it("can invert label and chop extra", () => {
       const labels = [
@@ -150,6 +148,7 @@ describe("KLEParser", () => {
         "1\n7\n3\n9\n10\n12\n4\n6\n2\n5\n8\n11"
       );
     });
+
     it("can invert label", () => {
       const labels = [
         "1",
@@ -188,25 +187,41 @@ describe("KLEParser", () => {
       expect(result).toEqual("1\n\n4\n\n5\n\n\n\n\n\n2");
     });
 
-    xit("foo 2", () => {
+    it("can handle widths", () => {});
+
+    it("one key multilegends", () => {
       const x = [[{ a: 0 }, "1\n\n4\n\n5\n\n\n\n\n\n2"]];
       const raw = JSON.stringify(x);
       const kleSerail = Serial.parse(raw);
       const flat = kleSerail.keys;
       const results = simplify(flat);
-      console.log(results);
-      // expect(results).toEqual([
-      //   { x: 0, y: 0, width: 1, height: 1, labels: ["1"] }
-      // ]);
-      // Serial.serialize(kleSerail);
+      expect(results).toEqual([
+        {
+          x: 0,
+          y: 0,
+          width: 1,
+          height: 1,
+          labels: [
+            "1",
+            undefined,
+            "4",
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            "2",
+            undefined,
+            "5"
+          ]
+        }
+      ]);
     });
 
-    xit("foo", () => {
+    it("two keys one row", () => {
       const x = [[{ x: 1 }, "1", "2"]];
       const raw = JSON.stringify(x);
       const kleSerail = Serial.parse(raw);
       const flat = kleSerail.keys;
-      // console.log(flat);
       const results = simplify(flat);
       expect(results).toEqual([
         { x: 1, y: 0, width: 1, height: 1, labels: ["1"] },
