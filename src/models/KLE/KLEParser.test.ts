@@ -217,6 +217,29 @@ describe("KLEParser", () => {
       ]);
     });
 
+    it("can order an array using an array of values", () => {
+      let source = ["b", "a", "d", "c"];
+      let order = [1, 0, 3, 2];
+      let result = [] as any;
+      let result2 = [] as any;
+
+      source.forEach((value: any, index: number, array: any[]) => {
+        result[order[index]] = value;
+      });
+
+      expect(result).toEqual(["a", "b", "c", "d"]);
+
+      // invert it again
+      //result would be the input
+      //result2 would be the output
+      order.forEach((value: any, index: number, array: any[]) => {
+        result2[value] = result[index];
+      });
+
+      // and back again
+      expect(result2).toEqual(source);
+    });
+
     it("two keys one row", () => {
       const x = [[{ x: 1 }, "1", "2"]];
       const raw = JSON.stringify(x);
