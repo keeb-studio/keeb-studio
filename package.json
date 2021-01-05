@@ -15,7 +15,7 @@
     "@ijprest/kle-serial": "https://github.com/ctrlShiftBryan/kle-serial/tarball/5816676c71e3e995887aaabed1aeeee46cc6b53b",
     "@types/color": "^3.0.0",
     "@types/node": "^12.7.4",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "color": "^3.1.2",
     "core-js": "^3.1.2",
