@@ -1,6 +1,6 @@
 {
   viewer {
-    gists(privacy: SECRET, first: 200) {
+    gists(privacy: SECRET, first: 100, orderBy: {field: CREATED_AT, direction: DESC} ) {
       totalCount
       pageInfo {
         endCursor
