@@ -1,6 +1,6 @@
 {
   viewer {
-    gists(privacy: SECRET, first: 100) {
+    gists(privacy: SECRET, first: 200) {
       totalCount
       pageInfo {
         endCursor
